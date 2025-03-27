@@ -3,5 +3,5 @@
     "rewrites": [
       { "source": "/(.*)", "destination": "/index.html" }
     ],
-    "outputDirectory": "dist/garage/browser/index.html"
+    "outputDirectory": "dist/garage/browser/"
   }
