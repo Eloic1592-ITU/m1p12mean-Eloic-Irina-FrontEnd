@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>Devis pour {{ clientName }}</h1> <!-- Afficher le nom du client -->
+
+  <!-- Tableau des services inclus dans le devis -->
+  <table class="quote-table">
+    <thead>
+      <tr>
+        <th>Nom du service</th>
+        <th>Description</th>
+        <th>Prix</th>
+        <th>Promotion</th>
+        <th>Réduction</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let service of services">
+        <td>{{ service.name }}</td>
+        <td>{{ service.description }}</td>
+        <td>{{ service.price }} Ariary</td>
+        <td>{{ service.promotion }}%</td>
+        <td>{{ service.discount }} Ariary</td>
+        <td>{{ calculateTotal(service.price, service.promotion, service.discount) }} Ariary</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Totaux -->
+  <div class="quote-summary">
+    <p><strong>Total global :</strong> {{ calculateTotalGlobal() }} Ariary</p>
+    <p><strong>Total réduction :</strong> {{ calculateTotalReduction() }} Ariary</p>
+  </div>
+
+  <!-- Bouton pour envoyer le devis -->
+  <button (click)="sendQuote()" class="send-quote-button">Envoyer le devis au client</button>
+</div>

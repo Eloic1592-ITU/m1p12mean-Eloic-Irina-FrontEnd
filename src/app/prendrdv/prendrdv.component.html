@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liste de Rendez-vous</title>
+  <style>
+    /* CSS comme précédemment */
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <a routerLink="/rendezvous">Vos rendez-vous</a>
+    <a routerLink="/offre">Offres</a>
+    <a routerLink="/conseiltech">Conseils Techniques</a>
+    <a routerLink="/entretien">Entretiens</a>
+    <a href="#">Equipements</a>
+  </div>
+
+  <div class="container">
+    <h1>Liste des Rendez-vous</h1>
+
+    <!-- Bouton Prendre Rendez-vous -->
+    <div class="button-container">
+      <button class="button" id="btn-prendre-rdv">Prendre un rendez-vous</button>
+    </div>
+
+    <!-- Formulaire de Rendez-vous -->
+    <div class="form-container" id="form-rendezvous">
+      <h2>Nouveau Rendez-vous</h2>
+      <form action="#" method="POST">
+        <label for="vehicle">Véhicule:</label>
+        <select id="vehicle" name="vehicle">
+          <option value="peugeot">Peugeot 208</option>
+          <option value="renault">Renault Clio</option>
+        </select>
+
+        <label for="technician">Technicien:</label>
+        <select id="technician" name="technician">
+          <option value="tech1">Jean Dupont</option>
+          <option value="tech2">Marie Martin</option>
+        </select>
+
+        <label for="datetime">Date et Heure:</label>
+        <input type="datetime-local" id="datetime" name="datetime" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <div>
+          <button type="button" class="button" id="btn-annuler">Annuler</button>
+          <button type="submit" class="button">Valider</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Rendez-vous En Attente -->
+    <h2>Rendez-vous En Attente</h2>
+    <div class="appointment-box">
+      <div class="user-info">
+        <img src="client1.jpg" alt="Client 1" class="profile-img">
+        <div class="appointment-info">
+          <p><strong>Nom utilisateur:</strong> Jean Dupont</p>
+          <p><strong>Date de la demande:</strong> 20 mars 2025</p>
+          <p><strong>Date et heure rendez-vous:</strong> 25 mars 2025 à 14:00</p>
+          <p><strong>Description:</strong> Vidange du moteur</p>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="edit-btn">Modifier</button>
+        <button class="cancel-btn">Annuler</button>
+      </div>
+    </div>
+
+    <!-- Rendez-vous Valide -->
+    <h2> Rendez-vous Valide</h2>
+    <div class="appointment-box">
+      <div class="user-info">
+        <img src="client2.jpg" alt="Client 2" class="profile-img">
+        <div class="appointment-info">
+          <p><strong>Nom utilisateur:</strong> Marie Martin</p>
+          <p><strong>Date de la demande:</strong> 21 mars 2025</p>
+          <p><strong>Date et heure rendez-vous:</strong> 26 mars 2025 à 10:00</p>
+          <p><strong>Description:</strong> Remplacement des plaquettes de frein</p>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button class="edit-btn">Modifier</button>
+        <button class="cancel-btn">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>

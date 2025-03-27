@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistiques Mensuelles d'Interventions</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+   
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Statistiques Mensuelles d'Interventions</h1>
+
+    <!-- Graphique du Chiffre d'Affaires -->
+    <div class="chart-container">
+      <canvas id="chiffreAffaireChart"></canvas>
+    </div>
+
+    <!-- Statistiques -->
+    <div class="stats">
+      <div>
+        <p class="stat-title">Nombre Total d'Interventions</p>
+        <p class="stat-value" id="totalInterventions">120</p>
+      </div>
+      <div>
+        <p class="stat-title">Interventions Finies</p>
+        <p class="stat-value" id="interventionsFinies">85</p>
+      </div>
+      <div>
+        <p class="stat-title">Interventions Non Finies</p>
+        <p class="stat-value" id="interventionsNonFinies">35</p>
+      </div>
+    </div>
+
+    <!-- Fréquence des Rendez-vous et Taux d'Occupation des Mécaniciens -->
+    <div class="stats">
+      <div>
+        <p class="stat-title">Fréquence des Rendez-vous</p>
+        <p class="stat-value" id="frequenceRendezVous">80%</p>
+      </div>
+      <div>
+        <p class="stat-title">Taux d'Occupation des Mécaniciens</p>
+        <p class="stat-value" id="tauxOccupation">75%</p>
+      </div>
+    </div>
+
+    <!-- Type d'Intervention le Plus Fréquent -->
+    <div class="stats">
+      <div>
+        <p class="stat-title">Type d'Intervention le Plus Fréquent</p>
+        <p class="stat-value" id="typeIntervention">Révision moteur</p>
+      </div>
+    </div>
+
+    <!-- Temps d'Inactivité des Employés -->
+    <div class="stats">
+      <div>
+        <p class="stat-title">Temps d'Inactivité des Employés</p>
+        <p class="stat-value" id="tempsInactivite">15 heures</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Vérifier si le canvas est trouvé
+    const ctx = document.getElementById('chiffreAffaireChart');
+    if (!ctx) {
+      console.error("Le canvas n'a pas été trouvé.");
+    } else {
+      console.log("Canvas trouvé avec succès.");
+    }
+
+    // Données pour le graphique (Chiffre d'Affaires par semaine du mois)
+    const chiffreAffaireData = {
+      labels: ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'],
+      datasets: [{
+        label: 'Chiffre d\'Affaires (en €)',
+        data: [15000, 20000, 18000, 22000], // Chiffre d'affaires de chaque semaine
+        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Couleur de remplissage
+        borderColor: 'rgba(54, 162, 235, 1)', // Couleur de bordure
+        borderWidth: 1
+      }]
+    };
+
+    // Options du graphique
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        tooltip: {
+          callbacks: {
+            label: function(tooltipItem) {
+              return tooltipItem.raw + ' €'; // Affiche le montant en €
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    };
+
+    // Créer le graphique
+    const chart = new Chart(ctx, {
+      type: 'bar', // Type de graphique (ici un graphique à barres)
+      data: chiffreAffaireData,
+      options: options
+    });
+  </script>
+
+</body>
+</html>

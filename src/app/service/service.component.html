@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire - Nouveau Service</title>
+    <style>
+
+    </style>
+</head>
+<body>
+
+<div class="form-header">
+    <h1>Nom du Service</h1>
+    <h2>Nouveau Service</h2>
+</div>
+
+<!-- Formulaire pour les services -->
+<div class="service-form" id="service-form">
+    <form id="serviceForm">
+        <label for="nomService">Nom du service</label>
+        <input type="text" id="nomService" name="nomService" required>
+
+        <label for="descriptionCourte">Description courte</label>
+        <input type="text" id="descriptionCourte" name="descriptionCourte" required>
+
+        <label for="prixService">Prix du service</label>
+        <input type="number" id="prixService" name="prixService" required>
+
+        <label for="dureeService">Durée du service</label>
+        <input type="text" id="dureeService" name="dureeService" required>
+
+        <label for="descriptionComplete">Description complète</label>
+        <textarea id="descriptionComplete" name="descriptionComplete"></textarea>
+
+        <label for="categorieService">Catégorie du service</label>
+        <select id="categorieService" name="categorieService">
+            <option value="mecanique">Mécanique</option>
+            <option value="electrique">Électrique</option>
+            <option value="carrosserie">Carrosserie</option>
+        </select>
+
+        <label for="serviceImage">Image</label>
+        <input type="file" id="serviceImage" name="serviceImage">
+
+        <div class="form-actions">
+            <button type="button" id="resetBtn">Réinitialiser</button>
+            <button type="submit" id="submitBtn">Valider</button>
+        </div>
+    </form>
+</div>
+
+<!-- Inclure CKEditor -->
+<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+
+<script>
+    // Initialiser CKEditor pour la description complète
+    ClassicEditor
+        .create(document.querySelector('#descriptionComplete'))
+        .catch(error => {
+            console.error(error);
+        });
+
+    // Réinitialiser le formulaire
+    document.getElementById('resetBtn').addEventListener('click', function() {
+        document.getElementById('serviceForm').reset();
+    });
+</script>
+
+</body>
+</html>

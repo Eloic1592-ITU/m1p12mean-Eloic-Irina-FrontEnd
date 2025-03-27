@@ -1,0 +1,206 @@
+ /* Global Styles */
+ * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+h1,
+h2 {
+  color: #00796b;
+  margin-bottom: 20px;
+  font-size: 2em;
+  text-align: center;
+}
+
+h2 {
+  font-size: 1.8em;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #00796b;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-size: 1.1em;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+.navbar a:hover {
+  background-color: #004d40;
+}
+
+/* Container Styles */
+.container {
+  width: 80%;
+  margin: 30px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrer les éléments à l'intérieur de .container */
+}
+
+/* Box Styling for Promotions, Services, Commitments, Reviews */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center; /* Centrer les colonnes horizontalement */
+  margin-bottom: 40px;
+}
+
+.column {
+  flex: 1;
+  min-width: 280px;
+  max-width: 320px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s;
+  margin-bottom: 20px;
+}
+
+.column:hover {
+  transform: translateY(-10px);
+}
+
+img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.info {
+  padding: 15px;
+}
+
+.info p {
+  margin-bottom: 10px;
+}
+
+.info strong {
+  color: #00796b;
+}
+
+button.button {
+  background-color: #00796b;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  font-size: 1em;
+}
+
+button.button:hover {
+  background-color: #004d40;
+}
+
+button.button:focus {
+  outline: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .column {
+    max-width: 90%;
+  }
+
+  h1 {
+    font-size: 1.8em;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    font-size: 1em;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .column {
+    max-width: 100%;
+  }
+
+  h1 {
+    font-size: 1.6em;
+  }
+
+  h2 {
+    font-size: 1.3em;
+  }
+
+  button.button {
+    padding: 12px 20px;
+    font-size: 1em;
+  }
+}
+
+/* Section Styles for Reviews, Advice, Commitments */
+.review-box,
+.advice-box,
+.commitment-box {
+  margin-bottom: 20px;
+}
+
+.review-box img,
+.advice-box img,
+.commitment-box img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.review-box .info,
+.advice-box .info,
+.commitment-box .info {
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer Button */
+.footer-button {
+  display: block;
+  margin: 20px auto;
+  font-size: 1.1em;
+  text-align: center;
+}

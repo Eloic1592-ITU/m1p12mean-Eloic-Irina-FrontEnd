@@ -1,0 +1,118 @@
+/* Styles généraux */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.filter-container label {
+  margin-right: 10px;
+}
+
+.filter-container select {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.summary-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.summary-info {
+  width: 48%;
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.services-table {
+  width: 48%;
+  background-color: #f8f8f8;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f1f1f1;
+  font-weight: bold;
+}
+
+/* Media queries pour rendre le layout responsive */
+@media (max-width: 768px) {
+  .summary-info, .services-table {
+    width: 100%;
+  }
+
+  .filter-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chart-container {
+    height: 300px; /* Réduire la hauteur du graphique sur petits écrans */
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 18px; /* Réduire la taille du titre sur les très petits écrans */
+  }
+
+  .summary-info, .services-table {
+    width: 100%;
+    margin-bottom: 15px; /* Ajouter un espacement entre les blocs */
+  }
+
+  .filter-container select {
+    width: 100%; /* Élément de sélection pleine largeur sur petits écrans */
+    margin-bottom: 10px;
+  }
+}

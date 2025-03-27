@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liste de Rendez-vous</title>
+  <style>
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <a routerLink="/rendezvous">Vos rendez-vous</a>
+    <a routerLink="/offre">Offres</a>
+    <a routerLink="/conseiltech">Conseils Techniques</a>
+    <a routerLink="/entretien">Entretiens</a>
+    <a href="#">Equipements</a>
+  </div>
+
+  <div class="container">
+    <h1>Liste des Rendez-vous</h1>
+
+    <!-- Bouton pour prendre rendez-vous -->
+    <div class="button-container">
+      <a href="#">
+        <a routerLink="/rdv">Prendre Rendez-vous</a>
+      </a>
+    </div>
+
+ <!-- rendezvous.component.html -->
+<div class="section">
+  <h2>Rendez-vous Prévu</h2>
+
+  <!-- Liste des Rendez-vous -->
+  <div class="appointment-list">
+    <div class="appointment-box" *ngFor="let rdv of rendezvousList">
+      <!-- Informations du Rendez-vous à gauche -->
+      <div class="appointment">
+        <img [src]="rdv.clientImage" [alt]="rdv.nom">
+        <div class="appointment-info">
+          <p><strong>Nom:</strong> {{ rdv.nom }}</p>
+          <p><strong>Date d'envoi:</strong> {{ rdv.dateEnvoi }}</p>
+          <p><strong>Date du rendez-vous:</strong> {{ rdv.dateRendezvous }}</p>
+          <p><strong>Heure:</strong> {{ rdv.heure }}</p>
+          <p class="status valid">{{ rdv.status }}</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons (Modifier & Annuler) -->
+      <div class="action-buttons">
+        <button class="edit-btn" (click)="editRendezvous(rdv)">Modifier</button>
+        <button class="cancel-btn" (click)="deleteRendezvous(rdv.id)">Annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulaire d'ajout/édition de rendez-vous -->
+  <div class="form-container">
+    <h3>{{ isEditMode ? 'Modifier' : 'Ajouter' }} un Rendez-vous</h3>
+    <form (ngSubmit)="saveRendezvous(currentRdv)" *ngIf="currentRdv">
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input id="nom" type="text" [(ngModel)]="currentRdv.nom" name="nom" required>
+      </div>
+      <div class="form-group">
+        <label for="dateEnvoi">Date d'envoi</label>
+        <input id="dateEnvoi" type="text" [(ngModel)]="currentRdv.dateEnvoi" name="dateEnvoi" required>
+      </div>
+      <div class="form-group">
+        <label for="dateRendezvous">Date du rendez-vous</label>
+        <input id="dateRendezvous" type="text" [(ngModel)]="currentRdv.dateRendezvous" name="dateRendezvous" required>
+      </div>
+      <div class="form-group">
+        <label for="heure">Heure</label>
+        <input id="heure" type="text" [(ngModel)]="currentRdv.heure" name="heure" required>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <input id="status" type="text" [(ngModel)]="currentRdv.status" name="status" required>
+      </div>
+      <div class="form-group">
+        <label for="clientImage">Image du client</label>
+        <input id="clientImage" type="text" [(ngModel)]="currentRdv.clientImage" name="clientImage" required>
+      </div>
+      <button type="submit">{{ isEditMode ? 'Enregistrer' : 'Ajouter' }} le rendez-vous</button>
+      <button type="button" (click)="resetForm()">Annuler</button>
+    </form>
+  </div>
+</div>
+
+
+
+    <!-- Liste des Véhicules en bas du Rendez-vous Prévu -->
+    <div class="right-section">
+      <h3>Vos Véhicules</h3>
+      <div class="vehicle-box">
+        <img src="vehicle.jpg" alt="Véhicule">
+        <div class="vehicle-info">
+          <p><strong>Nom:</strong> Peugeot 208</p>
+          <p><strong>Immatriculation:</strong> AB-123-CD</p>
+          <p><strong>Année:</strong> 2019</p>
+          <p><strong>Catégorie:</strong> Compacte</p>
+          <p><strong>Kilométrage:</strong> 50,000 km</p>
+        </div>
+      </div>
+
+      <!-- Voir plus -->
+      <div class="view-more">
+        <a href="#">Voir plus de véhicules</a>
+      </div>
+    </div>
+
+    <!-- Liste des Entretiens -->
+    <div class="right-section">
+      <h3>Entretien Quotidien</h3>
+      <div class="maintenance-box">
+        <img src="maintenance.jpg" alt="Maintenance">
+        <div class="maintenance-info">
+          <p><strong>Entretien:</strong> Vidange moteur</p>
+          <p><strong>Description:</strong> Remplacement de l'huile moteur et des filtres</p>
+          <p><strong>Difficulté:</strong> Moyenne</p>
+          <p><strong>Services concernés:</strong> Moteur, Transmission</p>
+        </div>
+      </div>
+
+      <!-- Voir plus -->
+      <div class="view-more">
+        <a href="#">Voir plus d'entretiens</a>
+      </div>
+    </div>
+
+    <!-- Rendez-vous En Attente -->
+    <div class="section">
+      <h2>Rendez-vous En Attente</h2>
+      <div class="appointment-list">
+        <div class="appointment-box">
+          <!-- Informations du Rendez-vous à gauche -->
+          <div class="appointment">
+            <img src="client2.jpg" alt="Client 2">
+            <div class="appointment-info">
+              <p><strong>Nom:</strong> Marie Martin</p>
+              <p><strong>Date d'envoi:</strong> 21 mars 2025</p>
+              <p><strong>Date du rendez-vous:</strong> 26 mars 2025</p>
+              <p><strong>Heure:</strong> 10:00</p>
+              <p class="status pending">Rendez-vous en attente</p>
+            </div>
+          </div>
+
+          <!-- Action Buttons (Modifier & Annuler) -->
+          <div class="action-buttons">
+            <button class="edit-btn">Modifier</button>
+            <button class="cancel-btn">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Liste des Véhicules en bas du Rendez-vous En Attente -->
+    <div class="right-section">
+      <h3>Vos Véhicules</h3>
+      <div class="vehicle-box">
+        <img src="vehicle.jpg" alt="Véhicule">
+        <div class="vehicle-info">
+          <p><strong>Nom:</strong> Renault Clio</p>
+          <p><strong>Immatriculation:</strong> XY-456-ZZ</p>
+          <p><strong>Année:</strong> 2020</p>
+          <p><strong>Catégorie:</strong> Citadine</p>
+          <p><strong>Kilométrage:</strong> 30,000 km</p>
+        </div>
+      </div>
+
+      <!-- Voir plus -->
+      <div class="view-more">
+        <a href="#">Voir plus de véhicules</a>
+      </div>
+    </div>
+
+    <!-- Liste des Entretiens en bas du Rendez-vous En Attente -->
+    <div class="right-section">
+      <h3>Entretien Quotidien</h3>
+      <div class="maintenance-box">
+        <img src="maintenance.jpg" alt="Maintenance">
+        <div class="maintenance-info">
+          <p><strong>Entretien:</strong> Changement des plaquettes de frein</p>
+          <p><strong>Description:</strong> Remplacement des plaquettes de frein avant</p>
+          <p><strong>Difficulté:</strong> Facile</p>
+          <p><strong>Services concernés:</strong> Freinage</p>
+        </div>
+      </div>
+
+      <!-- Voir plus -->
+      <div class="view-more">
+        <a href="#">Voir plus d'entretiens</a>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

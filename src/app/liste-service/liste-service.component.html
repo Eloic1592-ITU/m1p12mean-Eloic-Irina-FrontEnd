@@ -1,0 +1,32 @@
+<div class="container">
+  <h1>Liste des Services</h1>
+
+  <!-- Section pour la recherche -->
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Rechercher un service"
+      class="search-input">
+    <button (click)="searchServices()" class="search-button">Rechercher</button>
+  </div>
+
+  <div class="service-list">
+    <div *ngFor="let service of filteredServices()" class="service-item">
+      <div class="service-img">
+        <img [src]="service.img" [alt]="service.name">
+      </div>
+      <div class="service-info">
+        <h3>{{ service.name }}</h3>
+        <p><strong>Prix:</strong> {{ service.price }} Ariary</p>
+        <p><strong>Description:</strong> {{ service.description }}</p>
+        <p><strong>Immatriculation:</strong> {{ service.registration }}</p>
+      </div>
+      <div class="service-actions">
+        <a href="#">Voir plus de détails</a>
+        <!-- Bouton de suppression -->
+        <button (click)="deleteService(service)" class="delete-button">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>

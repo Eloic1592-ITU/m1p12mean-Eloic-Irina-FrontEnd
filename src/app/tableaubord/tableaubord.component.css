@@ -1,0 +1,64 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+}
+.container {
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+  text-align: center;
+  color: #333;
+}
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 30px;
+  font-size: 16px;
+}
+.stats div {
+  width: 48%; /* Ajustement de la largeur des éléments */
+  padding: 10px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 10px; /* Espacement entre les éléments */
+}
+.stats .stat-title {
+  font-weight: bold;
+}
+.stats .stat-value {
+  font-size: 18px;
+  color: #333;
+}
+/* Media query pour les écrans plus petits */
+@media (max-width: 768px) {
+  .stats div {
+    width: 100%; /* Sur les petits écrans, les statistiques occuperont toute la largeur */
+    margin-bottom: 20px;
+  }
+  .chart-container {
+    height: 300px; /* Réduire la hauteur du graphique sur les petits écrans */
+  }
+}
+@media (max-width: 480px) {
+  .stats div {
+    width: 100%; /* Sur les très petits écrans, on occupe toute la largeur */
+  }
+  h1 {
+    font-size: 20px; /* Réduire la taille du titre sur les petits écrans */
+  }
+}

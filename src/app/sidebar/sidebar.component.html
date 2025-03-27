@@ -1,0 +1,49 @@
+<!-- Barre de navigation en haut -->
+<div class="header">
+  <div class="header-left">
+    <span class="logo">Garage</span>
+  </div>
+
+  <div class="header-right">
+    <a href="#" class="logout-icon">
+      <i class="fa fa-sign-out"></i> Déconnexion
+    </a>
+  </div>
+
+  <!-- Bouton pour basculer la sidebar sur petits écrans -->
+  <span class="sidebar-toggle" onclick="toggleSidebar()">☰</span>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <ul>
+    <li><a routerLink="/dashboard" routerLinkActive="active">Tableau de bord</a></li>
+    <li><a routerLink="/profit" routerLinkActive="active">Profit</a></li>
+    <li><a routerLink="/rendezvous" routerLinkActive="active" class="sidebar-link">Rendez-vous</a></li>
+    <li><a routerLink="/planning" routerLinkActive="active">Calendrier</a></li>
+    <li><a routerLink="/Non validé" routerLinkActive="active">Non validé</a></li>
+    <li><a routerLink="/mecanicien" routerLinkActive="active"> Mécanicien</a></li>
+    <li><a routerLink="/Profil" routerLinkActive="active">Profil</a></li>
+    <li><a routerLink="/conge" routerLinkActive="active" class="sidebar-link">Congé</a></li>
+    <li><a routerLink="/service" class="sidebar-link">Services</a></li>
+    <li><a routerLink="/stock" routerLinkActive="active">Stock</a></li>
+    <li><a routerLink="/evenement" routerLinkActive="active">Événement</a></li>
+    <li><a routerLink="/listService" routerLinkActive="active">Liste Service </a></li>
+    <li><a routerLink="/promotion">Promotion</a></li>
+    <li><a routerLink="/devis" routerLinkActive="active">Devis </a></li>
+  </ul>
+</div>
+
+<!-- Contenu principal -->
+<div class="content">
+  <!-- Contenu principal ici -->
+</div>
+
+<script>
+  // Fonction pour ouvrir/fermer la sidebar sur les petits écrans
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  sidebar.classList.toggle('open');
+}
+
+</script>

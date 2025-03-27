@@ -1,0 +1,212 @@
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  color: #00796b;
+}
+
+/* Bouton Ajouter une promotion */
+.add-promotion-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #00796b;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.add-promotion-button:hover {
+  background-color: #004d40;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  color: #00796b;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-size: 1em;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #00796b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+button:hover {
+  background-color: #004d40;
+}
+
+/* Close button */
+.btn-close {
+  background-color: #f44336;
+}
+
+.btn-close:hover {
+  background-color: #d32f2f;
+}
+
+/* Liste des promotions */
+.promotion-list {
+  margin-top: 30px;
+}
+
+.promotion-item {
+  display: flex;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  justify-content: space-between;
+}
+
+.promotion-img img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.promotion-info {
+  flex-grow: 1;
+  margin-left: 20px;
+}
+
+.promotion-info h3 {
+  font-size: 1.5em;
+  color: #00796b;
+}
+
+.promotion-info p {
+  font-size: 1.1em;
+  color: #555;
+  margin: 5px 0;
+}
+
+.promotion-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.promotion-actions button {
+  padding: 10px 20px;
+  background-color: #00796b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.promotion-actions button:hover {
+  background-color: #004d40;
+}
+
+.promotion-actions .btn-supprimer {
+  background-color: #f44336;
+}
+
+.promotion-actions .btn-supprimer:hover {
+  background-color: #d32f2f;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+    margin: 15px;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+
+  .promotion-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .promotion-img img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .promotion-info {
+    margin-left: 0;
+    margin-top: 15px;
+  }
+
+  .promotion-actions {
+    flex-direction: row;
+    gap: 15px;
+  }
+}
