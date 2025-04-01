@@ -1,25 +1,46 @@
-<div class="form-container">
-    <h2>Connexion Mecanicien</h2>
+<div class="login-container">
+  <div class="login-card">
+    <h2 class="login-title">Connexion Mécanicien</h2>
     
-    <form (ngSubmit)="login()" class="styled-form">
+    <form (ngSubmit)="login()" class="login-form">
       <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
       </div>
   
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" id="email" [(ngModel)]="credentials.email" name="email" required class="form-input">
+        <input 
+          type="email" 
+          id="email" 
+          [(ngModel)]="credentials.email" 
+          name="email" 
+          required 
+          class="form-input"
+          placeholder="mecanicien@example.com">
       </div>
   
       <div class="form-group">
         <label for="motdepasse">Mot de passe</label>
-        <input type="password" id="motdepasse" [(ngModel)]="credentials.motdepasse" name="motdepasse" required class="form-input">
+        <input 
+          type="password" 
+          id="motdepasse" 
+          [(ngModel)]="credentials.motdepasse" 
+          name="motdepasse" 
+          required 
+          class="form-input"
+          placeholder="••••••••">
       </div>
+      
       <div class="form-actions">
-        <button type="submit" class="btn-primary">Se connecter</button>
-        <button type="button" (click)="register()" class="btn-secondary">
+        <button type="submit" class="login-button">Se connecter</button>
+        <button type="button" (click)="register()" class="secondary-button">
           Créer un compte
         </button>
       </div>
+      
+      <!-- <div class="forgot-password">
+        <a href="#">Mot de passe oublié ?</a>
+      </div> -->
     </form>
   </div>
+</div>

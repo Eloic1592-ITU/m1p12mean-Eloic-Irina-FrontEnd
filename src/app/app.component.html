@@ -6,22 +6,18 @@
 
   <div class="navbar-right">
     <a href="#" class="logout-icon">
-      <i class="fa fa-sign-out">deconnexion</i>
+      <i class="fa fa-sign-out">deconnexion</i> 
     </a>
 
   </div>
 </nav>
 
-<!-- Sidebar -->
-<!-- <app-sidebar></app-sidebar> -->
-
-
-
-
-<!-- Contenu principal -->
-<div class="content">
-  <router-outlet></router-outlet>
+<!-- Conteneur principal flex -->
+<div *ngIf="showSidebar">
+  <app-sidebar></app-sidebar>
 </div>
+<router-outlet></router-outlet>
+
 
 
 

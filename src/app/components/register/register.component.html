@@ -1,7 +1,8 @@
-<div class="container">
-    <h1>Inscription Client</h1>
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="login-title">Inscription Client</h1>
   
-    <form (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="inscription-form">
+    <form (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="login-form">
       <!-- Messages d'erreur/succès -->
       <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
@@ -13,47 +14,48 @@
       <!-- Champs du formulaire -->
       <div class="form-group">
         <label for="nom">Nom complet</label>
-        <input type="text" id="nom" [(ngModel)]="newClient.nom" name="nom" required>
+        <input type="text" id="nom" [(ngModel)]="newClient.nom" name="nom" required class="form-input" placeholder="Jean Dupont">
       </div>
   
       <div class="form-group">
         <label for="datenaissance">Date de naissance</label>
-        <input type="date" id="datenaissance" [(ngModel)]="newClient.datenaissance" name="datenaissance" required>
+        <input type="date" id="datenaissance" [(ngModel)]="newClient.datenaissance" name="datenaissance" required class="form-input">
       </div>
   
       <div class="form-group">
         <label for="contact">Numéro de téléphone</label>
-        <input type="tel" id="contact" [(ngModel)]="newClient.contact" name="contact" required>
+        <input type="tel" id="contact" [(ngModel)]="newClient.contact" name="contact" required class="form-input" placeholder="0612345678">
       </div>
   
       <div class="form-group">
         <label for="email">Adresse email</label>
-        <input type="email" id="email" [(ngModel)]="newClient.email" name="email" required>
+        <input type="email" id="email" [(ngModel)]="newClient.email" name="email" required class="form-input" placeholder="client@example.com">
       </div>
   
       <div class="form-group">
         <label for="motdepasse">Mot de passe</label>
-        <input type="password" id="motdepasse" [(ngModel)]="newClient.motdepasse" name="motdepasse" required minlength="6">
+        <input type="password" id="motdepasse" [(ngModel)]="newClient.motdepasse" name="motdepasse" required minlength="6" class="form-input" placeholder="••••••••">
       </div>
   
       <div class="form-group">
         <label for="confirmationMotdepasse">Confirmer le mot de passe</label>
-        <input type="password" id="confirmationMotdepasse" [(ngModel)]="newClient.confirmationMotdepasse" name="confirmationMotdepasse" required>
+        <input type="password" id="confirmationMotdepasse" [(ngModel)]="newClient.confirmationMotdepasse" name="confirmationMotdepasse" required class="form-input" placeholder="••••••••">
       </div>
   
       <div class="form-group">
         <label for="image">Photo de profil (optionnel)</label>
-        <input type="file" id="image" (change)="onFileSelected($event)" name="image" accept="image/*">
+        <input type="file" id="image" (change)="onFileSelected($event)" name="image" accept="image/*" class="form-input-file">
       </div>
   
       <div class="form-actions">
-        <button type="submit" [disabled]="isLoading">
+        <button type="submit" class="login-button" [disabled]="isLoading">
           <span *ngIf="!isLoading">S'inscrire</span>
           <span *ngIf="isLoading">Traitement...</span>
         </button>
         <p class="login-link">
-          Déjà inscrit? <a routerLink="/connexion">Connectez-vous ici</a>
+          Déjà inscrit? <a (click)="connexion()">Connectez-vous ici</a>
         </p>
       </div>
     </form>
   </div>
+</div>

@@ -38,9 +38,11 @@ export const routes: Routes = [
 
     { path: 'register', component: RegisterComponent },
 
-    { path: 'service', component: ServiceComponent,        
-        canActivate: [AuthGuard, RoleGuard],
-        data: { roles: ['admin'] }}, 
+    { path: 'connexion', component: LoginclientComponent },
+    
+    { path: 'service', component: ServiceComponent,  },      
+        // canActivate: [AuthGuard, RoleGuard],
+        // data: { roles: ['admin'] }}, 
 
     { path: 'evenement', component: EvenementComponent },
 
@@ -50,24 +52,24 @@ export const routes: Routes = [
 
     { path: 'rendezvous', 
         component: RendezvousComponent, 
-        canActivate: [AuthGuard, RoleGuard],
-        data: { roles: ['client'] }
+        // canActivate: [AuthGuard, RoleGuard],
+        // data: { roles: ['client'] }
     }, 
     { path: 'validationrendezvous', 
         component: ValidationrendezvousComponent, 
-        canActivate: [AuthGuard, RoleGuard],
-        data: { roles: ['admin'] }
+        // canActivate: [AuthGuard, RoleGuard],
+        // data: { roles: ['admin'] }
     }, 
     { path: 'validationdemande', 
         component: ValidationdemandeComponent, 
-        canActivate: [AuthGuard, RoleGuard],
-        data: { roles: ['admin'] }
+        // canActivate: [AuthGuard, RoleGuard],
+        // data: { roles: ['admin'] }
     }, 
 
     { path: 'rendezvousmecanicien', 
         component: RendezvousmecanicienComponent, 
-        canActivate: [AuthGuard, RoleGuard],
-        data: { roles: ['mecanicien'] }
+        // canActivate: [AuthGuard, RoleGuard],
+        // data: { roles: ['mecanicien'] }
     }, 
     
     { path: 'servicevehicule/:id/:clientId', component: ServicevehiculeComponent },

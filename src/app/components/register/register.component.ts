@@ -62,4 +62,8 @@ export class RegisterComponent {
     });
   }
 
+  connexion(): void {
+    this.router.navigate(['/connexion']);
+  }
+
 }

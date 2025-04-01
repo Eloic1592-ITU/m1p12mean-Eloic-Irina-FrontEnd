@@ -1,61 +1,63 @@
-<div class="container">
-    <h1>Liste des demandes</h1>
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="login-title">Liste des Demandes</h1>
   
-    <!-- Filtre de recherche (seulement pour la liste complète) -->
+    <!-- Filtre de recherche -->
     <div class="search-container">
       <input
         type="date"
         [(ngModel)]="startDate"
-        placeholder="Rechercher par date"
-        class="search-input">
-        <input
+        class="form-input"
+        placeholder="Date de début">
+      <input
         type="date"
         [(ngModel)]="endDate"
-        placeholder="Rechercher par date"
-        class="search-input">
-      <button class="search-button" (click)="applyFilter()">Rechercher</button>
+        class="form-input"
+        placeholder="Date de fin">
+      <button class="login-button" (click)="applyFilter()">Rechercher</button>
     </div>   
-    <!-- Liste de tous les rendez-vous avec pagination -->
-    <h2>Toutes les demandes</h2>
+    
+    <!-- Liste des demandes -->
+    <h2 class="section-title">Toutes les demandes</h2>
+    
     <div class="pagination-controls">
-      <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
-      <span>Page {{currentPage}} / {{totalPages}}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+      <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">Précédent</button>
+      <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">Suivant</button>
     </div>
     
     <div class="event-list">
-        <div *ngFor="let demande of paginatedDemande(); let i = index" class="event-item">
-            <div class="event-info">
-              <h3>Demande #{{ (currentPage - 1) * itemsPerPage + i + 1 }}</h3>
-              <p><strong>ID </strong> {{ demande._id}}</p>
-              <p><strong>Nom du mecancien:</strong> {{ demande.mecaniciennom }}</p>
-              <p><strong>Debut:</strong> {{ demande.datedebut | date:'medium' }}</p>
-              <p><strong>Fin:</strong> {{ demande.datefin | date:'medium' }}</p>
-              <p><strong>Description:</strong> {{ demande.description }}</p>
-              <p><strong>Statut:</strong> 
-                <span [ngStyle]="{
-                  'color': getStatusColor(demande.statut),
-                  'font-weight': 'bold'
-                }">
-                  {{ demande.statut }}
-                </span>
-              </p>
-            </div>
-            <div class="event-actions">
-              <button class="btn-modifier" 
-                      (click)="validerDemande(demande)" 
-                      [disabled]="demande.statut === 'annule' || demande.statut === 'valide' || demande.statut === 'refuse'">
-                Valider
-              </button>
-              <button class="btn-supprimer" 
-                      (click)="refusDemande(demande)" 
-                      [disabled]="demande.statut === 'annule' || demande.statut === 'valide' || demande.statut === 'refuse'">
-                Refuser
-              </button>
-            </div>
-          </div>
+      <div *ngFor="let demande of paginatedDemande(); let i = index" class="event-item">
+        <div class="event-info">
+          <h3>Demande #{{ (currentPage - 1) * itemsPerPage + i + 1 }}</h3>
+          <p><strong>ID:</strong> {{ demande._id}}</p>
+          <p><strong>Nom du mécanicien:</strong> {{ demande.mecaniciennom }}</p>
+          <p><strong>Début:</strong> {{ demande.datedebut | date:'medium' }}</p>
+          <p><strong>Fin:</strong> {{ demande.datefin | date:'medium' }}</p>
+          <p><strong>Description:</strong> {{ demande.description }}</p>
+          <p><strong>Statut:</strong> 
+            <span [ngClass]="'status-' + demande.statut.toLowerCase()">
+              {{ demande.statut }}
+            </span>
+          </p>
+        </div>
+        <div class="event-actions">
+          <button class="btn-validate" 
+                  (click)="validerDemande(demande)" 
+                  [disabled]="demande.statut === 'annule' || demande.statut === 'valide' || demande.statut === 'refuse'">
+            Valider
+          </button>
+          <button class="btn-refuse" 
+                  (click)="refusDemande(demande)" 
+                  [disabled]="demande.statut === 'annule' || demande.statut === 'valide' || demande.statut === 'refuse'">
+            Refuser
+          </button>
+        </div>
+      </div>
+      
       <div *ngIf="paginatedDemande().length === 0" class="no-events">
-        Aucun rendez-vous disponible
+        Aucune demande disponible
       </div>
     </div>
   </div>
+</div>
