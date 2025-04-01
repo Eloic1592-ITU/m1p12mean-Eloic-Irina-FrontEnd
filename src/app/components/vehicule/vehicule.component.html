@@ -1,0 +1,95 @@
+<div class="container">
+    <h1>Liste des Véhicules</h1>
+  
+    <!-- Filtre de recherche -->
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher par marque/modèle/immatriculation"
+        class="search-input">
+      <button class="search-button" (click)="applyFilters()">Rechercher</button>
+      <button class="reset-button" (click)="resetFilters()" *ngIf="hasActiveFilters()">Réinitialiser</button>
+    </div>
+  
+    <!-- Bouton Ajouter un véhicule -->
+    <a class="add-event-button" (click)="openAddModal()">Ajouter un véhicule</a>
+  
+    <!-- Liste des véhicules -->
+    <div class="pagination-info">
+      Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredVehicules().length}} véhicules
+    </div>
+    <div class="pagination-controls">
+      <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+      <span>Page {{currentPage}} / {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+    </div>
+  
+    <div class="vehicule-list">
+      <div *ngFor="let vehicule of paginatedVehicules()" class="vehicule-item">
+        <div class="vehicule-img">
+          <img [src]="vehicule.image || 'assets/default-vehicle.jpg'" alt="{{vehicule.marque}} {{vehicule.modele}}">
+        </div>
+        <div class="vehicule-info">
+          <h3>{{ vehicule.marque }} {{ vehicule.modele }}</h3>
+          <p><strong>Année:</strong> {{ vehicule.annee }}</p>
+          <p><strong>Immatriculation:</strong> {{ vehicule.Immatriculation }}</p>
+          <p><strong>Kilométrage:</strong> {{ vehicule.kilometrage }} km</p>
+        </div>
+        <div class="vehicule-actions">
+          <button class="btn-modifier" (click)="openEditModal(vehicule)">Modifier</button>
+          <button class="btn-supprimer" (click)="deleteVehicule(vehicule._id)">Supprimer</button>
+          <button class="btn-services" (click)="detailservicevehicule(vehicule._id)">Services</button>
+        </div>
+      </div>
+      <div *ngIf="filteredVehicules().length === 0" class="no-vehicules">
+        Aucun véhicule trouvé
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal d'ajout/édition -->
+  <div class="modal" [ngClass]="{'open': isModalOpen}">
+    <div class="modal-content">
+      <h2>{{ isEditMode ? 'Modifier un véhicule' : 'Ajouter un véhicule' }}</h2>
+      <form (ngSubmit)="isEditMode ? updateVehicule() : addVehicule()" enctype="multipart/form-data">
+        <div class="form-row">
+            <input type="hidden" id="clientId" [(ngModel)]="newVehicule.clientId" name="clientId" required>
+          <div class="form-group">
+            <label for="marque">Marque</label>
+            <input type="text" id="marque" [(ngModel)]="newVehicule.marque" name="marque" required>
+          </div>
+          <div class="form-group">
+            <label for="modele">Modèle</label>
+            <input type="text" id="modele" [(ngModel)]="newVehicule.modele" name="modele" required>
+          </div>
+        </div>
+  
+        <div class="form-row">
+          <div class="form-group">
+            <label for="annee">Année</label>
+            <input type="number" id="annee" [(ngModel)]="newVehicule.annee" name="annee" min="1900" required>
+          </div>
+          <div class="form-group">
+            <label for="Immatriculation">Immatriculation</label>
+            <input type="text" id="Immatriculation" [(ngModel)]="newVehicule.Immatriculation" name="Immatriculation" required>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="kilometrage">Kilométrage</label>
+          <input type="text" id="kilometrage" [(ngModel)]="newVehicule.kilometrage" name="kilometrage" min="0" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="image">Image</label>
+          <input type="file" id="image" (change)="onFileSelected($event)" name="image">
+        </div>
+        
+        <div class="modal-actions">
+          <button type="submit" class="btn-save">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
+          <button type="button" class="btn-cancel" (click)="closeModal()">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>

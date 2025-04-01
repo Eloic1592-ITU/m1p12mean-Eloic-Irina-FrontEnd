@@ -1,0 +1,73 @@
+<div class="container">
+    <h1>Liste des Clients</h1>
+  
+    <!-- Filtre de recherche -->
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher un client"
+        class="search-input">
+      <button class="search-button">Rechercher</button>
+    </div>
+  
+    <!-- Bouton Ajouter un client -->
+    <a class="add-event-button" (click)="openAddModal()">Ajouter un client</a>
+  
+    <!-- Liste des clients -->
+    <div class="event-list">
+      <div *ngFor="let client of filteredClients(); let i = index" class="event-item">
+        <div class="event-img">
+          <!-- <img [src]="client.image" [alt]="client.nom"> -->
+        </div>
+        <div class="event-info">
+          <h3>{{ client.nom }}</h3>
+          <p><strong>Date de naissance:</strong> {{ client.datenaissance | date }}</p>
+          <p><strong>Contact:</strong> {{ client.contact }}</p>
+          <p><strong>Email:</strong> {{ client.email }}</p>
+        </div>
+        <div class="event-actions">
+          <button class="btn-modifier" (click)="navigateToEdit(client._id)">Modifier</button>
+          <button class="btn-supprimer" (click)="deleteClient(client._id)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal d'ajout/édition de client -->
+<div class="modal" [ngClass]="{'open': isModalOpen}">
+  <div class="modal-content">
+    <h2>{{ isEditMode ? 'Modifier un client' : 'Ajouter un client' }}</h2>
+    <form (ngSubmit)="isEditMode ? updateClient() : addClient()" enctype="multipart/form-data">
+      <div>
+        <label for="nom">Nom complet</label>
+        <input type="text" id="nom" [(ngModel)]="newClient.nom" name="nom" required>
+      </div>
+      <div>
+        <label for="datenaissance">Date de naissance</label>
+        <input type="date" id="datenaissance" [(ngModel)]="newClient.datenaissance" name="datenaissance" required>
+      </div>
+      <div>
+        <label for="contact">Contact</label>
+        <input type="text" id="contact" [(ngModel)]="newClient.contact" name="contact" required>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" [(ngModel)]="newClient.email" name="email" required>
+      </div>
+      <div>
+        <label for="motdepasse">Mot de passe</label>
+        <input type="password" id="motdepasse" [(ngModel)]="newClient.motdepasse" name="motdepasse" [required]="!isEditMode">
+      </div>
+      <div>
+        <label for="image">Photo</label>
+        <input type="file" id="image" (change)="onFileSelected($event)" name="image">
+      </div>
+      
+      <div class="modal-actions">
+        <button type="submit">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
+        <button type="button" (click)="closeModal()">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>

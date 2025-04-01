@@ -1,4 +1,67 @@
  /* Styles globaux */
+/* Styles pour la sidebar */
+.sidebar {
+  width: 250px;
+  height: 100vh; /* Hauteur de la sidebar sur toute la hauteur de la fenêtre */
+  background-color: #333;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: left 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Active le défilement si le contenu dépasse la hauteur de la sidebar */
+  padding-top: 20px; /* Pour espacer un peu le contenu du bord supérieur */
+}
+
+/* Liste des éléments dans la sidebar */
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style pour chaque élément de la liste */
+.sidebar li {
+  padding: 15px;
+  border-bottom: 1px solid #444;
+}
+
+/* Style pour les liens dans la sidebar */
+.sidebar li a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  font-size: 16px;
+}
+
+/* Effet au survol des éléments */
+.sidebar li a:hover {
+  background-color: #555;
+}
+
+/* Personnalisation de la barre de défilement */
+.sidebar::-webkit-scrollbar {
+  width: 8px; /* Largeur de la barre de défilement */
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #888; /* Couleur de la barre de défilement */
+  border-radius: 4px; /* Bords arrondis pour un effet plus lisse */
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Couleur du "thumb" (partie défilante) au survol */
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: #333; /* Couleur de la piste */
+  border-radius: 4px; /* Bord arrondi de la piste */
+}
+
+
+
     * {
       margin: 0;
       padding: 0;

@@ -1,0 +1,87 @@
+.form-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .styled-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    padding: 0.5rem;
+    background-color: #f8d7da;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  .forgot-password {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Utilisez les mêmes styles que vos autres formulaires pour les éléments suivants */
+  .form-group,
+  .form-input,
+  .btn-primary,
+  .btn-secondary {
+    /* Vos styles existants */
+  }.form-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .styled-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .error-message {
+    color: #dc3545;
+    padding: 0.5rem;
+    background-color: #f8d7da;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  
+  .forgot-password {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Utilisez les mêmes styles que vos autres formulaires pour les éléments suivants */
+  .form-group,
+  .form-input,
+  .btn-primary,
+  .btn-secondary {
+    /* Vos styles existants */
+  }

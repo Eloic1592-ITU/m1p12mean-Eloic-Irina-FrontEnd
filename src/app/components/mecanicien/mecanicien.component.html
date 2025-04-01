@@ -1,0 +1,83 @@
+<div class="container">
+    <h1>Liste des Mécaniciens</h1>
+  
+    <!-- Filtre de recherche -->
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher un mécanicien"
+        class="search-input">
+      <button class="search-button">Rechercher</button>
+    </div>
+  
+    <!-- Bouton Ajouter un mécanicien -->
+    <a class="add-event-button" (click)="openAddModal()">Ajouter un mécanicien</a>
+  
+    <!-- Liste des mécaniciens -->
+    <div class="event-list">
+      <div *ngFor="let mecanicien of filteredMecaniciens(); let i = index" class="event-item">
+        <div class="event-img">
+          <!-- <img [src]="mecanicien.image" [alt]="mecanicien.nom"> -->
+        </div>
+        <div class="event-info">
+          <h3>{{ mecanicien.nom }}</h3>
+          <p><strong>Date de naissance:</strong> {{ mecanicien.datenaissance | date }}</p>
+          <p><strong>Adresse:</strong> {{ mecanicien.adresse }}</p>
+          <p><strong>Contact:</strong> {{ mecanicien.contact }}</p>
+          <p><strong>Email:</strong> {{ mecanicien.email }}</p>
+          <p><strong>Spécialité:</strong> {{ mecanicien.specialite }}</p>
+        </div>
+        <div class="event-actions">
+          <button class="btn-modifier" (click)="navigateToEdit(mecanicien._id)">Modifier</button>
+          <button class="btn-supprimer" (click)="deleteMecanicien(mecanicien._id)">Supprimer</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal d'ajout/édition de mécanicien -->
+<div class="modal" [ngClass]="{'open': isModalOpen}">
+  <div class="modal-content">
+    <h2>{{ isEditMode ? 'Modifier un mécanicien' : 'Ajouter un mécanicien' }}</h2>
+    <form (ngSubmit)="isEditMode ? updateMecanicien() : addMecanicien()" enctype="multipart/form-data">
+      <div>
+        <label for="nom">Nom complet</label>
+        <input type="text" id="nom" [(ngModel)]="newMecanicien.nom" name="nom" required>
+      </div>
+      <div>
+        <label for="datenaissance">Date de naissance</label>
+        <input type="date" id="datenaissance" [(ngModel)]="newMecanicien.datenaissance" name="datenaissance" required>
+      </div>
+      <div>
+        <label for="adresse">Adresse</label>
+        <input type="text" id="adresse" [(ngModel)]="newMecanicien.adresse" name="adresse" required>
+      </div>
+      <div>
+        <label for="contact">Contact</label>
+        <input type="text" id="contact" [(ngModel)]="newMecanicien.contact" name="contact" required>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" [(ngModel)]="newMecanicien.email" name="email" required>
+      </div>
+      <div>
+        <label for="motdepasse">Mot de passe</label>
+        <input type="password" id="motdepasse" [(ngModel)]="newMecanicien.motdepasse" name="motdepasse" [required]="!isEditMode">
+      </div>
+      <div>
+        <label for="specialite">Spécialité</label>
+        <input type="text" id="specialite" [(ngModel)]="newMecanicien.specialite" name="specialite" required>
+      </div>
+      <div>
+        <label for="image">Photo</label>
+        <input type="file" id="image" (change)="onFileSelected($event)" name="image">
+      </div>
+      
+      <div class="modal-actions">
+        <button type="submit">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
+        <button type="button" (click)="closeModal()">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>

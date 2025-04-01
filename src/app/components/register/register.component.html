@@ -1,0 +1,59 @@
+<div class="container">
+    <h1>Inscription Client</h1>
+  
+    <form (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="inscription-form">
+      <!-- Messages d'erreur/succès -->
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      <div *ngIf="successMessage" class="success-message">
+        {{ successMessage }}
+      </div>
+  
+      <!-- Champs du formulaire -->
+      <div class="form-group">
+        <label for="nom">Nom complet</label>
+        <input type="text" id="nom" [(ngModel)]="newClient.nom" name="nom" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="datenaissance">Date de naissance</label>
+        <input type="date" id="datenaissance" [(ngModel)]="newClient.datenaissance" name="datenaissance" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="contact">Numéro de téléphone</label>
+        <input type="tel" id="contact" [(ngModel)]="newClient.contact" name="contact" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Adresse email</label>
+        <input type="email" id="email" [(ngModel)]="newClient.email" name="email" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="motdepasse">Mot de passe</label>
+        <input type="password" id="motdepasse" [(ngModel)]="newClient.motdepasse" name="motdepasse" required minlength="6">
+      </div>
+  
+      <div class="form-group">
+        <label for="confirmationMotdepasse">Confirmer le mot de passe</label>
+        <input type="password" id="confirmationMotdepasse" [(ngModel)]="newClient.confirmationMotdepasse" name="confirmationMotdepasse" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="image">Photo de profil (optionnel)</label>
+        <input type="file" id="image" (change)="onFileSelected($event)" name="image" accept="image/*">
+      </div>
+  
+      <div class="form-actions">
+        <button type="submit" [disabled]="isLoading">
+          <span *ngIf="!isLoading">S'inscrire</span>
+          <span *ngIf="isLoading">Traitement...</span>
+        </button>
+        <p class="login-link">
+          Déjà inscrit? <a routerLink="/connexion">Connectez-vous ici</a>
+        </p>
+      </div>
+    </form>
+  </div>

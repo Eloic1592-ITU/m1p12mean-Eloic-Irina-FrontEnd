@@ -1,0 +1,371 @@
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #00796b;
+  }
+  
+  /* Search input and button */
+  .search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    gap: 10px;
+  }
+  
+  .search-input {
+    width: 60%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .search-input:focus {
+    border-color: #00796b;
+  }
+  
+  .search-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #00796b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .search-button:hover {
+    background-color: #004d40;
+  }
+  
+  /* Add event button */
+  .add-event-button {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+  }
+  
+  .add-event-button:hover {
+    background-color: #388e3c;
+  }
+  
+  /* Event list styles */
+  .event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .event-item {
+    display: flex;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .event-img img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .event-info {
+    flex-grow: 1;
+    margin-left: 20px;
+  }
+  
+  .event-info h3 {
+    margin: 0;
+    font-size: 1.6em;
+    color: #00796b;
+  }
+  
+  .event-info p {
+    font-size: 1.1em;
+    color: #555;
+    margin: 5px 0;
+  }
+  
+  .event-actions {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .event-actions a,
+  .event-actions button {
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #00796b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 160px;
+    text-align: center;
+  }
+  
+  .event-actions a {
+    text-decoration: none;
+  }
+  
+  .event-actions button:hover {
+    background-color: #004d40;
+  }
+  
+  .event-actions .btn-modifier {
+    background-color: #ffa500;
+  }
+  
+  .event-actions .btn-modifier:hover {
+    background-color: #e65100;
+  }
+  
+  .event-actions .btn-supprimer {
+    background-color: #f44336;
+  }
+  
+  .event-actions .btn-supprimer:hover {
+    background-color: #d32f2f;
+  }
+
+  .event-actions .btn-details {
+    background-color: #01581f;
+  }
+  
+  .event-actions .btn-details:hover {
+    background-color: #04bc32;
+  }
+  
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+      margin: 15px;
+    }
+  
+    .search-input {
+      width: 80%;
+    }
+  
+    .search-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .event-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .event-img img {
+      width: 100px;
+      height: 100px;
+    }
+  
+    .event-info {
+      margin-left: 0;
+      margin-top: 15px;
+    }
+  
+    .event-actions {
+      flex-direction: row;
+      gap: 15px;
+    }
+  }
+  
+  
+  /* Modal Background (overlay) */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s; /* Smooth fade in/out */
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px 30px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    animation: modalSlideIn 0.3s ease-out; /* Modal slide-in animation */
+  }
+  
+  /* Modal Slide-in Animation */
+  @keyframes modalSlideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Modal Header */
+  .modal-content h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+    border-bottom: 2px solid #28a745;
+    padding-bottom: 10px;
+  }
+  
+  /* Form Inputs */
+  .modal-content input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.3s ease;
+  }
+  
+  .modal-content input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Buttons */
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .modal-actions button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-actions button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .modal-actions button[type="button"] {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .modal-actions button:hover {
+    opacity: 0.9;
+  }
+  
+  .modal-actions button[type="submit"]:hover {
+    background-color: #218838;
+  }
+  
+  .modal-actions button[type="button"]:hover {
+    background-color: #c82333;
+  }
+  
+  .modal-actions button:active {
+    transform: translateY(2px); /* Légère animation pour simuler une pression */
+  }
+  
+  /* Animation pour afficher le modal */
+  .modal.open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s, transform 0.3s ease;
+    transform: translateY(20px);
+  }
+  
+  .modal.open {
+    transform: translateY(0);
+  }
+  
+  /* Responsivité */
+  .modal-content {
+    width: 90%;
+    max-width: 500px;
+  }
+  
+  @media (max-width: 768px) {
+    .modal-content {
+      width: 100%;
+      padding: 20px;
+    }
+  }
+  .statut-en-cours {
+    color: orange;
+    font-weight: bold;
+  }
+  .statut-confirme {
+    color: green;
+    font-weight: bold;
+  }
+  .statut-termine {
+    color: blue;
+    font-weight: bold;
+  }
+  .statut-annule {
+    color: red;
+    font-weight: bold;
+  }
+
+  .no-events {
+    padding: 20px;
+    text-align: center;
+    font-style: italic;
+    color: #666;
+  }
+  
+  
+  

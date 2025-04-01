@@ -1,0 +1,41 @@
+<div class="container">
+    <h1>Liste des Rendez-vous</h1>
+  
+    <!-- Filtre de recherche (seulement pour la liste complète) -->
+    <div class="search-container">
+      <input
+        type="date"
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher par date"
+        class="search-input">
+        
+      <button class="search-button" (click)="applyFilter()">Rechercher</button>
+    </div>   
+    <!-- Liste de tous les rendez-vous avec pagination -->
+    <h2>Tous vos rendez-vous</h2>
+    <div class="pagination-controls">
+      <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+      <span>Page {{currentPage}} / {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+    </div>
+    
+    <div class="event-list">
+        <div *ngFor="let rdv of paginatedRendezvous(); let i = index" class="event-item">
+            <div class="event-info">
+              <h3>Rendez-vous #{{ (currentPage - 1) * itemsPerPage + i + 1 }}</h3>
+              <p><strong>ID </strong> {{ rdv._id}}</p>
+              <p><strong>Nom du client:</strong> {{ rdv.clientnom}}</p>
+              <p><strong>Date/Heure:</strong> {{ rdv.dateheure | date:'medium' }}</p>
+              <p><strong>Description:</strong> {{ rdv.description }}</p>
+              <p><strong>Statut:</strong> {{ rdv.statut }}</p>
+              <div class="event-actions">
+                <button class="btn-modifier" (click)="voirservices(rdv._id,rdv.clientId)">
+                  Voir les services
+                </button>
+            </div>
+          </div>
+      <div *ngIf="paginatedRendezvous().length === 0" class="no-events">
+        Aucun rendez-vous disponible
+      </div>
+    </div>
+  </div>

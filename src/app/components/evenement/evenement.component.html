@@ -1,0 +1,108 @@
+<div class="container">
+  <h1>Liste des Événements</h1>
+
+  <!-- Filtre de recherche -->
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Rechercher par nom/description"
+      class="search-input">
+    <button class="search-button" (click)="applyFilters()">Rechercher</button>
+    <!-- <button class="reset-button" (click)="resetFilters()" *ngIf="hasActiveFilters()">Réinitialiser</button> -->
+  </div>
+
+  <!-- Bouton Ajouter un événement -->
+  <a class="add-event-button" (click)="openAddModal()">Ajouter un événement</a>
+
+  <!-- Événements en cours -->
+  <h2>Événements en cours</h2>
+  <div class="event-list">
+    <div *ngFor="let evenement of currentEvents(); let i = index" class="event-item">
+      <div class="event-img">
+        <!-- <img [src]="evenement.image" [alt]="evenement.nom"> -->
+      </div>
+      <div class="event-info">
+        <h3>{{ evenement.nom }}</h3>
+        <p><strong>Description:</strong> {{ evenement.description }}</p>
+        <p><strong>Date début:</strong> {{ evenement.datedebut | date:'mediumDate' }}</p>
+        <p><strong>Date fin:</strong> {{ evenement.datefin | date:'mediumDate' }}</p>
+      </div>
+      <div class="event-actions">
+        <button class="btn-promotion" (click)="promotion(evenement._id)">Promotions</button>
+        <button class="btn-modifier" (click)="openEditModal(evenement)">Modifier</button>
+        <button class="btn-supprimer" (click)="deleteEvent(evenement._id)">Supprimer</button>
+      </div>
+    </div>
+    <div *ngIf="currentEvents().length === 0" class="no-events">
+      Aucun événement en cours
+    </div>
+  </div>
+
+  <!-- Tous les événements avec pagination -->
+  <h2>Tous les événements</h2>
+  <div class="pagination-info">
+    Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredEvents().length}} événements
+  </div>
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+    <span>Page {{currentPage}} / {{totalPages}}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+  </div>
+  
+  <div class="event-list">
+    <div *ngFor="let evenement of paginatedEvents()" class="event-item">
+      <div class="event-img">
+        <!-- <img [src]="evenement.image" [alt]="evenement.nom"> -->
+      </div>
+      <div class="event-info">
+        <h3>{{ evenement.nom }}</h3>
+        <p><strong>Description:</strong> {{ evenement.description }}</p>
+        <p><strong>Date début:</strong> {{ evenement.datedebut | date:'mediumDate' }}</p>
+        <p><strong>Date fin:</strong> {{ evenement.datefin | date:'mediumDate' }}</p>
+      </div>
+      <div class="event-actions">
+        <button class="btn-promotion" (click)="promotion(evenement._id)">Promotions</button>
+        <button class="btn-modifier" (click)="openEditModal(evenement)">Modifier</button>
+        <button class="btn-supprimer" (click)="deleteEvent(evenement._id)">Supprimer</button>
+      </div>
+    </div>
+    <div *ngIf="filteredEvents().length === 0" class="no-events">
+      Aucun événement trouvé
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'ajout/édition -->
+<div class="modal" [ngClass]="{'open': isModalOpen}">
+  <div class="modal-content">
+    <h2>{{ isEditMode ? 'Modifier un événement' : 'Ajouter un événement' }}</h2>
+    <form (ngSubmit)="isEditMode ? updateEvent() : addEvent()" enctype="multipart/form-data">
+      <div>
+        <label for="nom">Nom de l'événement</label>
+        <input type="text" id="nom" [(ngModel)]="newEvenement.nom" name="nom" required>
+      </div>
+      <div>
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="newEvenement.description" name="description" required></textarea>
+      </div>
+      <div>
+        <label for="datedebut">Date de début</label>
+        <input type="date" id="datedebut" [(ngModel)]="newEvenement.datedebut" name="datedebut" required>
+      </div>
+      <div>
+        <label for="datefin">Date de fin</label>
+        <input type="date" id="datefin" [(ngModel)]="newEvenement.datefin" name="datefin" required>
+      </div>
+      <div>
+        <label for="image">Image</label>
+        <input type="file" id="image" (change)="onFileSelected($event)" name="image">
+      </div>
+      
+      <div class="modal-actions">
+        <button type="submit">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
+        <button type="button" (click)="closeModal()">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>

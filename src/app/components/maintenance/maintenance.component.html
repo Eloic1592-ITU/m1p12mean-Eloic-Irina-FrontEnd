@@ -1,0 +1,124 @@
+<div class="container">
+  <h1>Fiches de Maintenance</h1>
+
+<!-- Filtre de recherche -->
+<div class="search-container">
+  <input
+    type="text"
+    [(ngModel)]="searchQuery"
+    (keyup.enter)="applyFilters()"
+    placeholder="Rechercher par titre/description"
+    class="search-input">
+<!--   
+  <select aria-label="Categorie" [(ngModel)]="categoryFilter" (change)="applyFilters()" class="search-select">
+    <option value="">Toutes catégories</option>
+    <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+  </select>
+  
+  <select aria-label="Difficulte" [(ngModel)]="difficultyFilter" (change)="applyFilters()" class="search-select">
+    <option value="">Tous niveaux</option>
+    <option *ngFor="let niveau of niveauxDifficulte" [value]="niveau">{{ niveau }}</option>
+  </select> -->
+  
+  <button class="search-button" (click)="applyFilters()">Rechercher</button>
+  <button class="reset-button" (click)="resetFilters()" *ngIf="hasActiveFilters()">Réinitialiser</button>
+</div>
+
+  <!-- Bouton Ajouter une maintenance -->
+  <a class="add-event-button" (click)="openAddModal()">Ajouter une fiche conseil</a>
+
+  <!-- Liste des maintenances -->
+  <div class="pagination-info">
+    Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredMaintenances().length}} fiches
+  </div>
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+    <span>Page {{currentPage}} / {{totalPages}}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+  </div>
+
+  <div class="event-list">
+    <div *ngFor="let maint of paginatedMaintenances(); let i = index" class="event-item">
+      <div class="event-info">
+        <h3>{{ maint.titre }}</h3>
+        <p><strong>Catégorie:</strong> {{ maint.categorie }}</p>
+        <p><strong>Difficulté:</strong> {{ maint.difficulte }}</p>
+        <p><strong>Description:</strong> {{ maint.description }}</p>
+        <div *ngIf="maint.outils && maint.outils.length > 0">
+          <strong>Outils nécessaires:</strong>
+          <ul>
+            <li *ngFor="let outil of maint.outils">{{ outil }}</li>
+          </ul>
+        </div>
+        <div *ngIf="maint.etapes && maint.etapes.length > 0">
+          <strong>Étapes:</strong>
+          <ol>
+            <li *ngFor="let etape of maint.etapes">{{ etape }}</li>
+          </ol>
+        </div>
+      </div>
+      <div class="event-actions">
+        <button class="btn-modifier" (click)="openEditModal(maint)">Modifier</button>
+        <button class="btn-supprimer" (click)="deleteMaintenance(maint._id)">Supprimer</button>
+      </div>
+    </div>
+    <div *ngIf="filteredMaintenances().length === 0" class="no-events">
+      Aucune fiche de maintenance trouvée
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'ajout/édition -->
+<div class="modal" [ngClass]="{'open': isModalOpen}">
+  <div class="modal-content">
+    <h2>{{ isEditMode ? 'Modifier la fiche' : 'Ajouter une fiche' }}</h2>
+    <form (ngSubmit)="isEditMode ? updateMaintenance() : addMaintenance()">
+      <div>
+        <label for="titre">Titre</label>
+        <input type="text" id="titre" [(ngModel)]="newMaintenance.titre" name="titre" required>
+      </div>
+      <div>
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="newMaintenance.description" name="description" required></textarea>
+      </div>
+      <input type="hidden" id="serviceId" [(ngModel)]="newMaintenance.serviceId" name="serviceId" required>
+      <div>
+        <label for="categorie">Catégorie</label>
+        <select id="categorie" [(ngModel)]="newMaintenance.categorie" name="categorie" required>
+          <option value="">Sélectionner une catégorie</option>
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+      </div>
+      <div>
+        <label for="difficulte">Niveau de difficulté</label>
+        <select id="difficulte" [(ngModel)]="newMaintenance.difficulte" name="difficulte" required>
+          <option value="">Sélectionner un niveau</option>
+          <option *ngFor="let niveau of niveauxDifficulte" [value]="niveau">{{ niveau }}</option>
+        </select>
+      </div>
+      
+      <div>
+        <label>Outils nécessaires</label>
+        <div *ngFor="let outil of newMaintenance.outils; let i = index" class="array-item">
+          {{ outil }} <button type="button" (click)="removeOutil(i)">×</button>
+        </div>
+        <input type="text" #newOutil placeholder="Ajouter un outil">
+        <button type="button" (click)="addOutil(newOutil.value); newOutil.value=''">+ Ajouter</button>
+      </div>
+      
+      <div>
+        <label>Étapes de la maintenance</label>
+        <div *ngFor="let etape of newMaintenance.etapes; let i = index" class="array-item">
+          {{ i+1 }}. {{ etape }} <button type="button" (click)="removeStep(i)">×</button>
+        </div>
+        <input type="text" [(ngModel)]="currentStepInput" name="currentStep" placeholder="Ajouter une étape">
+        <button type="button" (click)="addStep()">+ Ajouter</button>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="submit">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
+        <button type="button" (click)="closeModal()">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="form-container">
+    <h2>Modifier le mecanicien</h2>
+    
+    <form (ngSubmit)="updateMecanicien()" enctype="multipart/form-data" class="styled-form">
+      <div class="form-group">
+        <label for="nom">Nom du mecanicien</label>
+        <input type="text" id="nom" [(ngModel)]="mecanicien.nom" name="nom" required class="form-input">
+      </div>
+
+        
+      <div class="form-row">
+        <div class="form-group">
+          <label for="datenaissance">Prix</label>
+          <input type="date" id="datenaissance" [(ngModel)]="mecanicien.datenaissance" name="datenaissance" required class="form-input">
+        </div>
+    </div>
+  
+      <div class="form-group">
+        <label for="adresse">Adresse</label>
+        <textarea id="adresse" [(ngModel)]="mecanicien.adresse" name="adresse" required class="form-input"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="contact">Contact</label>
+        <textarea id="contact" [(ngModel)]="mecanicien.contact" name="contact" required class="form-input"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <textarea id="email" [(ngModel)]="mecanicien.email" name="email" required class="form-input"></textarea>
+      </div>
+
+      
+      <div class="form-group">
+        <label for="motdepasse">Mot de passe</label>
+        <textarea id="motdepasse" [(ngModel)]="mecanicien.motdepasse" name="motdepasse" required class="form-input"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="specialite">Specialite</label>
+        <textarea id="specialite" [(ngModel)]="mecanicien.specialite" name="specialite" required class="form-input"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="image">Image (Laisser vide pour conserver l'actuelle)</label>
+        <input type="file" id="image" name="image" class="form-file">
+        <div *ngIf="mecanicien.imageUrl" class="current-image">
+          <span>Image actuelle : </span>
+          <img [src]="mecanicien.imageUrl" alt="Image actuelle" class="current-image-preview">
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Mettre à jour</button>
+        <button type="button" (click)="cancelEdit()" class="btn-secondary">Annuler</button>
+      </div>
+    </form>
+  </div>

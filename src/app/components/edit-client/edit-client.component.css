@@ -1,0 +1,102 @@
+/* Conteneur principal */
+.form-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Titre */
+  .form-container h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.5em;
+  }
+  
+  /* Groupes de formulaire */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .form-row .form-group {
+    flex: 1;
+  }
+  
+  /* Inputs */
+  .form-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+  }
+  
+  .form-input:focus {
+    border-color: #4285f4;
+    outline: none;
+  }
+  
+  /* Fichier image */
+  .form-file {
+    width: 100%;
+    margin-top: 5px;
+  }
+  
+  /* Image actuelle */
+  .current-image {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #666;
+  }
+  
+  .current-image-preview {
+    display: block;
+    max-height: 60px;
+    margin-top: 5px;
+    border-radius: 4px;
+  }
+  
+  /* Actions */
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .btn-primary {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #3367d6;
+  }
+  
+  .btn-secondary {
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #e0e0e0;
+  }

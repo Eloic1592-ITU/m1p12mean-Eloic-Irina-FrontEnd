@@ -1,0 +1,136 @@
+<div class="container">
+    <h1>Liste des Demandes</h1>
+  
+    <!-- Filtre de recherche -->
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher par type/description"
+        class="search-input">
+      <input aria-label="datedebut"
+        type="date"
+        [(ngModel)]="dateFilter"
+        class="search-input">
+      <button class="search-button" (click)="applyFilters()">Rechercher</button>
+      <button class="reset-button" (click)="resetFilters()" *ngIf="hasActiveFilters()">Réinitialiser</button>
+    </div>
+  
+    <!-- Bouton Ajouter une demande -->
+    <button class="add-button" (click)="openAddModal()">+ Ajouter Demande</button>
+  
+    <!-- Demandes en cours -->
+    <h2>Demandes en cours</h2>
+    <div class="table-container">
+      <table *ngIf="currentDemandes().length > 0; else noCurrentDemandes">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Date début</th>
+            <th>Date fin</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let demande of currentDemandes()">
+            <td>{{ demande.type }}</td>
+            <td>{{ demande.description }}</td>
+            <td>{{ demande.datedebut | date:'shortDate' }}</td>
+            <td>{{ demande.datefin | date:'shortDate' }}</td>
+            <td [ngClass]="'statut-' + demande.statut.toLowerCase()">
+              {{ demande.statut }}
+            </td>
+            <td class="actions">
+              <button (click)="openEditModal(demande)">Modifier</button>
+              <button (click)="deleteDemande(demande._id)" class="delete">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noCurrentDemandes>
+        <p>Aucune demande en cours</p>
+      </ng-template>
+    </div>
+  
+    <!-- Toutes les demandes avec pagination -->
+    <h2>Toutes les demandes</h2>
+    <div class="pagination-info">
+      Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredDemandes().length}} demandes
+    </div>
+    <div class="pagination-controls">
+      <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+      <span>Page {{currentPage}} / {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+    </div>
+    
+    <div class="table-container">
+      <table *ngIf="filteredDemandes().length > 0; else noDemandes">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Date début</th>
+            <th>Date fin</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let demande of paginatedDemandes()">
+            <td>{{ demande.type }}</td>
+            <td>{{ demande.description }}</td>
+            <td>{{ demande.datedebut | date:'shortDate' }}</td>
+            <td>{{ demande.datefin | date:'shortDate' }}</td>
+            <td [ngClass]="'statut-' + demande.statut.toLowerCase()">
+              {{ demande.statut }}
+            </td>
+            <td class="actions">
+              <button (click)="openEditModal(demande)">Modifier</button>
+              <button (click)="deleteDemande(demande._id)" class="delete">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noDemandes>
+        <p>Aucune demande trouvée</p>
+      </ng-template>
+    </div>
+  </div>
+  
+  <!-- Modal d'ajout/édition -->
+  <div class="modal" [ngClass]="{'open': isModalOpen}">
+    <div class="modal-content">
+      <h2>{{ isEditMode ? 'Modifier la demande' : 'Ajouter une demande' }}</h2>
+      <form (ngSubmit)="isEditMode ? updateDemande() : addDemande()">
+        <div class="form-group">
+          <label for="type">Type</label>
+          <select id="type" [(ngModel)]="newDemande.type" name="type" required>
+            <option value="">Aucun type</option>
+            <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" [(ngModel)]="newDemande.description" name="description" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="datedebut">Date début</label>
+          <input type="date" id="datedebut" [(ngModel)]="newDemande.datedebut" name="datedebut" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="datefin">Date fin</label>
+          <input type="date" id="datefin" [(ngModel)]="newDemande.datefin" name="datefin">
+        </div>
+        
+        <div class="modal-actions">
+          <button type="submit">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
+          <button type="button" (click)="closeModal()">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>

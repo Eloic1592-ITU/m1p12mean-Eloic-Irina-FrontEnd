@@ -1,64 +1,107 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f9;
-}
+/* Container principal pour centrer le contenu */
 .container {
-  width: 90%;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
+
+/* Titre principal */
 h1 {
-  text-align: center;
+  font-size: 2.5rem;
   color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+/* Style de la section des graphiques */
 .chart-container {
-  position: relative;
-  height: 400px;
   width: 100%;
-}
-.stats {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 30px;
-  font-size: 16px;
-}
-.stats div {
-  width: 48%; /* Ajustement de la largeur des éléments */
+  max-width: 1000px;
+  margin: 0 auto 50px;
   padding: 10px;
-  background-color: #f8f8f8;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  margin-bottom: 10px; /* Espacement entre les éléments */
 }
-.stats .stat-title {
+
+/* Styles pour les statistiques */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.stat-title {
+  font-size: 1.2rem;
   font-weight: bold;
+  color: #444;
 }
-.stats .stat-value {
-  font-size: 18px;
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
   color: #333;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-/* Media query pour les écrans plus petits */
+
+/* Style des cartes de statistiques */
+.stats div {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Section de chaque stat */
+.stats .stat-title {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+/* Styles spécifiques pour le graphique */
+canvas {
+  width: 100% !important;  /* Forcer le graphique à prendre toute la largeur */
+  height: auto !important; /* Laisser Chart.js gérer la hauteur */
+}
+
+/* Media Queries pour les petits écrans */
 @media (max-width: 768px) {
-  .stats div {
-    width: 100%; /* Sur les petits écrans, les statistiques occuperont toute la largeur */
-    margin-bottom: 20px;
+  h1 {
+    font-size: 2rem;
   }
-  .chart-container {
-    height: 300px; /* Réduire la hauteur du graphique sur les petits écrans */
+
+  .stats {
+    grid-template-columns: 1fr;  /* Une seule colonne sur mobile */
+  }
+
+  .stat-title {
+    font-size: 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
   }
 }
+
 @media (max-width: 480px) {
-  .stats div {
-    width: 100%; /* Sur les très petits écrans, on occupe toute la largeur */
+  .container {
+    padding: 10px;
   }
+
+  .stat-value {
+    font-size: 1rem;
+    padding: 8px;
+  }
+
   h1 {
-    font-size: 20px; /* Réduire la taille du titre sur les petits écrans */
+    font-size: 1.5rem;
   }
 }

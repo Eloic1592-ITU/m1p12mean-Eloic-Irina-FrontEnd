@@ -1,0 +1,141 @@
+<div class="container">
+  <h1>Liste des Promotions</h1>
+
+  <!-- Filtre de recherche -->
+  <div class="search-container">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Rechercher par nom/code/événement"
+      class="search-input">
+    <button class="search-button" (click)="applyFilters()">Rechercher</button>
+  </div>
+
+  <!-- Bouton Ajouter une promotion -->
+  <a class="add-event-button" (click)="openAddModal()">Ajouter une promotion</a>
+
+  <!-- Promotions actives -->
+  <h2>Promotions actives</h2>
+  <div class="event-list">
+    <div *ngFor="let promo of activePromotions(); let i = index" class="event-item">
+      <div class="promo-badge">{{ promo.reduction }}%</div>
+      <div class="event-info">
+        <h3>{{ promo.nom }}</h3>
+        <p><strong>Code promo:</strong> <span class="promo-code">{{ promo.codepromo }}</span></p>
+        <p><strong>Dates:</strong> {{ promo.datedebut | date:'mediumDate' }} au {{ promo.datefin | date:'mediumDate' }}</p>
+        <p><strong>Événement:</strong> {{ getEventName(promo.evenementId) }}</p>
+        <p><strong>Service:</strong> {{ getServiceName(promo.serviceId) }}</p>
+      </div>
+      <div class="event-actions">
+        <button class="btn-modifier" (click)="openEditModal(promo)">Modifier</button>
+        <button class="btn-supprimer" (click)="deletePromotion(promo._id)">Supprimer</button>
+      </div>
+    </div>
+    <div *ngIf="activePromotions().length === 0" class="no-events">
+      Aucune promotion active
+    </div>
+  </div>
+
+  <!-- Toutes les promotions -->
+  <h2>Toutes les promotions</h2>
+  <div class="pagination-info">
+    Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredPromotions().length}} promotions
+  </div>
+  <div class="pagination-controls">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+    <span>Page {{currentPage}} / {{totalPages}}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+  </div>
+  
+  <div class="event-list">
+    <div *ngFor="let promo of paginatedPromotions()" class="event-item">
+      <div class="promo-badge">{{ promo.reduction }}%</div>
+      <div class="event-info">
+        <h3>{{ promo.nom }}</h3>
+        <p><strong>Code promo:</strong> <span class="promo-code">{{ promo.codepromo }}</span></p>
+        <p><strong>Dates:</strong> {{ promo.datedebut | date:'mediumDate' }} au {{ promo.datefin | date:'mediumDate' }}</p>
+        <p><strong>Statut:</strong> <span [class]="getPromoStatusClass(promo)">{{ getPromoStatus(promo) }}</span></p>
+        <p><strong>Événement:</strong> {{ getEventName(promo.evenementId) }}</p>
+        <p><strong>Service:</strong> {{ getServiceName(promo.serviceId) }}</p>
+      </div>
+      <div class="event-actions">
+        <button class="btn-modifier" (click)="openEditModal(promo)">Modifier</button>
+        <button class="btn-supprimer" (click)="deletePromotion(promo._id)">Supprimer</button>
+      </div>
+    </div>
+    <div *ngIf="filteredPromotions().length === 0" class="no-events">
+      Aucune promotion trouvée
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'ajout/édition -->
+<div class="modal" [ngClass]="{'open': isModalOpen}">
+<div class="modal-content">
+  <h2>{{ isEditMode ? 'Modifier une promotion' : 'Ajouter une promotion' }}</h2>
+  <form (ngSubmit)="isEditMode ? updatePromotion() : addPromotion()" enctype="multipart/form-data">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" [(ngModel)]="newPromotion.nom" name="nom" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="newPromotion.description" name="description"></textarea>
+      </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="codepromo">Code promo</label>
+        <input type="text" id="codepromo" [(ngModel)]="newPromotion.codepromo" name="codepromo" required>
+      </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="datedebut">Date début</label>
+        <input type="date" id="datedebut" [(ngModel)]="newPromotion.datedebut" name="datedebut" required>
+      </div>
+      <div class="form-group">
+        <label for="datefin">Date fin</label>
+        <input type="date" id="datefin" [(ngModel)]="newPromotion.datefin" name="datefin" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="evenementId">Événement associé</label>
+      <input type="hidden" id="evenementId" [(ngModel)]="newPromotion.evenementId" name="codepromo" required>
+    </div>
+
+    <div class="form-group">
+      <label for="serviceId">Service associé</label>
+      <select id="serviceId" [(ngModel)]="newPromotion.serviceId" name="serviceId">
+        <option value="">Aucun service</option>
+        <option *ngFor="let service of services" [value]="service._id">{{ service.nom }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="reduction">Réduction (%)</label>
+      <input type="number" id="reduction" [(ngModel)]="newPromotion.reduction" name="reduction" min="1" max="100" required>
+    </div>
+  </div>
+
+    <div class="form-group">
+      <label for="conditions">Conditions</label>
+      <textarea id="conditions" [(ngModel)]="newPromotion.conditions" name="conditions"></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="image">Image</label>
+      <input type="file" id="image" (change)="onFileSelected($event)" name="image">
+    </div>
+  </div>
+
+    <div class="modal-actions">
+      <button type="submit" class="btn-save">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
+      <button type="button" class="btn-cancel" (click)="closeModal()">Annuler</button>
+    </div>
+  </form>
+</div>
+</div>
