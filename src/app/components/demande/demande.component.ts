@@ -200,4 +200,9 @@ export class DemandeComponent implements OnInit {
       });
     }
   }
+
+  showActions(statut: string): boolean {
+    const lowerStatut = statut.toLowerCase();
+    return lowerStatut !== 'validé' && lowerStatut !== 'refusé';
+  }
 }

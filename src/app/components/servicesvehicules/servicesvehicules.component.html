@@ -2,7 +2,7 @@
     <h1>Liste des services effectuees a ce vehicule</h1>
   
     <!-- Filtre de recherche (seulement pour la liste complète) -->
-    <div class="search-container">
+    <!-- <div class="search-container">
       <input
         type="date"
         [(ngModel)]="startDate"
@@ -14,7 +14,7 @@
         placeholder="Rechercher par date"
         class="search-input">
       <button class="search-button" (click)="applyFilter()">Rechercher</button>
-    </div>   
+    </div>    -->
     <!-- Liste de tous les rendez-vous avec pagination -->
     <div class="event-list">
       <table>
@@ -29,6 +29,7 @@
             <th>Date début</th>
             <th>Date fin</th>
             <th>Statut</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -44,9 +45,15 @@
             <td [ngClass]="'statut-' + sv.statut.toLowerCase().replace(' ', '-')">
               {{ sv.statut }}
             </td>
+            <td>
+              <button class="btn-services" (click)="avis(sv._id)" >Noter</button>
+            </td>
           </tr>
         </tbody>
       </table>
+      <div *ngIf="paginatedServicehicule().length === 0" class="no-services">
+        <i class="fas fa-car"></i> Aucun service véhicule trouvé
+      </div>
       <p><span>Total des services: {{totalservice}}</span></p>
       <p><span>Somme: {{sommeprix |currency}} Ariary</span></p>
       <!-- Pagination -->

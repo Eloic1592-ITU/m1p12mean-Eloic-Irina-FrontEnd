@@ -16,15 +16,6 @@
     <a class="add-event-button" (click)="openAddModal()">Ajouter votre avis</a>
   
     <!-- Liste des véhicules -->
-    <div class="pagination-info">
-      Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredAvis().length}} véhicules
-    </div>
-    <div class="pagination-controls">
-      <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
-      <span>Page {{currentPage}} / {{totalPages}}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
-    </div>
-  
     <div class="avis-list">
       <div *ngFor="let avis of paginatedAvis()" class="avis-item">
         <div class="avis-info">
@@ -40,6 +31,14 @@
       </div>
       <div *ngIf="filteredAvis().length === 0" class="no-avis">
         Aucun avis trouvé
+      </div>
+      <div class="pagination-info">
+        Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredAvis().length}} véhicules
+      </div>
+      <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+        <span>Page {{currentPage}} / {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
       </div>
     </div>
   </div>

@@ -19,14 +19,6 @@
     </button>
 
     <!-- Informations de pagination -->
-    <div class="pagination-info">
-      Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredVehicules().length}} véhicules
-    </div>
-    <div class="pagination-controls">
-      <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">Précédent</button>
-      <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">Suivant</button>
-    </div>
 
     <!-- Liste des véhicules -->
     <div class="event-list">
@@ -54,6 +46,15 @@
           </button>
         </div>
       </div>
+      <div class="pagination-info">
+        Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredVehicules().length}} véhicules
+      </div>
+      <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">Précédent</button>
+        <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">Suivant</button>
+      </div>
+  
       <div *ngIf="filteredVehicules().length === 0" class="no-events">
         <i class="fas fa-car-alt"></i> Aucun véhicule trouvé
       </div>

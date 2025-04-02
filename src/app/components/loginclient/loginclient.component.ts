@@ -11,9 +11,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginclientComponent {
   credentials = {
-    email: '',
-    motdepasse: '',
+    email: 'eloicmax@gmail.com',
+    motdepasse: 'R3gul4r!2345:',
   };
+  
 
   errorMessage = '';
 
