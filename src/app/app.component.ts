@@ -23,4 +23,7 @@ export class AppComponent {
           .some(route => event.url.includes(route));
       });
   }
+  toggleSidebar() {
+    this.showSidebar = !this.showSidebar;
+  }
 }

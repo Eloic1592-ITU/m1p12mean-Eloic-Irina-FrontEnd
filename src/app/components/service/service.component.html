@@ -24,20 +24,16 @@
     </button>
 
     <!-- Tous les services avec pagination -->
-    <h2 class="section-title">Tous les services</h2>
-    <div class="pagination-info">
-      Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredServices().length}} services
-    </div>
-    <div class="pagination-controls">
-      <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">Précédent</button>
-      <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">Suivant</button>
-    </div>
-    
+    <h2 class="section-title">Tous les services</h2>    
     <div class="service-list">
       <div *ngFor="let service of paginatedServices()" class="service-item">
         <div class="service-img">
           <img alt="Image du service"[src]="service.image || 'assets/default-service.jpg'" [alt]="service.nom">
+          <!-- Pour afficher l'image stockée en Base64  -->
+          <!-- <img [src]="'data:image/png;base64,' + base64ImageString" alt="Image"> -->
+
+          <!-- Si vous avez stocké le Data URL complet -->
+           <img src="/src/app/assets/img/no-picture.png" alt="Image">
         </div>
         <div class="service-info">
           <h3>{{ service.nom }}</h3>
@@ -60,6 +56,14 @@
             <i class="fas fa-trash"></i> Supprimer
           </button>
         </div>
+      </div>
+      <div class="pagination-info">
+        Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredServices().length}} services
+      </div>
+      <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">Précédent</button>
+        <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">Suivant</button>
       </div>
       <div *ngIf="filteredServices().length === 0" class="no-services">
         <i class="fas fa-info-circle"></i> Aucun service trouvé
@@ -99,9 +103,12 @@
       </div>
       <div class="form-group">
         <label for="image">Image</label>
-        <input type="file" id="image" (change)="onFileSelected($event)" name="image" class="form-input-file">
-      </div>
-      
+        <input type="file" id="image"  accept="image/*" name="image" [(ngModel)]="newService.image" class="form-input-file">
+      <!-- Aperçu de l'image -->
+       <!-- <div *ngIf="imagePreview" class="image-preview">
+         <img [src]="imagePreview" alt="Aperçu de l'image">
+       </div> -->
+      </div>   
       <div class="modal-actions">
         <button type="button" (click)="closeModal()" class="secondary-button">Annuler</button>
         <button type="submit" class="login-button">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>

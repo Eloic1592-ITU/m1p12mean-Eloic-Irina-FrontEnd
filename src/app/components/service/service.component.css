@@ -5,18 +5,15 @@
   align-items: flex-start;
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .login-card {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   padding: 40px;
   width: 100%;
-  max-width: 1000px;
-  margin-bottom: 40px;
+  border-radius: 12px;
+  margin-bottom: 0;
 }
 
 .login-title {

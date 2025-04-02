@@ -117,9 +117,12 @@ export class PromotionComponent implements OnInit {
   // Promotions actives (en cours)
   activePromotions() {
     const today = new Date();
-    return this.promotions.filter(promo => {
-      const start = new Date(promo.datedebut);
-      const end = new Date(promo.datefin);
+    today.setHours(0, 0, 0, 0);
+    return this.promotions.filter(event => {
+      const start = new Date(event.datedebut);
+      const end = new Date(event.datefin);
+      start.setHours(0, 0, 0, 0);
+      end.setHours(23, 59, 59, 999);
       return start <= today && end >= today;
     });
   }

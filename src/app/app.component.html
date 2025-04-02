@@ -1,25 +1,9 @@
-<!-- Barre de navigation en haut -->
-<nav class="navbar">
-  <div class="navbar-left">
-    <span class="logo">Garage</span>
+<div class="app-container">
+  <!-- Contenu principal avec sidebar -->
+  <app-sidebar *ngIf="showSidebar" class="sidebar"></app-sidebar>
+  <div class="content-wrapper">
+    <main class="main-content" [class.sidebar-open]="showSidebar">
+      <router-outlet></router-outlet>
+    </main>
   </div>
-
-  <div class="navbar-right">
-    <a href="#" class="logout-icon">
-      <i class="fa fa-sign-out">deconnexion</i> 
-    </a>
-
-  </div>
-</nav>
-
-<!-- Conteneur principal flex -->
-<div *ngIf="showSidebar">
-  <app-sidebar></app-sidebar>
 </div>
-<router-outlet></router-outlet>
-
-
-
-
-
-

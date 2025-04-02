@@ -1,112 +1,143 @@
-<div class="container">
-    <h1>Services Véhicules</h1>
-  
+<div class="dashboard-container">
+  <div class="dashboard-card">
+    <h1 class="dashboard-title">Services Véhicules</h1>
+
     <!-- Filtres -->
     <div class="filter-container">
       <div class="date-filters">
-        <div>
+        <div class="filter-group">
           <label for="startDate">Date début</label>
-          <input type="date" id="startDate" [(ngModel)]="startDate">
+          <input type="date" id="startDate" [(ngModel)]="startDate" class="filter-input">
         </div>
-        <div>
+        <div class="filter-group">
           <label for="endDate">Date fin</label>
-          <input type="date" id="endDate" [(ngModel)]="endDate">
+          <input type="date" id="endDate" [(ngModel)]="endDate" class="filter-input">
         </div>
-        <button (click)="applyFilter()">Filtrer</button>
-        <button (click)="startDate = ''; endDate = ''; applyFilter()">Réinitialiser</button>
+        <button class="filter-button" (click)="applyFilter()">Filtrer</button>
+        <button class="reset-button" (click)="resetFilter()"  *ngIf="hasActiveFilters()">Réinitialiser</button>
       </div>
     </div>
-  
+
     <!-- Bouton Ajouter -->
-    <button class="add-button" (click)="openAddModal()">+ Ajouter Service Véhicule</button>
-  
-    <!-- Tableau des résultats -->
-    <div class="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Marque</th>
-            <th>Modèle</th>
-            <th>Immatriculation</th>
-            <th>Service</th>
-            <th>Description</th>
-            <th>Date début</th>
-            <th>Date fin</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let sv of paginatedServiceVehicule()">
-            <td>{{ sv.vehiculeId?.marque || 'N/A' }}</td>
-            <td>{{ sv.vehiculeId?.modele || 'N/A' }}</td>
-            <td>{{ sv.vehiculeId?.Immatriculation || 'N/A' }}</td>
-            <td>{{ sv.serviceId?.nom || 'N/A' }}</td>
-            <td>{{ sv.serviceId?.descriptioncourte || 'N/A' }}</td>
-            <td>{{ sv.datedebut | date:'short' }}</td>
-            <td>{{ sv.datefin | date:'short' }}</td>
-            <td [ngClass]="'statut-' + sv.statut.toLowerCase().replace(' ', '-')">
-              {{ sv.statut }}
-            </td>
-            <td class="actions">
-              <button (click)="openEditModal(sv)">Modifier</button>
-              <button (click)="deleteServiceVehicule(sv._id)" class="delete">Supprimer</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-  
-      <!-- Pagination -->
-      <div class="pagination">
-        <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
-        <span>Page {{ currentPage }} / {{ totalPages }}</span>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Modal -->
-  <div class="modal" [ngClass]="{'open': isModalOpen}">
-    <div class="modal-content">
-      <h2>{{ isEditMode ? 'Modifier Service Véhicule' : 'Ajouter Service Véhicule' }}</h2>
-      <form (ngSubmit)="isEditMode ? updateServiceVehicule() : addServiceVehicule()">
-        <div class="form-group">
-          <label for="vehiculeId">Vehicule associé</label>
-          <select id="vehiculeId" [(ngModel)]="newServicevehicule.vehiculeId" name="vehiculeId">
-            <option value="">Aucun vehicule</option>
-            <option *ngFor="let vehicule of vehicules" [value]="vehicule._id">{{ vehicule.Immatriculation }}</option>
-          </select>
+    <button class="add-button" (click)="openAddModal()">
+      <i class="fas fa-plus"></i> Ajouter Service
+    </button>
+
+    <!-- Liste des services sous forme de cartes -->
+    <div class="service-grid">
+      <div *ngFor="let sv of paginatedServiceVehicule()" class="service-card">
+        <div class="service-header">
+          <h3>{{ sv.vehiculeId?.marque || 'N/A' }} {{ sv.vehiculeId?.modele || '' }}</h3>
+          <div class="service-actions">
+            <button class="action-button modify" (click)="openEditModal(sv)">
+              <i class="fas fa-edit"></i> Modifier
+            </button>
+            <button class="action-button delete" (click)="deleteServiceVehicule(sv._id)">
+              <i class="fas fa-trash"></i> Supprimer
+            </button>
+          </div>
         </div>
         
-        <div class="form-group">
-            <label for="serviceId">Service associé</label>
-            <select id="serviceId" [(ngModel)]="newServicevehicule.serviceId" name="serviceId">
-              <option value="">Aucun service</option>
-              <option *ngFor="let service of services" [value]="service._id">{{ service.nom }}</option>
-            </select>
+        <div class="service-details">
+          <p><strong>Immatriculation:</strong> {{ sv.vehiculeId?.Immatriculation || 'N/A' }}</p>
+          <p><strong>Service:</strong> {{ sv.serviceId?.nom || 'N/A' }}</p>
+          <p class="service-description">{{ sv.serviceId?.descriptioncourte || 'Aucune description' }}</p>
+        </div>
+        
+        <div class="service-dates">
+          <div class="date-range">
+            <span class="date-label">Début:</span>
+            <span class="date-value">{{ sv.datedebut | date:'shortDate' }}</span>
           </div>
-              
+          <div class="date-range">
+            <span class="date-label">Fin:</span>
+            <span class="date-value">{{ sv.datefin | date:'shortDate' }}</span>
+          </div>
+        </div>
+        
+        <div class="service-footer">
+          <span class="service-status" [ngClass]="'status-' + sv.statut.toLowerCase()">
+            {{ sv.statut }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-info">
+      Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredServiceVehicule.length}} services
+    </div>
+    <div class="pagination-controls">
+      <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">
+        <i class="fas fa-chevron-left"></i> Précédent
+      </button>
+      <span>Page {{currentPage}} / {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">
+        Suivant <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div *ngIf="paginatedServiceVehicule().length === 0" class="no-services">
+      <i class="fas fa-car"></i> Aucun service véhicule trouvé
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" [ngClass]="{'open': isModalOpen}">
+  <div class="modal-content">
+    <h2>{{ isEditMode ? 'Modifier Service Véhicule' : 'Ajouter Service Véhicule' }}</h2>
+    <form (ngSubmit)="isEditMode ? updateServiceVehicule() : addServiceVehicule()" class="modal-form">
+      <div class="form-group">
+        <label for="vehiculeId">Véhicule</label>
+        <select id="vehiculeId" [(ngModel)]="newServicevehicule.vehiculeId" name="vehiculeId" class="form-select">
+          <option value="">Sélectionner le véhicule du client</option>
+          <option *ngFor="let vehicule of vehicules" [value]="vehicule._id">
+            {{ vehicule.marque }} {{ vehicule.modele }} ({{ vehicule.Immatriculation }})
+          </option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="serviceId">Service</label>
+        <select id="serviceId" [(ngModel)]="newServicevehicule.serviceId" name="serviceId" class="form-select">
+          <option value="">Sélectionner un service</option>
+          <option *ngFor="let service of services" [value]="service._id">
+            {{ service.nom }} - {{ service.descriptioncourte }}
+          </option>
+        </select>
+      </div>
+          
+      <div class="form-row">
         <div class="form-group">
           <label for="datedebut">Date début</label>
-          <input type="date" id="datedebut" [(ngModel)]="newServicevehicule.datedebut" name="datedebut" required>
+          <input type="date" id="datedebut" [(ngModel)]="newServicevehicule.datedebut" 
+                 name="datedebut" required class="form-input">
         </div>
         
         <div class="form-group">
           <label for="datefin">Date fin</label>
-          <input type="date" id="datefin" [(ngModel)]="newServicevehicule.datefin" name="datefin">
+          <input type="date" id="datefin" [(ngModel)]="newServicevehicule.datefin" 
+                 name="datefin" class="form-input">
         </div>
-        
-        <div class="form-group">
-          <label for="statut">Statut</label>
-          <select [(ngModel)]="newServicevehicule.statut" name="statut" id="statut" required>
-            <option *ngFor="let statut of statuts" [value]="statut">{{ statut }}</option>
-          </select>
-        </div>
-        
-        <div class="modal-actions">
-          <button type="submit">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
-          <button type="button" (click)="closeModal()">Annuler</button>
-        </div>
-      </form>
-    </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="statut">Statut</label>
+        <select [(ngModel)]="newServicevehicule.statut" name="statut" id="statut" 
+                required class="form-select">
+          <option *ngFor="let statut of statuts" [value]="statut">{{ statut }}</option>
+        </select>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" (click)="closeModal()" class="modal-button cancel">
+          Annuler
+        </button>
+        <button type="submit" class="modal-button confirm">
+          {{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}
+        </button>
+      </div>
+    </form>
   </div>
+</div>

@@ -93,6 +93,11 @@ export class RendezvousComponent implements OnInit {
     this.currentPage = 1;
     this.calculateTotalPages();
   }
+  
+  hasActiveFilters(): boolean {
+    return !!this.searchQuery || !!this.searchQuery;
+  }
+
 
   // Rendez-vous d'aujourd'hui
   todayRendezvous() {
@@ -106,11 +111,26 @@ export class RendezvousComponent implements OnInit {
     });
   }
 
+  
+  // Pagination
+  filteredRendezvous() {
+    return this.filteredResults.length > 0 ? this.filteredResults : this.rendezvous;
+  }
+
   // Pagination
   calculateTotalPages() {
     const totalItems = this.filteredResults.length > 0 ? this.filteredResults.length : this.rendezvous.length;
     this.totalPages = Math.ceil(totalItems / this.itemsPerPage);
   }
+  
+  firstItemOnPage(): number {
+    return (this.currentPage - 1) * this.itemsPerPage + 1;
+  }
+
+  lastItemOnPage(): number {
+    return Math.min(this.currentPage * this.itemsPerPage, this.filteredRendezvous().length);
+  }
+
 
   paginatedRendezvous() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -144,7 +164,7 @@ export class RendezvousComponent implements OnInit {
 
   openEditModal(rendezvous: any) {
     this.isEditMode = true;
-    this.newRendezvous = { ...rendezvous };
+    this.newRendezvous = { ...rendezvous,     statut: 'En cours' };
     // Convertir le timestamp en format datetime-local
     if (this.newRendezvous.dateheure) {
       const date = new Date(this.newRendezvous.dateheure);
