@@ -67,18 +67,33 @@ export class AuthService {
       complete: () => this.clearAuth(),
       error: () => this.clearAuth()
     });
+
   }
 
   private clearAuth(): void {
+    const role = this.getCurrentRole();
+    // Rediriger selon le rôle
+    switch(role) {
+      case 'admin':
+        this.router.navigate(['/loginadmin']);
+        break;
+      case 'mecanicien':
+        this.router.navigate(['/loginmecanicien']);
+        break;
+      case 'client':
+        this.router.navigate(['/loginclient']);
+        break;
+      default:
+        this.router.navigate(['/connexion']);
+    }
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_role');
     localStorage.removeItem('user_data');
     localStorage.removeItem('user_id');
-    
+
     this.isLoggedInSubject.next(false);
     this.userRoleSubject.next(null);
-    
-    this.router.navigate(['/']);
+
   }
 
   getToken(): string | null {
