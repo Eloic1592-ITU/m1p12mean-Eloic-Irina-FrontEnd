@@ -92,7 +92,7 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
-                "glob": "**/*",
+                "glob":  "src/assets",
                 "input": "public"
               }
             ],
