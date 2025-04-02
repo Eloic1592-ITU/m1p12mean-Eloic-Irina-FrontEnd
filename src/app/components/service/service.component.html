@@ -28,12 +28,7 @@
     <div class="service-list">
       <div *ngFor="let service of paginatedServices()" class="service-item">
         <div class="service-img">
-          <img alt="Image du service"[src]="service.image || 'assets/default-service.jpg'" [alt]="service.nom">
-          <!-- Pour afficher l'image stockée en Base64  -->
-          <!-- <img [src]="'data:image/png;base64,' + base64ImageString" alt="Image"> -->
-
-          <!-- Si vous avez stocké le Data URL complet -->
-           <img src="/src/app/assets/img/no-picture.png" alt="Image">
+           <img src="/src/assets/img/nopicture.png" alt="Image">
         </div>
         <div class="service-info">
           <h3>{{ service.nom }}</h3>
