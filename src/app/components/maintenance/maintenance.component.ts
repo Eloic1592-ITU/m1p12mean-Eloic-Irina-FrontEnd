@@ -30,7 +30,7 @@ export class MaintenanceComponent implements OnInit {
     serviceId: '',
     categorie: '',
     difficulte: '',
-    outils: [],
+    outilrequis: [],
     etapes: []
   };
   selectedFile: File | null = null;
@@ -162,7 +162,7 @@ export class MaintenanceComponent implements OnInit {
       serviceId: this.id || '',
       categorie: '',
       difficulte: '',
-      outils: [],
+      outilrequis: [],
       etapes: []
     };
   }
@@ -177,7 +177,7 @@ export class MaintenanceComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  // Gestion des étapes et outils
+  // Gestion des étapes et outilrequis
   addStep() {
     if (this.currentStepInput.trim()) {
       if (!this.newMaintenance.etapes) this.newMaintenance.etapes = [];
@@ -190,15 +190,15 @@ export class MaintenanceComponent implements OnInit {
     this.newMaintenance.etapes.splice(index, 1);
   }
 
-  addOutil(outil: string) {
-    if (outil.trim() && !this.newMaintenance.outils.includes(outil.trim())) {
-      if (!this.newMaintenance.outils) this.newMaintenance.outils = [];
-      this.newMaintenance.outils.push(outil.trim());
+  addOutil(outilrequis: string) {
+    if (outilrequis.trim() && !this.newMaintenance.outilrequis.includes(outilrequis.trim())) {
+      if (!this.newMaintenance.outilrequis) this.newMaintenance.outilrequis = [];
+      this.newMaintenance.outilrequis.push(outilrequis.trim());
     }
   }
 
   removeOutil(index: number) {
-    this.newMaintenance.outils.splice(index, 1);
+    this.newMaintenance.outilrequis.splice(index, 1);
   }
 
   addMaintenance(): void {

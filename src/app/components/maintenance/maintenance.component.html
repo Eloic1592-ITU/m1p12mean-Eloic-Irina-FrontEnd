@@ -28,15 +28,6 @@
   <a class="add-event-button" (click)="openAddModal()">Ajouter une fiche conseil</a>
 
   <!-- Liste des maintenances -->
-  <div class="pagination-info">
-    Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredMaintenances().length}} fiches
-  </div>
-  <div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
-    <span>Page {{currentPage}} / {{totalPages}}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
-  </div>
-
   <div class="event-list">
     <div *ngFor="let maint of paginatedMaintenances(); let i = index" class="event-item">
       <div class="event-info">
@@ -44,10 +35,10 @@
         <p><strong>Catégorie:</strong> {{ maint.categorie }}</p>
         <p><strong>Difficulté:</strong> {{ maint.difficulte }}</p>
         <p><strong>Description:</strong> {{ maint.description }}</p>
-        <div *ngIf="maint.outils && maint.outils.length > 0">
+        <div *ngIf="maint.outilrequis && maint.outilrequis.length > 0">
           <strong>Outils nécessaires:</strong>
           <ul>
-            <li *ngFor="let outil of maint.outils">{{ outil }}</li>
+            <li *ngFor="let outil of maint.outilrequis">{{ outil }}</li>
           </ul>
         </div>
         <div *ngIf="maint.etapes && maint.etapes.length > 0">
@@ -65,6 +56,15 @@
     <div *ngIf="filteredMaintenances().length === 0" class="no-events">
       Aucune fiche de maintenance trouvée
     </div>
+    <div class="pagination-info">
+      Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredMaintenances().length}} fiches
+    </div>
+    <div class="pagination-controls">
+      <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+      <span>Page {{currentPage}} / {{totalPages}}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+    </div>
+  
   </div>
 </div>
 
@@ -99,11 +99,11 @@
       
       <div>
         <label>Outils nécessaires</label>
-        <div *ngFor="let outil of newMaintenance.outils; let i = index" class="array-item">
-          {{ outil }} <button type="button" (click)="removeOutil(i)">×</button>
-        </div>
         <input type="text" #newOutil placeholder="Ajouter un outil">
-        <button type="button" (click)="addOutil(newOutil.value); newOutil.value=''">+ Ajouter</button>
+        <div *ngFor="let outilrequis of newMaintenance.outilrequis; let i = index" class="array-item">
+          {{ i+1 }}.{{ outilrequis }} <button type="button" (click)="removeOutil(i)">×</button>
+        </div>
+        <button type="button" (click)="addOutil(newOutil.value)">+ Ajouter</button>
       </div>
       
       <div>
