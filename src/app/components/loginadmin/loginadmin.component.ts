@@ -11,8 +11,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class LoginadminComponent {
   credentials = {
-    email: '',
-    motdepasse: '',
+    email: 'admin@gmail.com',
+    motdepasse: 'admin',
   };
 
   errorMessage = '';
