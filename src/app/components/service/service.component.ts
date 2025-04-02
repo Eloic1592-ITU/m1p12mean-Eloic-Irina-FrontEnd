@@ -3,7 +3,8 @@ import { ServiceService } from '../../services/service/service.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { formatDateForInput } from '../../utils/utils';
+// import { compressAccurately } from 'browser-image-compression';
+
 
 @Component({
   standalone: true,
@@ -14,7 +15,7 @@ import { formatDateForInput } from '../../utils/utils';
 })
 export class ServiceComponent implements OnInit {
   searchQuery: string = '';
-  priceFilter: string = '';
+  priceFilter:  Number = 0;
   categoryFilter: string = '';
   services: any[] = [];
   filteredResults: any[] = [];
@@ -32,9 +33,9 @@ export class ServiceComponent implements OnInit {
     duree: '',
     categorie: '',
     promotion: [],
-    image: 'default.jpg' 
+    image: '' 
   };
-  selectedFile: File | null = null;
+  imagePreview: string | null = null;
 
   isModalOpen = false;
   isEditMode = false;
@@ -70,7 +71,7 @@ export class ServiceComponent implements OnInit {
     
     // Filtre prix
     if (this.priceFilter) {
-      const priceValue = parseFloat(this.priceFilter);
+      const priceValue = this.priceFilter;
       results = results.filter(service => service.prix <= priceValue);
     }
     
@@ -88,7 +89,7 @@ export class ServiceComponent implements OnInit {
 
   resetFilters() {
     this.searchQuery = '';
-    this.priceFilter = '';
+    this.priceFilter = 0;
     this.categoryFilter = '';
     this.filteredResults = [];
     this.currentPage = 1;
@@ -134,13 +135,50 @@ export class ServiceComponent implements OnInit {
     }
   }
 
-  // Gestion des fichiers
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
-    if (this.selectedFile) {
-      this.newService.image = this.selectedFile.name;
-    }
-  }
+  // async onFileSelected(event: any) {
+  //   const file: File = event.target.files[0];
+    
+  //   if (!file) return;
+  
+  //   // Vérification du type
+  //   if (!file.type.match(/image\/(png|jpeg|jpg)/)) {
+  //     alert('Seuls les fichiers PNG, JPEG ou JPG sont autorisés !');
+  //     return;
+  //   }
+  
+  //   try {
+  //     // Compression de l'image
+  //     const options = {
+  //       maxSizeMB: 1,          // Taille maximale (1MB)
+  //       maxWidthOrHeight: 1920, // Résolution maximale
+  //       useWebWorker: true     // Pour ne pas bloquer le thread UI
+  //     };
+      
+  //     const compressedFile = await compressAccurately(file, options);
+      
+  //     // Conversion en Base64
+  //     const base64Image = await this.fileToBase64(compressedFile);
+      
+  //     // Stockage dans l'objet newService
+  //     this.newService.image = base64Image;
+  //     this.imagePreview = base64Image; // Aperçu
+  
+  //   } catch (error) {
+  //     console.error('Erreur:', error);
+  //     alert('Erreur lors du traitement de l\'image');
+  //   }
+  // }
+  
+// Fonction utilitaire pour conversion File -> Base64
+fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = error => reject(error);
+  });
+}
+
 
   // Gestion des modales
   openAddModal() {
@@ -167,17 +205,26 @@ export class ServiceComponent implements OnInit {
     this.isModalOpen = false;
   }
 
-  // CRUD Operations
-  addService(): void {
-    this.serviceService.addService(this.newService)
-      .subscribe({
-        next: () => {
-          this.loadServices();
-          this.closeModal();
-        },
-        error: (err) => console.error('Erreur:', err)
-      });
+// Méthode d'insertion
+addService(): void {
+  // Validation simple
+  if (!this.newService.nom) {
+    alert('Le nom du service est obligatoire');
+    return;
   }
+
+  this.serviceService.addService(this.newService)
+    .subscribe({
+      next: () => {
+        alert('Service ajouté avec succès');
+        this.loadServices(); // Si vous avez cette méthode
+        this.closeModal(); // Si vous travaillez avec une modal
+      },
+      error: (err) => {
+        console.error('Erreur:', err);
+      }
+    });
+}
 
   updateService() {
     this.serviceService.updateService(this.newService._id, this.newService)
@@ -204,3 +251,10 @@ export class ServiceComponent implements OnInit {
   }
 
 }
+function compressAccurately(file: File, arg1: {
+  size: number; // Taille cible en KB
+  accuracy: number;
+}): File | PromiseLike<File> {
+  throw new Error('Function not implemented.');
+}
+

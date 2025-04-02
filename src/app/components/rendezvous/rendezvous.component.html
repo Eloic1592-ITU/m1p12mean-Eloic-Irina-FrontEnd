@@ -1,82 +1,108 @@
-<div class="container">
-  <h1>Liste des Rendez-vous</h1>
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="login-title">Liste des Rendez-vous</h1>
 
-  <!-- Filtre de recherche (seulement pour la liste complète) -->
-  <div class="search-container">
-    <input
-      type="date"
-      [(ngModel)]="searchQuery"
-      placeholder="Rechercher par date"
-      class="search-input">
-    <button class="search-button" (click)="applyFilter()">Rechercher</button>
-  </div>
+    <!-- Filtre de recherche -->
+    <div class="search-container">
+      <input
+        type="date"
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher par date"
+        class="form-input">
+      <button class="login-button" (click)="applyFilter()">Rechercher</button>
+      <button class="secondary-button" (click)="resetFilter()" *ngIf="hasActiveFilters()">Réinitialiser</button>
+    </div>
 
-  <!-- Bouton Ajouter un rendez-vous -->
-  <a class="add-event-button" (click)="openAddModal()">Ajouter un rendez-vous</a>
+    <!-- Bouton Ajouter un rendez-vous -->
+    <button class="add-button" (click)="openAddModal()">
+      <i class="fas fa-plus"></i> Ajouter un rendez-vous
+    </button>
 
-  <!-- Liste des rendez-vous d'aujourd'hui -->
-  <h2>Rendez-vous pour aujourd'hui</h2>
-  <div class="event-list">
-    <div *ngFor="let rdv of todayRendezvous(); let i = index" class="event-item">
-      <div class="event-info">
-        <h3>Rendez-vous #{{ i + 1 }}</h3>
-        <p><strong>Date/Heure:</strong> {{ rdv.dateheure | date:'medium' }}</p>
-        <p><strong>Description:</strong> {{ rdv.description }}</p>
-        <p><strong>Statut:</strong> {{ rdv.statut }}</p>
+    <!-- Liste des rendez-vous d'aujourd'hui -->
+    <h2 class="section-title">Rendez-vous pour aujourd'hui</h2>
+    <div class="rdv-list">
+      <div *ngFor="let rdv of todayRendezvous(); let i = index" class="rdv-item today">
+        <div class="rdv-time">
+          <span class="time">{{ rdv.dateheure | date:'HH:mm' }}</span>
+        </div>
+        <div class="rdv-info">
+          <h3>Rendez-vous #{{ i + 1 }}</h3>
+          <p class="rdv-description">{{ rdv.description }}</p>
+          <span class="rdv-status" [class]="'status-' + rdv.statut.toLowerCase()">
+            {{ rdv.statut }}
+          </span>
+        </div>
+      </div>
+      <div *ngIf="todayRendezvous().length === 0" class="no-rdv">
+        <i class="fas fa-calendar-check"></i> Aucun rendez-vous prévu pour aujourd'hui
       </div>
     </div>
-    <div *ngIf="todayRendezvous().length === 0" class="no-events">
-      Aucun rendez-vous prévu pour aujourd'hui
-    </div>
-  </div>
 
-  <!-- Liste de tous les rendez-vous avec pagination -->
-  <h2>Tous vos rendez-vous</h2>
-  <div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
-    <span>Page {{currentPage}} / {{totalPages}}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
-  </div>
-  
-  <div class="event-list">
-    <div *ngFor="let rdv of paginatedRendezvous(); let i = index" class="event-item">
-      <div class="event-info">
-        <h3>Rendez-vous #{{ (currentPage - 1) * itemsPerPage + i + 1 }}</h3>
-        <p><strong>ID:</strong> {{ rdv._id }}</p>
-        <p><strong>Date/Heure:</strong> {{ rdv.dateheure | date:'medium' }}</p>
-        <p><strong>Description:</strong> {{ rdv.description }}</p>
-        <p><strong>Statut:</strong> {{ rdv.statut }}</p>
+    <!-- Liste de tous les rendez-vous avec pagination -->
+    <h2 class="section-title">Tous vos rendez-vous</h2>
+
+    <div class="rdv-list">
+      <div *ngFor="let rdv of paginatedRendezvous(); let i = index" class="rdv-item">
+        <div class="rdv-time">
+          <span class="date">{{ rdv.dateheure | date:'dd MMM' }}</span>
+          <span class="time">{{ rdv.dateheure | date:'HH:mm' }}</span>
+        </div>
+        <div class="rdv-info">
+          <h3>Rendez-vous #{{ (currentPage - 1) * itemsPerPage + i + 1 }}</h3>
+          <p class="rdv-description">{{ rdv.description }}</p>
+          <span class="rdv-status" [class]="'status-' + rdv.statut.toLowerCase()">
+            {{ rdv.statut }}
+          </span>
+        </div>
+        <div class="rdv-actions">
+          <button class="btn-edit" (click)="openEditModal(rdv)">
+            <i class="fas fa-edit"></i> Modifier
+          </button>
+          <button class="btn-delete" (click)="deleteRendezvous(rdv._id)">
+            <i class="fas fa-trash"></i> Supprimer
+          </button>
+          <button class="btn-details" (click)="detailservicevehicule(rdv._id)">
+            <i class="fas fa-info-circle"></i> Détails
+          </button>
+        </div>
       </div>
-      <div class="event-actions">
-        <button class="btn-modifier" (click)="openEditModal(rdv)">Modifier</button>
-        <button class="btn-supprimer" (click)="deleteRendezvous(rdv._id)">Supprimer</button>
-        <button class="btn-details" (click)="detailservicevehicule(rdv._id)">Voir les details</button>
+      <div class="pagination-info">
+        Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredRendezvous().length}} rendez-vous
       </div>
-    </div>
-    <div *ngIf="paginatedRendezvous().length === 0" class="no-events">
-      Aucun rendez-vous disponible
+      <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">Précédent</button>
+        <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">Suivant</button>
+      </div>
+      
+      <div *ngIf="paginatedRendezvous().length === 0" class="no-rdv">
+        <i class="fas fa-calendar-times"></i> Aucun rendez-vous disponible
+      </div>
     </div>
   </div>
 </div>
+
 <!-- Modal d'ajout/édition de rendez-vous -->
 <div class="modal" [ngClass]="{'open': isModalOpen}">
-<div class="modal-content">
-  <h2>{{ isEditMode ? 'Modifier un rendez-vous' : 'Ajouter un rendez-vous' }}</h2>
-  <form (ngSubmit)="isEditMode ? updateRendezvous() : addRendezvous()">
-    <input type="hidden" id="clientId" [(ngModel)]="newRendezvous.clientId" name="clientId" readonly>
-      <div>
-      <label for="dateheure">Date et Heure</label>
-      <input type="datetime-local" id="dateheure" [(ngModel)]="newRendezvous.dateheure" name="dateheure" required>
-    </div>
-    <div>
-      <label for="description">Description</label>
-      <textarea id="description" [(ngModel)]="newRendezvous.description" name="description" required></textarea>
-    </div>
-    
-    <div class="modal-actions">
-      <button type="submit">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
-      <button type="button" (click)="closeModal()">Annuler</button>
-    </div>
-  </form>
-</div>
+  <div class="modal-content">
+    <h2>{{ isEditMode ? 'Modifier un rendez-vous' : 'Ajouter un rendez-vous' }}</h2>
+    <form (ngSubmit)="isEditMode ? updateRendezvous() : addRendezvous()" class="modal-form">
+      <input type="hidden" id="clientId" [(ngModel)]="newRendezvous.clientId" name="clientId">
+      
+      <div class="form-group">
+        <label for="dateheure">Date et Heure</label>
+        <input type="datetime-local" id="dateheure" [(ngModel)]="newRendezvous.dateheure" name="dateheure" required class="form-input">
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="newRendezvous.description" name="description" required class="form-input"></textarea>
+      </div>
+      
+      <div class="modal-actions">
+        <button type="button" (click)="closeModal()" class="secondary-button">Annuler</button>
+        <button type="submit" class="login-button">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
+      </div>
+    </form>
+  </div>
 </div>

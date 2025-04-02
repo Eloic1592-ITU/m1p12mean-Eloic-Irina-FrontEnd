@@ -1,74 +1,101 @@
-<div class="container">
-  <h1>Liste des Événements</h1>
+<div class="login-container">
+  <div class="login-card">
+    <h1 class="login-title">Liste des Événements</h1>
 
-  <!-- Filtre de recherche -->
-  <div class="search-container">
-    <input
-      type="text"
-      [(ngModel)]="searchQuery"
-      placeholder="Rechercher par nom/description"
-      class="search-input">
-    <button class="search-button" (click)="applyFilters()">Rechercher</button>
-    <!-- <button class="reset-button" (click)="resetFilters()" *ngIf="hasActiveFilters()">Réinitialiser</button> -->
-  </div>
+    <!-- Filtre de recherche -->
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher par nom/description"
+        class="form-input">
+      <button class="login-button" (click)="applyFilters()">Rechercher</button>
+      <button class="secondary-button" (click)="resetFilters()" *ngIf="hasActiveFilters()">Réinitialiser</button>
+    </div>
 
-  <!-- Bouton Ajouter un événement -->
-  <a class="add-event-button" (click)="openAddModal()">Ajouter un événement</a>
+    <!-- Bouton Ajouter un événement -->
+    <button class="add-button" (click)="openAddModal()">
+      <i class="fas fa-plus"></i> Ajouter un événement
+    </button>
 
-  <!-- Événements en cours -->
-  <h2>Événements en cours</h2>
-  <div class="event-list">
-    <div *ngFor="let evenement of currentEvents(); let i = index" class="event-item">
-      <div class="event-img">
-        <!-- <img [src]="evenement.image" [alt]="evenement.nom"> -->
+    <!-- Événements en cours -->
+    <h2 class="section-title">Événements en cours</h2>
+    <div class="event-list">
+      <div *ngFor="let evenement of currentEvents()" class="event-item">
+        <div class="event-img">
+          <img src="/src/app/assets/img/no-picture.png" alt="Image">
+        </div>
+        <div class="event-info">
+          <h3>{{ evenement.nom }}</h3>
+          <p class="event-description">{{ evenement.description }}</p>
+          <div class="event-dates">
+            <span class="date-badge">
+              <i class="fas fa-calendar-day"></i> {{ evenement.datedebut | date:'mediumDate' }}
+            </span>
+            <span class="date-badge">
+              <i class="fas fa-calendar-times"></i> {{ evenement.datefin | date:'mediumDate' }}
+            </span>
+          </div>
+        </div>
+        <div class="event-actions">
+          <button class="btn-promotion" (click)="promotion(evenement._id)">
+            <i class="fas fa-tag"></i> Promotions
+          </button>
+          <button class="btn-edit" (click)="openEditModal(evenement)">
+            <i class="fas fa-edit"></i> Modifier
+          </button>
+          <button class="btn-delete" (click)="deleteEvent(evenement._id)">
+            <i class="fas fa-trash"></i> Supprimer
+          </button>
+        </div>
       </div>
-      <div class="event-info">
-        <h3>{{ evenement.nom }}</h3>
-        <p><strong>Description:</strong> {{ evenement.description }}</p>
-        <p><strong>Date début:</strong> {{ evenement.datedebut | date:'mediumDate' }}</p>
-        <p><strong>Date fin:</strong> {{ evenement.datefin | date:'mediumDate' }}</p>
-      </div>
-      <div class="event-actions">
-        <button class="btn-promotion" (click)="promotion(evenement._id)">Promotions</button>
-        <button class="btn-modifier" (click)="openEditModal(evenement)">Modifier</button>
-        <button class="btn-supprimer" (click)="deleteEvent(evenement._id)">Supprimer</button>
+      <div *ngIf="currentEvents().length === 0" class="no-events">
+        <i class="fas fa-calendar-check"></i> Aucun événement en cours
       </div>
     </div>
-    <div *ngIf="currentEvents().length === 0" class="no-events">
-      Aucun événement en cours
-    </div>
-  </div>
 
-  <!-- Tous les événements avec pagination -->
-  <h2>Tous les événements</h2>
-  <div class="pagination-info">
-    Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredEvents().length}} événements
-  </div>
-  <div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
-    <span>Page {{currentPage}} / {{totalPages}}</span>
-    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
-  </div>
-  
-  <div class="event-list">
-    <div *ngFor="let evenement of paginatedEvents()" class="event-item">
-      <div class="event-img">
-        <!-- <img [src]="evenement.image" [alt]="evenement.nom"> -->
+    <!-- Tous les événements avec pagination -->
+    <h2 class="section-title">Tous les événements</h2>
+    <div class="event-list">
+      <div *ngFor="let evenement of paginatedEvents()" class="event-item">
+        <div class="event-img">
+          <img alt="Image de l'evenement"[src]="evenement.image || 'assets/default-event.jpg'" [alt]="evenement.nom">
+        </div>
+        <div class="event-info">
+          <h3>{{ evenement.nom }}</h3>
+          <p class="event-description">{{ evenement.description }}</p>
+          <div class="event-dates">
+            <span class="date-badge">
+              <i class="fas fa-calendar-day"></i> {{ evenement.datedebut | date:'mediumDate' }}
+            </span>
+            <span class="date-badge">
+              <i class="fas fa-calendar-times"></i> {{ evenement.datefin | date:'mediumDate' }}
+            </span>
+          </div>
+        </div>
+        <div class="event-actions">
+          <button class="btn-promotion" (click)="promotion(evenement._id)">
+            <i class="fas fa-tag"></i> Promotions
+          </button>
+          <button class="btn-edit" (click)="openEditModal(evenement)">
+            <i class="fas fa-edit"></i> Modifier
+          </button>
+          <button class="btn-delete" (click)="deleteEvent(evenement._id)">
+            <i class="fas fa-trash"></i> Supprimer
+          </button>
+        </div>
       </div>
-      <div class="event-info">
-        <h3>{{ evenement.nom }}</h3>
-        <p><strong>Description:</strong> {{ evenement.description }}</p>
-        <p><strong>Date début:</strong> {{ evenement.datedebut | date:'mediumDate' }}</p>
-        <p><strong>Date fin:</strong> {{ evenement.datefin | date:'mediumDate' }}</p>
+      <div class="pagination-info">
+        Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredEvents().length}} événements
       </div>
-      <div class="event-actions">
-        <button class="btn-promotion" (click)="promotion(evenement._id)">Promotions</button>
-        <button class="btn-modifier" (click)="openEditModal(evenement)">Modifier</button>
-        <button class="btn-supprimer" (click)="deleteEvent(evenement._id)">Supprimer</button>
+      <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">Précédent</button>
+        <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">Suivant</button>
       </div>
-    </div>
-    <div *ngIf="filteredEvents().length === 0" class="no-events">
-      Aucun événement trouvé
+      <div *ngIf="filteredEvents().length === 0" class="no-events">
+        <i class="fas fa-calendar-times"></i> Aucun événement trouvé
+      </div>
     </div>
   </div>
 </div>
@@ -77,31 +104,31 @@
 <div class="modal" [ngClass]="{'open': isModalOpen}">
   <div class="modal-content">
     <h2>{{ isEditMode ? 'Modifier un événement' : 'Ajouter un événement' }}</h2>
-    <form (ngSubmit)="isEditMode ? updateEvent() : addEvent()" enctype="multipart/form-data">
-      <div>
+    <form (ngSubmit)="isEditMode ? updateEvent() : addEvent()" enctype="multipart/form-data" class="modal-form">
+      <div class="form-group">
         <label for="nom">Nom de l'événement</label>
-        <input type="text" id="nom" [(ngModel)]="newEvenement.nom" name="nom" required>
+        <input type="text" id="nom" [(ngModel)]="newEvenement.nom" name="nom" required class="form-input">
       </div>
-      <div>
+      <div class="form-group">
         <label for="description">Description</label>
-        <textarea id="description" [(ngModel)]="newEvenement.description" name="description" required></textarea>
+        <textarea id="description" [(ngModel)]="newEvenement.description" name="description" required class="form-input"></textarea>
       </div>
-      <div>
+      <div class="form-group">
         <label for="datedebut">Date de début</label>
-        <input type="date" id="datedebut" [(ngModel)]="newEvenement.datedebut" name="datedebut" required>
+        <input type="date" id="datedebut" [(ngModel)]="newEvenement.datedebut" name="datedebut" required class="form-input">
       </div>
-      <div>
+      <div class="form-group">
         <label for="datefin">Date de fin</label>
-        <input type="date" id="datefin" [(ngModel)]="newEvenement.datefin" name="datefin" required>
+        <input type="date" id="datefin" [(ngModel)]="newEvenement.datefin" name="datefin" required class="form-input">
       </div>
-      <div>
+      <div class="form-group">
         <label for="image">Image</label>
-        <input type="file" id="image" (change)="onFileSelected($event)" name="image">
+        <input type="file" id="image" (change)="onFileSelected($event)" name="image" class="form-input-file">
       </div>
       
       <div class="modal-actions">
-        <button type="submit">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
-        <button type="button" (click)="closeModal()">Annuler</button>
+        <button type="button" (click)="closeModal()" class="secondary-button">Annuler</button>
+        <button type="submit" class="login-button">{{ isEditMode ? 'Mettre à jour' : 'Ajouter' }}</button>
       </div>
     </form>
   </div>

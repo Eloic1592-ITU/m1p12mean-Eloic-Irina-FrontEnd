@@ -46,6 +46,7 @@ export class RendezvousmecanicienComponent implements OnInit {
     this.totalPages = Math.ceil(totalItems / this.itemsPerPage);
   }
 
+
   // Filtrage
   applyFilter() {
     if (!this.searchQuery) {
@@ -71,6 +72,32 @@ export class RendezvousmecanicienComponent implements OnInit {
     this.currentPage = 1;
     this.calculateTotalPages();
   }
+  resetFilter() {
+    this.searchQuery = '';
+    this.filteredResults = [];
+    this.currentPage = 1;
+    this.calculateTotalPages();
+  }
+  
+  hasActiveFilters(): boolean {
+    return !!this.searchQuery ;
+  }
+
+
+  // Pagination
+  filteredRendezvous() {
+    return this.filteredResults.length > 0 ? this.filteredResults : this.rendezvous;
+  }
+
+    
+  firstItemOnPage(): number {
+    return (this.currentPage - 1) * this.itemsPerPage + 1;
+  }
+
+  lastItemOnPage(): number {
+    return Math.min(this.currentPage * this.itemsPerPage, this.filteredRendezvous().length);
+  }
+
 
   nextPage() {
     if (this.currentPage < this.totalPages) {

@@ -54,7 +54,7 @@ export class ServicevehiculeComponent implements OnInit {
   ngOnInit(): void { 
     this.id = this.route.snapshot.paramMap.get('id');
     this.clientId = this.route.snapshot.paramMap.get('clientId');
-    alert(this.clientId);
+    // alert(this.clientId);
     this.loadServiceVehicule();
     this.loadServices();
     this.loadVehicule();
@@ -127,6 +127,16 @@ export class ServicevehiculeComponent implements OnInit {
     this.calculateTotalPages();
   }
 
+  resetFilter() {
+    this.filteredResults = [];
+    this.currentPage = 1;
+    this.calculateTotalPages();
+  }
+  
+  hasActiveFilters(): boolean {
+    return  !!this.startDate || !!this.endDate;
+  }
+
   // Pagination
   calculateTotalPages() {
     const totalItems = this.filteredResults.length;
@@ -137,6 +147,19 @@ export class ServicevehiculeComponent implements OnInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     return this.filteredResults.slice(startIndex, endIndex);
+  }
+  // Pagination
+  filteredServiceVehicule() {
+    return this.filteredResults.length > 0 ? this.filteredResults : this.servicevehicules;
+  }
+
+    
+  firstItemOnPage(): number {
+    return (this.currentPage - 1) * this.itemsPerPage + 1;
+  }
+
+  lastItemOnPage(): number {
+    return Math.min(this.currentPage * this.itemsPerPage, this.filteredServiceVehicule().length);
   }
 
   nextPage() {
@@ -170,8 +193,9 @@ export class ServicevehiculeComponent implements OnInit {
     this.newServicevehicule = { 
       ...servicevehicule,
       datedebut: formatDateForInput(servicevehicule.datedebut),
-      datefin: formatDateForInput(servicevehicule.datefin)
+      datefin: formatDateForInput(servicevehicule.datefin),
     };
+    alert(servicevehicule.vehiculeId),
     this.isModalOpen = true;
   }
 

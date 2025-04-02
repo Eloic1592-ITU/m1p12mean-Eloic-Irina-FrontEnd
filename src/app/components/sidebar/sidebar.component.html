@@ -3,54 +3,46 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
-<!-- Barre de navigation en haut -->
-<div class="header">
+<!-- <div class="header">
   <div class="header-left">
     <span class="logo">Garage</span>
   </div>
 
   <div class="header-right">
     <a href="#" class="logout-icon">
-      <i class="fa fa-sign-out"></i> Déconnexion
+      <i class="fas fa-sign-out-alt"></i> Déconnexion
     </a>
   </div>
 
-  <!-- Bouton pour basculer la sidebar sur petits écrans -->
-  <span class="sidebar-toggle" onclick="toggleSidebar()">☰</span>
-</div>
+  <span class="sidebar-toggle" ((click))="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </span>
+</div> -->
 
 <!-- Sidebar -->
 <div class="sidebar">
+  <div class="sidebar-header">
+    <h3><i class="fas fa-car"></i> Menu Principal</h3>
+  </div>
   <ul class="sidebar-list">
-    <li><a routerLink="/dashboard" routerLinkActive="active"><i class="fa fa-tachometer-alt"></i> Tableau de bord</a></li>
-    <li><a routerLink="/profit" routerLinkActive="active"><i class="fa fa-dollar-sign"></i> Profit</a></li>
-    <li><a routerLink="/rendezvous" routerLinkActive="active" class="sidebar-link"><i class="fa fa-calendar-check"></i> Rendez-vous</a></li>
-    <li><a routerLink="/planning" routerLinkActive="active"><i class="fa fa-calendar"></i> Calendrier</a></li>
-    <li><a routerLink="/Non validé" routerLinkActive="active"><i class="fa fa-exclamation-circle"></i> Non validé</a></li>
-    <li><a routerLink="/mecanicien" routerLinkActive="active"><i class="fa fa-cogs"></i> Mécanicien</a></li>
-    <li><a routerLink="/profil_mecanicien" routerLinkActive="active"><i class="fa fa-user-circle"></i> Profil</a></li>
-    <li><a routerLink="/conge" routerLinkActive="active" class="sidebar-link"><i class="fa fa-sun"></i> Congé</a></li>
-    <li><a routerLink="/conge_absence" routerLinkActive="active" class="sidebar-link"><i class="fa fa-bed"></i> Congé et absences</a></li>
-    <li><a routerLink="/service" class="sidebar-link"><i class="fa fa-wrench"></i> Services</a></li>
-    <li><a routerLink="/stock" routerLinkActive="active"><i class="fa fa-box"></i> Stock</a></li>
-    <li><a routerLink="/evenement" routerLinkActive="active"><i class="fa fa-calendar-alt"></i> Événement</a></li>
-    <li><a routerLink="/listService" routerLinkActive="active"><i class="fa fa-list"></i> Liste Service</a></li>
-    <li><a routerLink="/promotion" routerLinkActive="active"><i class="fa fa-tag"></i> Promotion</a></li>
-    <li><a routerLink="/devis" routerLinkActive="active"><i class="fa fa-file-invoice"></i> Devis</a></li>
+    <li><a routerLink="/dashboard" routerLinkActive="active"><i class="fas fa-tachometer-alt"></i> Tableau de bord</a></li>
+    <li><a routerLink="/rendezvous" routerLinkActive="active" class="active"><i class="fas fa-calendar-check"></i> Rendez-vous</a></li>
+    <li><a routerLink="/mecanicien" routerLinkActive="active"><i class="fas fa-cogs"></i> Mécanicien</a></li>
+    <li><a routerLink="/profil_mecanicien" routerLinkActive="active"><i class="fas fa-user-circle"></i> Profil</a></li>
+    <li><a routerLink="/conge" routerLinkActive="active"><i class="fas fa-sun"></i> Congé</a></li>
+    <li><a routerLink="/service"><i class="fas fa-wrench"></i> Services</a></li>
+    <li><a routerLink="/evenement" routerLinkActive="active"><i class="fas fa-calendar-alt"></i> Événement</a></li>
   </ul>
 </div>
 
-
 <!-- Contenu principal -->
 <div class="content">
-  <!-- Contenu principal ici -->
+  <!-- Votre contenu principal ici -->
 </div>
 
 <script>
-  // Fonction pour ouvrir/fermer la sidebar sur les petits écrans
-function toggleSidebar() {
-  const sidebar = document.querySelector('.sidebar');
-  sidebar.classList.toggle('open');
-}
-
+  function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('open');
+  }
 </script>

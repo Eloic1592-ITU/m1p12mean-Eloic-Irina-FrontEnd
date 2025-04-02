@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,11 +7,13 @@ import { Component } from '@angular/core';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  showSidebar = true;
+  @Output() closeSidebar = new EventEmitter<void>();
 
-  userRole: string = 'mecanicien'; // Simuler un rôle de mécanicien pour l'exemple
-
-  // Logiciel pour afficher/masquer les liens en fonction du rôle
-  isMecanicien(): boolean {
-    return this.userRole === 'mecanicien';
+  onClose() {
+    this.closeSidebar.emit();
+  }
+  toggleSidebar() {
+    this.showSidebar = !this.showSidebar;
   }
 }

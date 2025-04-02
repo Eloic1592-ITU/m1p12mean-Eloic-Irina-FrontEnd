@@ -177,6 +177,7 @@ export class EvenementComponent implements OnInit {
     this.evenementservice.addEvenement(this.newEvenement)
       .subscribe({
         next: () => {
+          alert('Service ajouté avec succès');
           this.loadEvenement();
           this.closeModal();
         },
