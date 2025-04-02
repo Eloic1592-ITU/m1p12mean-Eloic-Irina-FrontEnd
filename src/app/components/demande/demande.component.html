@@ -36,12 +36,12 @@
             <span class="date-badge">
               <i class="fas fa-calendar-times"></i> {{ demande.datefin | date:'mediumDate' }}
             </span>
-            <span class="date-badge" [ngClass]="'statut-' + demande.statut.toLowerCase()">
+            <span class="date-badge" [ngClass]="'statut-' + demande.statut.toLowerCase()" >
               <i class="fas fa-info-circle"></i> {{ demande.statut }}
             </span>
           </div>
         </div>
-        <div class="event-actions">
+        <div class="event-actions"*ngIf="showActions(demande.statut)">
           <button class="btn-edit" (click)="openEditModal(demande)">
             <i class="fas fa-edit"></i> Modifier
           </button>
@@ -57,15 +57,6 @@
 
     <!-- Toutes les demandes avec pagination -->
     <h2 class="section-title">Toutes les demandes</h2>
-    <div class="pagination-info">
-      Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredDemandes().length}} demandes
-    </div>
-    <div class="pagination-controls">
-      <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">Précédent</button>
-      <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">Suivant</button>
-    </div>
-    
     <div class="event-list">
       <div *ngFor="let demande of paginatedDemandes()" class="event-item">
         <div class="event-info">
@@ -83,7 +74,7 @@
             </span>
           </div>
         </div>
-        <div class="event-actions">
+        <div class="event-actions" *ngIf="showActions(demande.statut)">
           <button class="btn-edit" (click)="openEditModal(demande)">
             <i class="fas fa-edit"></i> Modifier
           </button>
@@ -91,6 +82,14 @@
             <i class="fas fa-trash"></i> Supprimer
           </button>
         </div>
+      </div>
+      <div class="pagination-info">
+        Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredDemandes().length}} demandes
+      </div>
+      <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">Précédent</button>
+        <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">Suivant</button>
       </div>
       <div *ngIf="filteredDemandes().length === 0" class="no-events">
         <i class="fas fa-inbox"></i> Aucune demande trouvée
