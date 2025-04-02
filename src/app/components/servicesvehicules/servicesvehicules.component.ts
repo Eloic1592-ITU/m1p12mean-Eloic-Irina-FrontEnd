@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ServicevehiculeService } from '../../services/servicevehicule/servicevehicule.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -26,7 +26,8 @@ export class ServicesvehiculesComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private servicevehiculeservice: ServicevehiculeService
+    private servicevehiculeservice: ServicevehiculeService,
+    private router: Router
   ) {}
   
   ngOnInit(): void {
@@ -107,6 +108,10 @@ export class ServicesvehiculesComponent {
     
       this.currentPage = 1;
       this.calculateTotalPages();
+    }
+    
+    avis(serviceVehiculeId: string): void{
+      this.router.navigate(['/avis',serviceVehiculeId]);
     }
 
 }
