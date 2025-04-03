@@ -42,7 +42,6 @@ export class ApercuavisComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
-    alert(this.id);
     this.loadAvisClient();
   }
 

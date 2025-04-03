@@ -24,9 +24,12 @@
     
     <div class="event-list">
       <div *ngFor="let rdv of paginatedRendezvous(); let i = index" class="event-item">
+        <div class="event-img">
+          <img src="{{rdv.clientimage}}" alt="{{rdv.clientnom}}"> 
+        </div>
         <div class="event-info">
+          
           <h3>Rendez-vous #{{ (currentPage - 1) * itemsPerPage + i + 1 }}</h3>
-          <p><strong>ID:</strong> {{ rdv._id}}</p>
           <p><strong>Nom du client:</strong> {{ rdv.clientnom }}</p>
           <p><strong>Date/Heure:</strong> {{ rdv.dateheure | date:'medium' }}</p>
           <p><strong>Description:</strong> {{ rdv.description }}</p>

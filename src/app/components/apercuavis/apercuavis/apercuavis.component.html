@@ -15,11 +15,14 @@
     <!-- Liste des avis -->  
     <div class="avis-list">
       <div *ngFor="let avis of paginatedAvis()" class="avis-item">
+        <div class="avis-img">
+          <img src="{{avis.clientimage}}" alt="{{avis.clientnom}}"> 
+        </div>
         <div class="avis-info">
           <h3><p>{{ avis.clientnom }}</p></h3>
           <p><strong>Commentaire: </strong> {{ avis.description }}</p>
           <p><strong>Note: </strong> {{ avis.note }}</p>
-          <p><strong>Publie le: </strong> {{ avis.createdAt }}</p>
+          <p><strong>Publie le: </strong> {{ avis.createdAt  }}</p>
         </div>
       </div>
       <div *ngIf="filteredAvis().length === 0" class="no-avis">

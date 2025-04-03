@@ -139,6 +139,19 @@
     gap: 10px;
     align-items: flex-start;
   }
+  .avis-img {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+  }
+  
+  .avis-img img 
+  {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
   
   .btn-modifier, .btn-supprimer {
     display: inline-flex;
