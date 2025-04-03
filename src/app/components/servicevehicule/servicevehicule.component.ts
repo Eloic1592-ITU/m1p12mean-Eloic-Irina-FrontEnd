@@ -232,4 +232,9 @@ export class ServicevehiculeComponent implements OnInit {
       });
     }
   }
+
+  generateInvoice(){
+    // alert("ID RENDEZ-VOUS:"+this.id);
+    this.router.navigate(['/facture',this.id]);
+  }
 }

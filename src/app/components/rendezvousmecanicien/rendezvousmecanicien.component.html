@@ -27,6 +27,9 @@
     <div class="event-grid">
       <div *ngFor="let rdv of paginatedRendezvous(); let i = index" class="event-card">
         <div class="event-header">
+          <div class="event-img">
+            <img src="{{rdv.clientimage}}" alt="{{rdv.clientnom}}"> 
+          </div>
           <h3 class="event-title">{{ rdv.clientnom }}</h3>
           <div class="event-actions">
             <button class="action-button modify" (click)="voirservices(rdv._id, rdv.clientId)">

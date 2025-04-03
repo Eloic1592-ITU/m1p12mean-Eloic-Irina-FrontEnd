@@ -1,0 +1,38 @@
+<div class="container">
+    <h1>Avis sur ce service</h1>
+  
+    <!-- Filtre de recherche -->
+    <!-- <div class="search-container">
+      <input
+        type="date"
+        [(ngModel)]="searchQuery"
+        placeholder="Rechercher par date"
+        class="search-input">
+      <button class="search-button" (click)="applyFilter()">Rechercher</button>
+      <button class="reset-button" (click)="resetFilters()" *ngIf="hasActiveFilters()">Réinitialiser</button>
+    </div> -->
+ 
+    <!-- Liste des avis -->  
+    <div class="avis-list">
+      <div *ngFor="let avis of paginatedAvis()" class="avis-item">
+        <div class="avis-info">
+          <h3><p>{{ avis.clientnom }}</p></h3>
+          <p><strong>Commentaire: </strong> {{ avis.description }}</p>
+          <p><strong>Note: </strong> {{ avis.note }}</p>
+          <p><strong>Publie le: </strong> {{ avis.createdAt }}</p>
+        </div>
+      </div>
+      <div *ngIf="filteredAvis().length === 0" class="no-avis">
+        Aucun avis trouvé
+      </div>
+      <div class="pagination-info">
+        Affichage {{firstItemOnPage()}}-{{lastItemOnPage()}} sur {{filteredAvis().length}} véhicules
+      </div>
+      <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+        <span>Page {{currentPage}} / {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+      </div>
+    </div>
+  </div>
+  

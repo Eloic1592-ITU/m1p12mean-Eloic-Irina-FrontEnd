@@ -3,6 +3,7 @@ import { ServiceService } from '../../services/service/service.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ImageUtilsService } from '../../services/image/image.service';
 // import { compressAccurately } from 'browser-image-compression';
 
 
@@ -35,12 +36,12 @@ export class ServiceComponent implements OnInit {
     promotion: [],
     image: '' 
   };
-  imagePreview: string | null = null;
+  selectedFile: File | null = null;
 
   isModalOpen = false;
   isEditMode = false;
 
-  constructor(private serviceService: ServiceService, private router: Router) {}
+  constructor(private serviceService: ServiceService, private router: Router,private imageservice: ImageUtilsService) {}
 
   ngOnInit(): void {
     this.loadServices();
@@ -135,49 +136,15 @@ export class ServiceComponent implements OnInit {
     }
   }
 
-  // async onFileSelected(event: any) {
-  //   const file: File = event.target.files[0];
-    
-  //   if (!file) return;
-  
-  //   // Vérification du type
-  //   if (!file.type.match(/image\/(png|jpeg|jpg)/)) {
-  //     alert('Seuls les fichiers PNG, JPEG ou JPG sont autorisés !');
-  //     return;
-  //   }
-  
-  //   try {
-  //     // Compression de l'image
-  //     const options = {
-  //       maxSizeMB: 1,          // Taille maximale (1MB)
-  //       maxWidthOrHeight: 1920, // Résolution maximale
-  //       useWebWorker: true     // Pour ne pas bloquer le thread UI
-  //     };
-      
-  //     const compressedFile = await compressAccurately(file, options);
-      
-  //     // Conversion en Base64
-  //     const base64Image = await this.fileToBase64(compressedFile);
-      
-  //     // Stockage dans l'objet newService
-  //     this.newService.image = base64Image;
-  //     this.imagePreview = base64Image; // Aperçu
-  
-  //   } catch (error) {
-  //     console.error('Erreur:', error);
-  //     alert('Erreur lors du traitement de l\'image');
-  //   }
-  // }
-  
-// Fonction utilitaire pour conversion File -> Base64
-fileToBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = error => reject(error);
-  });
-}
+
+  // Gestion des fichiers
+  onFileSelected(event: any): void {
+    this.selectedFile = event.target.files[0];
+    if (this.selectedFile) {
+      this.newService.image = this.selectedFile.name;
+    }
+  }
+
 
 
   // Gestion des modales
@@ -205,12 +172,11 @@ fileToBase64(file: File): Promise<string> {
     this.isModalOpen = false;
   }
 
+
 // Méthode d'insertion
-addService(): void {
-  // Validation simple
-  if (!this.newService.nom) {
-    alert('Le nom du service est obligatoire');
-    return;
+async addService(): Promise<void> {
+  if (this.selectedFile) {
+    this.newService.image = await this.imageservice.compressImage(this.selectedFile, 800);
   }
 
   this.serviceService.addService(this.newService)
@@ -226,7 +192,10 @@ addService(): void {
     });
 }
 
-  updateService() {
+async updateService(): Promise<void>  {
+    if (this.selectedFile) {
+      this.newService.image = await this.imageservice.compressImage(this.selectedFile, 800);
+    }
     this.serviceService.updateService(this.newService._id, this.newService)
       .subscribe({
         next: () => {

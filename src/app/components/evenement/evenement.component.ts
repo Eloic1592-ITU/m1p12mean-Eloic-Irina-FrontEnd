@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { formatDateForInput } from '../../utils/utils';
+import { ImageUtilsService } from '../../services/image/image.service';
 
 @Component({
   standalone: true,
@@ -28,14 +29,14 @@ export class EvenementComponent implements OnInit {
     description: '', 
     datedebut: '', 
     datefin: '', 
-    image: 'default.jpg' 
+    image: '' 
   };
   selectedFile: File | null = null;
 
   isModalOpen = false;
   isEditMode = false;
 
-  constructor(private evenementservice: EvenementService, private router: Router) {}
+  constructor(private evenementservice: EvenementService, private router: Router,private imageservice: ImageUtilsService) {}
 
   ngOnInit(): void {
     this.loadEvenement();
@@ -154,7 +155,7 @@ export class EvenementComponent implements OnInit {
       description: '', 
       datedebut: '', 
       datefin: '', 
-      image: 'default.jpg' 
+      image: '' 
     };
   }
 
@@ -173,11 +174,14 @@ export class EvenementComponent implements OnInit {
   }
 
   // CRUD Operations
-  addEvent(): void {
+  async addEvent(): Promise<void> {
+    if (this.selectedFile) {
+      this.newEvenement.image = await this.imageservice.compressImage(this.selectedFile, 800);
+    }
     this.evenementservice.addEvenement(this.newEvenement)
       .subscribe({
         next: () => {
-          alert('Service ajouté avec succès');
+          alert('Evenement ajouté avec succès');
           this.loadEvenement();
           this.closeModal();
         },
@@ -185,10 +189,14 @@ export class EvenementComponent implements OnInit {
       });
   }
 
-  updateEvent() {
+  async updateEvent(): Promise<void>  {
+    if (this.selectedFile) {
+      this.newEvenement.image = await this.imageservice.compressImage(this.selectedFile, 800);
+    }
     this.evenementservice.updateEvenement(this.newEvenement._id, this.newEvenement)
       .subscribe({
         next: () => {
+          alert('Evenement mise a jour avec succès');
           this.loadEvenement();
           this.closeModal();
         },

@@ -28,7 +28,7 @@ export class VehiculeComponent implements OnInit {
     annee: 0, 
     Immatriculation: '', 
     kilometrage: '',
-    image: 'default.jpg',
+    image: '',
     clientId: ''
   };
   selectedFile: File | null = null;
@@ -145,7 +145,7 @@ export class VehiculeComponent implements OnInit {
       annee: 0, 
       Immatriculation: '', 
       kilometrage: '',
-      image: 'default.jpg',
+      image:'',
       clientId: this.storageService.getUserId()
     };
   }
@@ -159,27 +159,66 @@ export class VehiculeComponent implements OnInit {
   closeModal() {
     this.isModalOpen = false;
   }
+// vehicule.component.ts
+async compressImage(file: File, maxWidth: number, quality: number = 0.7): Promise<string> {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target!.result as string;
+      
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const scale = Math.min(maxWidth / img.width, 1);
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        
+        const ctx = canvas.getContext('2d')!;
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        resolve(canvas.toDataURL('image/jpeg', quality)); // Retourne en Base64
+      };
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
-  // CRUD Operations
-  addVehicule(): void {
-    this.vehiculeservice.addVehicule(this.newVehicule).subscribe({
+async addVehicule(): Promise<void> {
+  if (this.selectedFile) {
+    this.newVehicule.image = await this.compressImage(this.selectedFile, 800);
+  }
+
+  this.vehiculeservice.addVehicule(this.newVehicule).subscribe({
+    next: () => {
+      this.loadVehicule();
+      this.closeModal();
+    },
+    error: (err) => console.error('Erreur:', err)
+  });
+}
+
+
+async updateVehicule(): Promise<void> {
+  try {
+    if (this.selectedFile) {
+      this.newVehicule.image = await this.compressImage(this.selectedFile, 800);
+    }
+    this.vehiculeservice.updateVehicule(
+      this.newVehicule._id,
+      this.newVehicule
+    ).subscribe({
       next: () => {
         this.loadVehicule();
         this.closeModal();
-      },
-      error: (err) => console.error('Erreur:', err)
-    });
-  }
 
-  updateVehicule() {
-    this.vehiculeservice.updateVehicule(this.newVehicule._id,this.newVehicule).subscribe({
-      next: () => {
-        this.loadVehicule();
-        this.closeModal();
       },
       error: (err) => console.error('Erreur:', err)
     });
+  } catch (error) {
+    console.error('Erreur de compression:', error);
+    alert('Échec de la mise à jour : problème d\'image');
   }
+}
 
   deleteVehicule(id: string) {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) {

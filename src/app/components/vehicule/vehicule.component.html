@@ -32,7 +32,7 @@
     <div class="event-list">
       <div *ngFor="let vehicule of paginatedVehicules()" class="event-item">
         <div class="event-img">
-          <img [src]="vehicule.image || 'assets/default-vehicle.jpg'" alt="{{vehicule.marque}} {{vehicule.modele}}">
+          <img src="{{vehicule.image}}" alt="{{vehicule.marque}} {{vehicule.modele}}"> 
         </div>
         <div class="event-info">
           <h3>{{ vehicule.marque }} {{ vehicule.modele }}</h3>
@@ -95,7 +95,7 @@
       
       <div class="form-group">
         <label for="image">Image</label>
-        <input type="file" id="image" (change)="onFileSelected($event)" name="image" class="form-input-file">
+        <input type="file" id="image" (change)="onFileSelected($event)" [(ngModel)]="newVehicule.image" name="image" class="form-input-file">
       </div>
       
       <div class="modal-actions">

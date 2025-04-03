@@ -25,6 +25,7 @@ import { ValidationdemandeComponent } from './components/validationdemande/valid
 import { RendezvousmecanicienComponent } from './components/rendezvousmecanicien/rendezvousmecanicien.component';
 import { DetailservicevehiculeComponent } from './components/detailservicevehicule/detailservicevehicule.component';
 import { ServicesvehiculesComponent } from './components/servicesvehicules/servicesvehicules.component';
+import { ApercuavisComponent } from './components/apercuavis/apercuavis/apercuavis.component';
 
 export const routes: Routes = [ 
     // Redirection par défaut
@@ -82,9 +83,13 @@ export const routes: Routes = [
 
     { path: 'avis/:id', component: AvisComponent },
 
+    { path: 'apercuavis/:id', component: ApercuavisComponent },
+
     { path: 'demande', component: DemandeComponent },
 
-    { path: 'facture', component: FactureComponent },
+    { path: 'facture/:id', component: FactureComponent },
+
+    { path: 'rendezvous/facture-pdf/:id', component: FactureComponent },
 
     { path: 'promotion/:id', component: PromotionComponent },
 

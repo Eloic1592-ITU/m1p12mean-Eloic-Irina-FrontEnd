@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { filter } from 'rxjs/operators';
 import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  imports: [RouterOutlet, SidebarComponent, NgIf],
+  imports: [RouterOutlet, SidebarComponent, FooterComponent,NgIf],
   styleUrl: './app.component.css'
 })
 export class AppComponent {

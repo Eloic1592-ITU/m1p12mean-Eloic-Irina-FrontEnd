@@ -79,6 +79,12 @@
 .reset-button:hover {
   background: #cbd5e0;
 }
+.action-buttons-container {
+  display: flex;
+  margin-bottom: 20px;
+  gap: 15px; /* Espacement entre les boutons */
+}
+
 
 /* Bouton Ajouter */
 .add-button {
@@ -99,6 +105,24 @@
 .add-button:hover {
   background: #2f855a;
   transform: translateY(-2px);
+}
+.invoice-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #a8a8a8;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: all 0.2s;
+}
+
+.invoice-button:hover {
+  background-color: #5a5a5a;
 }
 
 /* Grille des services */

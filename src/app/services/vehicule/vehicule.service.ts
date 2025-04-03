@@ -22,7 +22,9 @@ export class VehiculeService {
   }
   // Ajouter un nouveau véhicule
   addVehicule(vehicule: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/save`, vehicule);
+    return this.http.post(`${this.apiUrl}/save`, vehicule,{
+      headers: { 'Content-Type': 'application/json' } // Important !
+    });
   }
 
   // Récupérer un véhicule par son ID

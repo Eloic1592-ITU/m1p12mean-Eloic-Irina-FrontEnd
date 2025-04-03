@@ -1,1 +1,52 @@
-<p>facture works!</p>
+<div class="container">
+    <h1>Total des services effectuees a ce rendez-vous</h1>
+    <!-- Filtre de recherche (seulement pour la liste complète) -->
+    <div class="search-container">
+      <button class="search-button" (click)="printInvoice()" >Imprimer la facture</button>
+    </div>   
+    <!-- Liste de tous les rendez-vous avec pagination -->
+    <div class="event-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Modèle</th>
+            <th>Immatriculation</th>
+            <th>Service</th>
+            <th>Prix</th>
+            <th>Reduction</th>
+            <th>Statut</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sv of paginatedServices()">
+            <td>{{ sv.vehiculeId?.modele || 'N/A' }}</td>
+            <td>{{ sv.vehiculeId?.Immatriculation || 'N/A' }}</td>
+            <td>{{ sv.serviceId?.nom || 'N/A' }}</td>
+            <td>{{ sv.serviceId?.prix | currency }}</td>
+            <td>{{ sv.serviceId?.reductionAppliquee | number }}</td>
+            <td>
+              {{ sv.statut }}
+            </td>
+            <td>
+              <button class="btn-services" (click)="avis(sv._id)">Voir les avis</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="paginatedServices().length === 0" class="no-services">
+        <i class="fas fa-car"></i> Aucun service  trouvé
+      </div>
+      <p><span>Total des services: {{totalservice}}</span></p>
+      <p><span>Somme Initial: {{sommeinitial |currency}} Ariary</span></p>
+      <p><span>Reduction: {{reduction |currency}} Ariary</span></p>
+      <p><span>Somme Final: {{sommefinal |currency}} Ariary</span></p>
+      <!-- Pagination -->
+      <div class="pagination">
+        <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>
+        <span>Page {{ currentPage }} / {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Suivant</button>
+      </div>
+    </div>
+  </div>
+  

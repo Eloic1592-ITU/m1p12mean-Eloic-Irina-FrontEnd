@@ -18,10 +18,17 @@
       </div>
     </div>
 
-    <!-- Bouton Ajouter -->
-    <button class="add-button" (click)="openAddModal()">
-      <i class="fas fa-plus"></i> Ajouter Service
-    </button>
+   <!-- Boutons Ajouter et Facture -->
+
+    <!-- Boutons Ajouter et Facture - Version avec espacement -->
+    <div class="action-buttons-container">
+      <button class="add-button" (click)="openAddModal()">
+        <i class="fas fa-plus"></i> Ajouter Service
+      </button>
+      <button class="invoice-button" (click)="generateInvoice()">
+        <i class="fas fa-file-invoice"></i> Facture
+      </button>
+    </div>
 
     <!-- Liste des services sous forme de cartes -->
     <div class="service-grid">

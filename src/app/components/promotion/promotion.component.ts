@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ServiceService } from '../../services/service/service.service';
 import { PromotionService } from '../../services/promotion/promotion.service';
 import { formatDateForInput } from '../../utils/utils';
+import { ImageUtilsService } from '../../services/image/image.service';
 
 @Component({
   standalone: true,
@@ -37,7 +38,7 @@ export class PromotionComponent implements OnInit {
     reduction: 0,
     codepromo: '',
     conditions: '',
-    image: 'default.jpg'
+    image: ''
   };
   selectedFile: File | null = null;
 
@@ -48,7 +49,7 @@ export class PromotionComponent implements OnInit {
     private route: ActivatedRoute,
     private promotionService: PromotionService,
     private serviceService: ServiceService,
-    private router: Router
+    private imageservice: ImageUtilsService
   ) {}
 
   ngOnInit(): void {
@@ -204,7 +205,7 @@ export class PromotionComponent implements OnInit {
       reduction: 0,
       codepromo: '',
       conditions: '',
-      image: 'default.jpg'
+      image: ''
     };
   }
 
@@ -224,7 +225,10 @@ export class PromotionComponent implements OnInit {
   }
 
   // CRUD Operations
-  addPromotion(): void {
+  async addPromotion(): Promise<void> {
+    if (this.selectedFile) {
+      this.newPromotion.image = await this.imageservice.compressImage(this.selectedFile, 800);
+    }
     this.promotionService.createPromotion(this.newPromotion).subscribe({
       next: () => {
         this.loadPromotions(this.id);
@@ -234,7 +238,10 @@ export class PromotionComponent implements OnInit {
     });
   }
 
-  updatePromotion() {
+  async updatePromotion(): Promise<void> {
+    if (this.selectedFile) {
+      this.newPromotion.image = await this.imageservice.compressImage(this.selectedFile, 800);
+    }
     this.promotionService.updatePromotion(this.newPromotion._id, this.newPromotion)
       .subscribe({
         next: () => {

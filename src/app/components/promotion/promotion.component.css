@@ -435,3 +435,15 @@
     padding: 20px;
   }
 }
+.promo-img {
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
+}
+
+.promo-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}

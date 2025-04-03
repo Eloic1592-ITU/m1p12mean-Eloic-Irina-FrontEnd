@@ -23,7 +23,7 @@
     <div class="event-list">
       <div *ngFor="let evenement of currentEvents()" class="event-item">
         <div class="event-img">
-          <img src="/src/app/assets/img/no-picture.png" alt="Image">
+          <img src="{{evenement.image}}" alt="{{evenement.nom}}"> 
         </div>
         <div class="event-info">
           <h3>{{ evenement.nom }}</h3>
@@ -59,7 +59,7 @@
     <div class="event-list">
       <div *ngFor="let evenement of paginatedEvents()" class="event-item">
         <div class="event-img">
-          <img alt="Image de l'evenement"[src]="evenement.image || 'assets/default-event.jpg'" [alt]="evenement.nom">
+          <img src="{{evenement.image}}" alt="{{evenement.nom}}"> 
         </div>
         <div class="event-info">
           <h3>{{ evenement.nom }}</h3>
@@ -123,8 +123,8 @@
       </div>
       <div class="form-group">
         <label for="image">Image</label>
-        <input type="file" id="image" (change)="onFileSelected($event)" name="image" class="form-input-file">
-      </div>
+        <input type="file" id="image" (change)="onFileSelected($event)" [(ngModel)]="newEvenement.image" name="image" class="form-input-file">
+      </div> 
       
       <div class="modal-actions">
         <button type="button" (click)="closeModal()" class="secondary-button">Annuler</button>

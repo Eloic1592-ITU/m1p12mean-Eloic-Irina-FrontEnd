@@ -22,7 +22,11 @@
     <h2 class="section-title">Promotions actives</h2>
     <div class="promo-list">
       <div *ngFor="let promo of activePromotions()" class="promo-item">
+ 
         <div class="promo-badge">{{ promo.reduction }}%</div>
+        <div class="promo-img">
+          <img src="{{promo.image}}" alt="{{promo.nom}}"> 
+        </div>
         <div class="promo-info">
           <h3>{{ promo.nom }}</h3>
           <p><strong>Code promo:</strong> <span class="promo-code">{{ promo.codepromo }}</span></p>
@@ -53,6 +57,9 @@
     <div class="promo-list">
       <div *ngFor="let promo of paginatedPromotions()" class="promo-item">
         <div class="promo-badge">{{ promo.reduction }}%</div>
+        <div class="promo-img">
+          <img src="{{promo.image}}" alt="{{promo.nom}}"> 
+        </div>
         <div class="promo-info">
           <h3>{{ promo.nom }}</h3>
           <p><strong>Code promo:</strong> <span class="promo-code">{{ promo.codepromo }}</span></p>

@@ -107,6 +107,19 @@
   color: #718096;
   font-size: 14px;
 }
+.event-img {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.event-img img 
+{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
 /* Boutons d'action */
 .event-actions {

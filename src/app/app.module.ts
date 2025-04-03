@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { ApercuavisComponent } from './components/apercuavis/apercuavis/apercuavis.component';
+
 
 @NgModule({
     imports: [MatIconModule],
     declarations: [
-
-    ],
+  
+    ApercuavisComponent
+  ],
   })
 export class AppModule { }
