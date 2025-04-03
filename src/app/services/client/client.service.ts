@@ -15,6 +15,10 @@ export class ClientService {
     return this.http.get(`${this.apiUrl}/all`);
   }
 
+  getClientRetention(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/client-retention`);
+  }
+
   addClient(client: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/save`, client);
   }

@@ -1,65 +1,86 @@
-<div class="login-container">
-  <div class="login-card">
-    <h1 class="login-title">Liste des Rendez-vous</h1>
-  
-    <!-- Filtre de recherche -->
-    <div class="search-container">
-      <input
-        type="date"
-        [(ngModel)]="searchQuery"
-        class="form-input"
-        placeholder="Rechercher par date">
-        
-      <button class="login-button" (click)="applyFilter()">Rechercher</button>
-    </div>   
-    
-    <!-- Liste des rendez-vous -->
-    <h2 class="section-title">Tous vos rendez-vous</h2>
-    
-    <div class="pagination-controls">
-      <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">Précédent</button>
-      <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
-      <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">Suivant</button>
+<div class="dashboard-container">
+  <!-- Section Calendrier -->
+  <div class="calendar-section">
+    <div class="card">
+      <h2 class="section-title">Calendrier des Rendez-vous</h2>
+      <div class="calendar-wrapper">
+        <full-calendar [options]="calendarOptions"></full-calendar>
+      </div>
     </div>
-    
-    <div class="event-list">
-      <div *ngFor="let rdv of paginatedRendezvous(); let i = index" class="event-item">
-        <div class="event-img">
-          <img src="{{rdv.clientimage}}" alt="{{rdv.clientnom}}"> 
-        </div>
-        <div class="event-info">
+  </div>
+
+  <!-- Section Liste -->
+  <div class="list-section">
+    <div class="card">
+      <h1 class="main-title">Gestion des Rendez-vous</h1>
+      
+      <!-- Filtre de recherche -->
+      <div class="search-container">
+        <input
+          type="date"
+          [(ngModel)]="searchQuery"
+          class="form-input"
+          placeholder="Rechercher par date">
+        <button class="primary-button" (click)="applyFilter()">
+          <i class="fas fa-search"></i> Rechercher
+        </button>
+      </div>  
+      
+      <!-- Liste des rendez-vous -->
+      <h2 class="section-title">Liste des Rendez-vous</h2>
+      
+      <div class="event-list">
+        <div *ngFor="let rdv of paginatedRendezvous(); let i = index" class="event-item">
+          <div class="event-header">
+            <div class="event-img">
+              <img [src]="rdv.clientimage || 'assets/default-avatar.png'" alt="{{rdv.clientnom}}"> 
+            </div>
+            <div class="event-meta">
+              <span class="event-number">RDV #{{ (currentPage - 1) * itemsPerPage + i + 1 }}</span>
+              <span class="event-status" [class]="'status-' + rdv.statut.toLowerCase()">
+                {{ rdv.statut }}
+              </span>
+            </div>
+          </div>
           
-          <h3>Rendez-vous #{{ (currentPage - 1) * itemsPerPage + i + 1 }}</h3>
-          <p><strong>Nom du client:</strong> {{ rdv.clientnom }}</p>
-          <p><strong>Date/Heure:</strong> {{ rdv.dateheure | date:'medium' }}</p>
-          <p><strong>Description:</strong> {{ rdv.description }}</p>
-          <p><strong>Statut:</strong> 
-            <span [ngClass]="'status-' + rdv.statut.toLowerCase()">
-              {{ rdv.statut }}
-            </span>
-          </p>
+          <div class="event-details">
+            <p><i class="fas fa-user"></i> <strong>{{ rdv.clientnom }}</strong></p>
+            <p><i class="fas fa-clock"></i> {{ rdv.dateheure | date:'medium' }}</p>
+            <p *ngIf="rdv.description"><i class="fas fa-info-circle"></i> {{ rdv.description }}</p>
+          </div>
+          
+          <div class="event-actions">
+            <button class="btn-validate" 
+                    (click)="validRendezvous(rdv)" 
+                    [disabled]="isNonEditableStatus(rdv)">
+              Valider
+            </button>
+            <button class="btn-refuse" 
+                    (click)="refusRendezvous(rdv)" 
+                    [disabled]="isNonEditableStatus(rdv)">
+              Refuser
+            </button>
+            <button class="btn-cancel" 
+                    (click)="cancelRendezvous(rdv)"
+                    [disabled]="rdv.statut === 'Annulé'">
+              Annuler
+            </button>
         </div>
-        <div class="event-actions">
-          <button class="btn-validate" 
-                  (click)="validRendezvous(rdv)" 
-                  [disabled]="rdv.statut === 'annule' || rdv.statut === 'valide' || rdv.statut === 'refuse'">
-            Valider
-          </button>
-          <button class="btn-refuse" 
-                  (click)="refusRendezvous(rdv)" 
-                  [disabled]="rdv.statut === 'annule' || rdv.statut === 'valide' || rdv.statut === 'refuse'">
-            Refuser
-          </button>
-          <button class="btn-cancel" 
-                  (click)="cancelRendezvous(rdv)"
-                  [disabled]="rdv.statut === 'annule'">
-            Annuler
-          </button>
+        
+        <div *ngIf="paginatedRendezvous().length === 0" class="no-events">
+          <i class="far fa-calendar-times"></i>
+          <p>Aucun rendez-vous disponible</p>
         </div>
       </div>
       
-      <div *ngIf="paginatedRendezvous().length === 0" class="no-events">
-        Aucun rendez-vous disponible
+      <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="pagination-button">
+          <i class="fas fa-chevron-left"></i> Précédent
+        </button>
+        <span class="pagination-info">Page {{currentPage}} / {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">
+          Suivant <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
     </div>
   </div>

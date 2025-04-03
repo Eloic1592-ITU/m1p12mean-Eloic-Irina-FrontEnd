@@ -47,6 +47,9 @@ export class RendezvousService {
   getClientRendezvous(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/client/${id}`);
   }
+  getRendezvousStat(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/stats`);
+  }
 
 
 }

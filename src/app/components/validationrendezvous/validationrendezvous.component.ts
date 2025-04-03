@@ -2,13 +2,41 @@ import { Component, OnInit } from '@angular/core';
 import { RendezvousService } from '../../services/rendezvous/rendezvous.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import frLocale from '@fullcalendar/core/locales/fr';
+import { FullCalendarModule } from '@fullcalendar/angular';
 @Component({
   selector: 'app-validationrendezvous',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule,CommonModule,FullCalendarModule],
   templateUrl: './validationrendezvous.component.html',
   styleUrl: './validationrendezvous.component.css'
 })
 export class ValidationrendezvousComponent implements OnInit {
+  // Option calendrier
+  calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    initialView: 'dayGridMonth',
+    locales: [frLocale],
+    locale: 'fr',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    events: [
+      // Vos événements seront chargés ici dynamiquement
+    ],
+    dateClick: this.handleDateClick.bind(this),
+    eventClick: this.handleEventClick.bind(this),
+    editable: true,
+    selectable: true,
+    eventColor: '#378006',
+    eventTextColor: '#ffffff'
+  };
+
   searchQuery: string = '';
   rendezvous: any[] = [];
   filteredResults: any[] = [];
@@ -39,6 +67,40 @@ export class ValidationrendezvousComponent implements OnInit {
     });
   }
 
+    // Charge les événements dans le calendrier
+    loadCalendarEvents(): void {
+      this.rendezvousService.getConfirmedRendezvous().subscribe((rdvs: Array<{
+        _id: string;
+        clientnom: string;
+        dateheure: string | Date;
+        description?: string;
+        statut: string;
+      }>) => {
+        this.calendarOptions.events = rdvs.map((rdv) => ({
+          id: rdv._id,
+          title: `RDV avec ${rdv.clientnom}`,
+          start: new Date(rdv.dateheure),
+          end: new Date(new Date(rdv.dateheure).getTime() + 60*60*1000),
+          color: this.getStatusColor(rdv.statut),
+          extendedProps: {
+            description: rdv.description || '',
+            status: rdv.statut
+          }
+        }));
+      });
+    }
+
+    handleDateClick(arg: any) {
+      console.log('Date clicked: ', arg.dateStr);
+      this.searchQuery = arg.dateStr;
+      this.applyFilter();
+    }
+  
+    handleEventClick(arg: any) {
+      console.log('Event clicked: ', arg.event.id);
+      // Vous pouvez implémenter une logique pour afficher les détails
+    }
+
   
   // Pagination
   calculateTotalPages() {
@@ -68,6 +130,12 @@ export class ValidationrendezvousComponent implements OnInit {
       return rdvDate >= searchDateStart && rdvDate <= searchDateEnd;
     });
   
+    this.currentPage = 1;
+    this.calculateTotalPages();
+  }
+
+  resetFilter() {
+    this.filteredResults = [];
     this.currentPage = 1;
     this.calculateTotalPages();
   }
@@ -135,4 +203,8 @@ export class ValidationrendezvousComponent implements OnInit {
         return '#6c757d'; // Gris pour les statuts non définis
     }
   }
+ // Version alternative avec typage fort
+isNonEditableStatus(rdv: { statut: string }): boolean {
+  return ['Annulé', 'Validé', 'Refusé'].includes(rdv.statut);
+}
 }

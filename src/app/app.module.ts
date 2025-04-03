@@ -4,10 +4,8 @@ import { ApercuavisComponent } from './components/apercuavis/apercuavis/apercuav
 
 
 @NgModule({
-    imports: [MatIconModule],
+    imports: [MatIconModule,MatIconModule],
     declarations: [
-  
-    ApercuavisComponent
   ],
   })
 export class AppModule { }

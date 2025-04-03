@@ -28,6 +28,9 @@
     
     <div class="event-list">
       <div *ngFor="let demande of paginatedDemande(); let i = index" class="event-item">
+        <div class="event-img">
+          <img src="{{demande.mecanicienimage}}" alt="{{demande.mecaniciennom}}"> 
+        </div>
         <div class="event-info">
           <h3>Demande #{{ (currentPage - 1) * itemsPerPage + i + 1 }}</h3>
           <p><strong>ID:</strong> {{ demande._id}}</p>

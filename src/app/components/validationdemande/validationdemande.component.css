@@ -142,6 +142,19 @@
 .event-info strong {
   color: #2d3748;
 }
+.event-img {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.event-img img 
+{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
 
 .event-actions {
   display: flex;

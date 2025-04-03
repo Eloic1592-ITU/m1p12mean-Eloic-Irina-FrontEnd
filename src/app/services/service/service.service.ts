@@ -30,4 +30,14 @@ export class ServiceService {
     deleteService(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/delete/${id}`);
     }
+
+    getServicePopular(): Observable<any> {
+      return this.http.get(`${this.apiUrl}/services/popular`);
+    }
+    getRevenueWeekly(): Observable<any> {
+      return this.http.get(`${this.apiUrl}/revenue/weekly`);
+    }
+    getInterventionStat(): Observable<any> {
+      return this.http.get(`${this.apiUrl}/intervention-stats`);
+    }
 }

@@ -26,6 +26,7 @@ import { RendezvousmecanicienComponent } from './components/rendezvousmecanicien
 import { DetailservicevehiculeComponent } from './components/detailservicevehicule/detailservicevehicule.component';
 import { ServicesvehiculesComponent } from './components/servicesvehicules/servicesvehicules.component';
 import { ApercuavisComponent } from './components/apercuavis/apercuavis/apercuavis.component';
+import { TableaubordComponent } from './components/tableaubord/tableaubord.component';
 
 export const routes: Routes = [ 
     // Redirection par défaut
@@ -94,6 +95,8 @@ export const routes: Routes = [
     { path: 'promotion/:id', component: PromotionComponent },
 
     { path: 'maintenance/:id', component: MaintenanceComponent }, 
+
+    { path: 'dashboard', component: TableaubordComponent },
         
     { path: 'edit-mecanicien/:id', component: EditmecanicienComponent }, 
     

@@ -1,52 +1,135 @@
-<div class="container">
-  <h1>Statistiques Mensuelles d'Interventions</h1>
-
-  <!-- Graphique du Chiffre d'Affaires -->
-  <div class="chart-container">
-    <canvas id="chiffreAffaireChart"></canvas>
-  </div>
-
-  <!-- Statistiques -->
-  <div class="stats">
-    <div>
-      <p class="stat-title">Nombre Total d'Interventions</p>
-      <p class="stat-value" id="totalInterventions">120</p>
-    </div>
-    <div>
-      <p class="stat-title">Interventions Finies</p>
-      <p class="stat-value" id="interventionsFinies">85</p>
-    </div>
-    <div>
-      <p class="stat-title">Interventions Non Finies</p>
-      <p class="stat-value" id="interventionsNonFinies">35</p>
+<div class="dashboard">
+  <!-- En-tête -->
+  <div class="dashboard-header">
+    <h1 class="dashboard-title">Tableau de bord financier</h1>
+    <div class="header-actions">
+      <button mat-icon-button>
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>date_range</mat-icon>
+      </button>
     </div>
   </div>
 
-  <!-- Fréquence des Rendez-vous et Taux d'Occupation des Mécaniciens -->
-  <div class="stats">
-    <div>
-      <p class="stat-title">Fréquence des Rendez-vous</p>
-      <p class="stat-value" id="frequenceRendezVous">80%</p>
+  <!-- Section principale -->
+  <div class="dashboard-content">
+    <!-- Graphique et indicateurs -->
+    <div class="chart-section">
+      <div class="chart-container">
+        <div class="chart-header">
+          <h2>Évolution des bénéfices par semaine</h2>
+          <div class="chart-legend">
+            <div class="legend-item current-month">
+              <div class="legend-color"></div>
+              <span>Mois en cours (MGA)</span>
+            </div>
+            <div class="legend-item previous-month">
+              <div class="legend-color"></div>
+              <span>Mois précédent (MGA)</span>
+            </div>
+          </div>
+        </div>
+        <canvas id="profitChart"></canvas>
+        <div class="chart-footer">
+          <div class="growth-indicator" [class.positive]="compairs.percentageGrowth >= 0" 
+                                      [class.negative]="compairs.percentageGrowth < 0">
+            <mat-icon>{{ compairs.percentageGrowth >= 0 ? 'trending_up' : 'trending_down' }}</mat-icon>
+            {{ compairs.percentageGrowth | number:'1.2-2' }}% vs mois précédent
+          </div>
+          <div class="growth-indicator" [class.positive]="compairs.revenueGrowth >= 0" 
+                                      [class.negative]="compairs.revenueGrowth < 0">
+            <mat-icon>{{ compairs.revenueGrowth >= 0 ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+            {{ compairs.revenueGrowth | number }} MGA
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
-      <p class="stat-title">Taux d'Occupation des Mécaniciens</p>
-      <p class="stat-value" id="tauxOccupation">75%</p>
-    </div>
-  </div>
 
-  <!-- Type d'Intervention le Plus Fréquent -->
-  <div class="stats">
-    <div>
-      <p class="stat-title">Type d'Intervention le Plus Fréquent</p>
-      <p class="stat-value" id="typeIntervention">Révision moteur</p>
-    </div>
-  </div>
+    <!-- Cartes d'information -->
+    <div class="info-cards">
+      <!-- Carte Services Recommandés -->
+      <div class="info-card" *ngFor="let popularservice of currentPopularservices">
+        <div class="card-header">
+          <mat-icon class="card-icon">construction</mat-icon>
+          <h3>Service(s) le plus demandé(s)</h3>
+        </div>
+        <div class="card-content">
+          <p class="service-name"><strong>Nom du service: </strong> {{ popularservice.nom }}</p>
+          <p class="service-category"><strong>Categorie: </strong>{{ popularservice.categorie }}</p>
+          <p class="service-description"><strong>Description:</strong>{{ popularservice.descriptioncourte }}</p>
+          <p class="service-price"><strong>Prix: </strong>{{ popularservice.prix | number }} MGA</p>
+        </div>
+      </div>
 
-  <!-- Temps d'Inactivité des Employés -->
-  <div class="stats">
-    <div>
-      <p class="stat-title">Temps d'Inactivité des Employés</p>
-      <p class="stat-value" id="tempsInactivite">15 heures</p>
+      <!-- Carte Client Fidèle -->
+      <div class="info-card" *ngFor="let clientIntention of clientIntention">
+        <div class="card-header">
+          <mat-icon class="card-icon">star</mat-icon>
+          <h3>Client le plus fidèle</h3>
+        </div>
+        <div class="card-content">
+          <div class="client-info">
+            <mat-icon>person</mat-icon>
+            <span>{{ clientIntention.clientName }}</span>
+          </div>
+          <div class="client-info">
+            <mat-icon>event</mat-icon>
+            <span>{{ clientIntention.appointmentCount }} visites</span>
+          </div>
+          <div class="client-info">
+            <mat-icon>update</mat-icon>
+            <span>Dernière visite: {{ clientIntention.lastAppointment | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carte Rendez-vous -->
+      <div class="info-card">
+        <div class="card-header">
+          <mat-icon class="card-icon">event_available</mat-icon>
+          <h3>Fréquence des rendez-vous</h3>
+        </div>
+        <div class="card-content">
+          <div class="appointment-stats">
+            <div class="stat-item">
+              <span class="stat-label">Ce mois:</span>
+              <span class="stat-value">{{ currentappointmentrate.total }}</span>
+              <span class="stat-cancelled">({{ currentappointmentrate.cancelled }} annulés)</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Mois précédent:</span>
+              <span class="stat-value">{{ previousappointmentrate.total }}</span>
+              <span class="stat-cancelled">({{ previousappointmentrate.cancelled }} annulés)</span>
+            </div>
+          </div>
+          <div class="growth-indicator" [class.positive]="compairsappointment.rateVariation >= 0" 
+                                      [class.negative]="compairsappointment.rateVariation < 0">
+            <mat-icon>{{ compairsappointment.rateVariation >= 0 ? 'add' : 'remove' }}</mat-icon>
+            {{ compairsappointment.rateVariation | number:'1.1-1' }} vs mois précédent
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="card-header">
+          <mat-icon class="card-icon">construction</mat-icon>
+          <h3>Fréquence des rendez-vous</h3>
+        </div>
+        <div class="card-content">
+          <div class="appointment-stats">
+            <div class="stat-item">
+              <span class="stat-value">Total des interventions: {{ interventionstat.total }}</span>
+              <span class="stat-value">Interventions reussis: {{ interventionstat.completed }}</span>
+              <span class="stat-value">Interventions en cours: {{ interventionstat.inProgress }}</span>
+            </div>
+          <div class="growth-indicator" *ngFor="let item of interventionstat.statusBreakdown" [class.positive]="item.count >= 0" 
+                                      [class.negative]="item.count< 0">
+            <mat-icon>{{ item.count >= 0 ? 'add' : 'remove' }}</mat-icon>
+            {{ interventionstat.completionRate }} vs mois précédent
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
