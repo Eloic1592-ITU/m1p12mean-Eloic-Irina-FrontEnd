@@ -3,6 +3,7 @@ import { ClientService } from '../../services/client/client.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ImageUtilsService } from '../../services/image/image.service';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +28,8 @@ export class RegisterComponent {
 
   constructor(
     private clientService: ClientService,
-    private router: Router
+    private router: Router,
+    private imageService: ImageUtilsService
   ) {}
 
   onFileSelected(event: any): void {
@@ -37,12 +39,14 @@ export class RegisterComponent {
     }
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     if (this.newClient.motdepasse !== this.newClient.confirmationMotdepasse) {
       this.errorMessage = 'Les mots de passe ne correspondent pas';
       return;
     }
-
+    if (this.selectedFile) {
+      this.newClient.image = await this.imageService.compressImage(this.selectedFile, 800);
+    }
     this.isLoading = true;
     this.errorMessage = '';
     this.successMessage = '';
@@ -52,6 +56,7 @@ export class RegisterComponent {
         this.isLoading = false;
         this.successMessage = 'Inscription réussie! Redirection...';
         setTimeout(() => {
+          alert('Enregistrement effectuee avec succes');
           this.router.navigate(['/loginclient']);
         }, 2000);
       },

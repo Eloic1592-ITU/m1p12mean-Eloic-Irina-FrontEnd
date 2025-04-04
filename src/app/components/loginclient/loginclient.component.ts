@@ -26,7 +26,7 @@ export class LoginclientComponent {
     this.authService.login(this.credentials,'client').subscribe(
       (response) => {
         // Connexion réussie
-        this.router.navigate(['/rendezvous']); 
+        this.router.navigate(['/accueil']); 
       },
       (error) => {
         this.errorMessage = 'Email ou mot de passe incorrect';

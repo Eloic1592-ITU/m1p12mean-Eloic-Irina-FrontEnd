@@ -27,6 +27,9 @@ import { DetailservicevehiculeComponent } from './components/detailservicevehicu
 import { ServicesvehiculesComponent } from './components/servicesvehicules/servicesvehicules.component';
 import { ApercuavisComponent } from './components/apercuavis/apercuavis/apercuavis.component';
 import { TableaubordComponent } from './components/tableaubord/tableaubord.component';
+import { AccueilComponent } from './components/accueil/accueil.component';
+import { ServiceClientComponent } from './components/service-client/service-client.component';
+import { AuthenticatedLayoutComponent } from './components/shared/authenticated-layout/authenticated-layout.component';
 
 export const routes: Routes = [ 
     // Redirection par défaut
@@ -73,8 +76,20 @@ export const routes: Routes = [
         // canActivate: [AuthGuard, RoleGuard],
         // data: { roles: ['mecanicien'] }
     }, 
+
+    { path: 'accueil', 
+        component: AccueilComponent, 
+        // canActivate: [AuthGuard, RoleGuard],
+        // data: { roles: ['mecanicien'] }
+    },
+
+    { path: 'serviceclient', 
+        component: ServiceClientComponent, 
+        // canActivate: [AuthGuard, RoleGuard],
+        // data: { roles: ['mecanicien'] }
+    }, 
     
-    { path: 'servicevehicule/:id/:clientId', component: ServicevehiculeComponent },
+    { path: 'servicevehiculeclient/:id/:clientId', component: ServicevehiculeComponent },
 
     { path: 'detailservicevehicule/:id', component: DetailservicevehiculeComponent },
 
@@ -101,6 +116,18 @@ export const routes: Routes = [
     { path: 'edit-mecanicien/:id', component: EditmecanicienComponent }, 
     
     { path: 'edit-client/:id', component: EditClientComponent }, 
+
+     // Routes avec header (utilisent le layout)
+  { 
+    path: '',
+    component: AuthenticatedLayoutComponent,
+    children: [
+      { path: 'accueil', component: AccueilComponent },
+      { path: 'vehicule', component: VehiculeComponent },
+      { path: 'serviceclient', component: ServiceClientComponent },
+      // ... autres routes authentifiées
+    ]
+  },
     
       // Page non autorisée
   { path: 'unauthorized', component: UnauthorizedComponent },

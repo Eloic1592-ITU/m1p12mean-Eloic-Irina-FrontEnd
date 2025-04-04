@@ -29,7 +29,7 @@ export class RendezvousService {
   }
 
   addRendezvous(rendezvous: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/save`, rendezvous);
+    return this.http.post(`${this.apiUrl}/disponibilite`, rendezvous);
   }
 
   getRendezvousById(id: string): Observable<any> {

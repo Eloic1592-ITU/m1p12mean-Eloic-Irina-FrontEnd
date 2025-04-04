@@ -24,11 +24,11 @@ export class ClientService {
   }
 
   // Récupérer un client par son ID
-  getClientById(id: string): Observable<any> {
+  getClientById(id: any): Observable<any> {
     return this.http.get(`${this.apiUrl}/find/${id}`);
   }
 
-  updateClient(id: string, client: any): Observable<any> {
+  updateClient(id: any, client: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/update/${id}`, client);
   }
 

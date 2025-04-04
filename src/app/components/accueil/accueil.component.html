@@ -1,0 +1,234 @@
+<div class="accueil-container">
+  <header class="header">
+    <div class="header-left">
+      <div class="nom-garage"><strong>GARAGE MADA</strong></div>
+    </div>
+    
+    <div class="user-profile" (click)="toggleDropdown()">
+      <img [src]="client.image" alt="Photo de profil" class="user-avatar">
+      <span class="user-name">{{client.nom}}</span>
+      <i class="dropdown-icon">▼</i>
+      
+      <div class="dropdown-menu" *ngIf="showDropdown">
+        <button class="dropdown-item" (click)="changeProfile()">
+          <i class="icon">🔄</i> Changer le profil
+        </button>
+        <button class="dropdown-item logout" (click)="logout()">
+          <i class="icon">🚪</i> Déconnexion
+        </button>
+      </div>
+    </div>
+  </header>
+  
+    <nav class="menu">
+      <button class="menu-item" (click)="rendezvous()">Vos rendez-vous</button>
+      <button class="menu-item" (click)="accueil()">Offres</button>
+      <button class="menu-item" (click)="vehicules()">Vehicules</button>
+      <button class="menu-item" (click)="entretien()">Conseil techniques</button>
+      <button class="menu-item"(click)="services()">Prestations</button>
+    </nav>
+  
+    <section class="promotions-section">
+      <h2>Les promotions actives en ce moment</h2>
+      
+      <div class="promotions-container">
+        <div class="promotion-card" *ngFor="let promotion of activePromotions()">
+          <div class="promotion-badge">-{{promotion.reduction}}%</div>
+          <div class="promotion-image-container">
+            <img [src]="promotion.image || 'assets/images/default-promo.jpg'" 
+                 class="promotion-image" 
+                 alt="Image promotion">
+          </div>
+          <div class="promotion-details">
+            <div class="promotion-header">
+              <h3 class="promotion-title">{{promotion.nom}}</h3>
+              <p class="promotion-period">
+                <i class="fa-regular fa-calendar"></i> 
+                {{promotion.datedebut | date:'dd/MM'}} - {{promotion.datefin | date:'dd/MM/yyyy'}}
+              </p>
+            </div>
+            <p class="promotion-period">
+              Description: {{promotion.description }}
+            </p>
+            
+            <div class="promotion-service">
+              <span class="service-badge">
+                <i class="fa-solid fa-tools"></i> 
+                {{getServiceName(promotion.serviceId)}}
+              </span>
+            </div>
+            
+            <button class="action-button" (click)="rendezvous()">Prendre rendez-vous
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="activePromotions().length === 0" class="no-promotions">
+        <i class="fas fa-tag"></i> Aucune promotion pour l'instant
+      </div>
+    </section>
+  
+    <section class="rdv-section">
+      <h2>Rechercher un service</h2>
+      <div class="search-box">
+        <input type="text" placeholder="Rechercher un service"  [(ngModel)]="searchQuery">
+        <button class="search-button"(click)="applyFilters()">🔍</button>
+      </div>
+    </section>
+  
+    <section class="services-section">
+      <h2>LES SERVICES DISPONIBLES</h2>
+      
+      <div class="services-grid">
+        <div class="service-card" *ngFor="let item of pagedServices">
+          <div class="service-image">
+            <img src="{{item.image}}"
+                 alt="{{item.nom}}"
+                 (error)="item.image = 'assets/img/nopicture.jpg'">
+          </div>
+          <h3 class="nom" [title]="item.nom">{{item.nom}}</h3>
+          <p class="price">
+            <strong>{{item.prix | number}} Ariary</strong>
+            <span *ngIf="item.ancienPrix" class="old-price">{{item.ancienPrix | number}} Ariary</span>
+          </p>
+          <p class="description" [title]="item.descriptioncourte">
+            {{item.descriptioncourte }}
+          </p>
+          <p class="duration">Durée: {{item.duree}}</p>
+          <button class="action-button" (click)="rendezvous()">Prendre rendez-vous</button>
+        </div>
+      </div>
+    
+      <!-- Pagination - Version améliorée avec gestion des cas limites -->
+      <div class="pagination-container" *ngIf="servicesvehicules.length > itemsPerPage">
+        <div class="pagination">
+          <button (click)="changePage(1)" 
+                  [disabled]="currentPage === 1" 
+                  aria-label="Première page">
+            &laquo;
+          </button>
+          <button (click)="changePage(currentPage - 1)" 
+                  [disabled]="currentPage === 1" 
+                  aria-label="Page précédente">
+            &lsaquo;
+          </button>
+          
+          <ng-container *ngFor="let page of getPageNumbers()">
+            <button (click)="changePage(page)" 
+                    [class.active]="page === currentPage"
+                    [attr.aria-current]="page === currentPage ? 'page' : null">
+              {{page}}
+            </button>
+          </ng-container>
+          
+          <button (click)="changePage(currentPage + 1)" 
+                  [disabled]="currentPage === totalPages" 
+                  aria-label="Page suivante">
+            &rsaquo;
+          </button>
+          <button (click)="changePage(totalPages)" 
+                  [disabled]="currentPage === totalPages" 
+                  aria-label="Dernière page">
+            &raquo;
+          </button>
+        </div>
+        
+        <div class="pagination-info">
+          Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} 
+          sur {{ servicesvehicules.length }} services
+        </div>
+      </div>
+    </section>
+  
+<section class="engagements-section">
+  <h2>NOS ENGAGEMENTS</h2>
+  <div class="engagements-grid">
+    <div class="engagement-card">
+      <div class="engagement-icon">🔧</div>
+      <h3>Engagement Qualité</h3>
+      <p class="engagement-text">
+        Nous nous engageons à utiliser uniquement des pièces détachées d'origine ou de qualité 
+        équivalente, garantissant ainsi la longévité et la performance de votre véhicule.
+      </p>
+    </div>
+
+    <div class="engagement-card">
+      <div class="engagement-icon">⏱️</div>
+      <h3>Engagement Transparence</h3>
+      <p class="engagement-text">
+        Devis clairs et détaillés avant toute intervention, sans frais cachés. 
+        Vous êtes informés et maîtrisez votre budget.
+      </p>
+    </div>
+
+    <div class="engagement-card">
+      <div class="engagement-icon">🚗</div>
+      <h3>Engagement Rapidité</h3>
+      <p class="engagement-text">
+        Réparation express avec une prise en charge prioritaire pour les petits sinistres, 
+        afin de vous rendre rapidement la route.
+      </p>
+    </div>
+
+    <div class="engagement-card">
+      <div class="engagement-icon">✅</div>
+      <h3>Engagement Satisfaction</h3>
+      <p class="engagement-text">
+        Service après-vente réactif : toutes nos réparations sont garanties 12 mois, 
+        et notre équipe reste à votre écoute pour tout besoin post-intervention.
+      </p>
+    </div>
+  </div>
+</section>
+
+  
+<section class="conseils-section">
+  <h2>CONSEILS TECHNIQUES</h2>
+  
+  <div class="conseils-grid" *ngIf="maintenances && maintenances.length > 0">
+    <div class="conseil-card">
+      <div class="conseil-content">
+        <h3 class="conseil-title">{{maintenances[0].titre}}</h3>
+        <div class="conseil-meta">
+          <span class="conseil-category">{{maintenances[0].categorie}}</span>
+          <span class="conseil-difficulty" 
+                [class]="'difficulty-' + maintenances[0].difficulte.toLowerCase()">
+            {{maintenances[0].difficulte}}
+          </span>
+        </div>
+        <div class="conseil-steps">
+          <h4>Étapes à suivre :</h4>
+          <ul>
+            <li *ngFor="let step of maintenances[0].etapes">{{step}}</li>
+          </ul>
+        </div>
+        <button class="action-button" (click)="entretien()">
+          Voir conseil
+        </button>
+      </div>
+    </div>
+
+    <div class="themes-card">
+      <h3 class="themes-title">AUTRES THÈMES</h3>
+      
+      <div class="theme-item" *ngFor="let item of maintenances.slice(1, 4); let i = index">
+        <div class="theme-header">
+          <span class="theme-number">0{{i + 1}}</span>
+          <h4 class="theme-title">{{item.titre}}</h4>
+        </div>
+        <p class="theme-description">
+          {{item.categorie}} - 
+          <span class="theme-difficulty">{{item.difficulte}}</span>
+        </p>
+        <!-- <a class="theme-link">Voir le conseil →</a> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Message si aucun conseil disponible -->
+  <div class="no-conseils" *ngIf="!maintenances || maintenances.length === 0">
+    Aucun conseil de maintenance disponible pour le moment.
+  </div>
+</section>
+  </div>

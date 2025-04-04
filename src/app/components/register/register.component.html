@@ -14,7 +14,7 @@
       <!-- Champs du formulaire -->
       <div class="form-group">
         <label for="nom">Nom complet</label>
-        <input type="text" id="nom" [(ngModel)]="newClient.nom" name="nom" required class="form-input" placeholder="Jean Dupont">
+        <input type="text" id="nom" [(ngModel)]="newClient.nom" name="nom" required class="form-input" placeholder="Votre nom">
       </div>
   
       <div class="form-group">
@@ -24,7 +24,7 @@
   
       <div class="form-group">
         <label for="contact">Numéro de téléphone</label>
-        <input type="tel" id="contact" [(ngModel)]="newClient.contact" name="contact" required class="form-input" placeholder="0612345678">
+        <input type="tel" id="contact" [(ngModel)]="newClient.contact" name="contact" required class="form-input" placeholder="Votre numero de telephone">
       </div>
   
       <div class="form-group">
@@ -34,12 +34,12 @@
   
       <div class="form-group">
         <label for="motdepasse">Mot de passe</label>
-        <input type="password" id="motdepasse" [(ngModel)]="newClient.motdepasse" name="motdepasse" required minlength="6" class="form-input" placeholder="••••••••">
+        <input type="password" id="motdepasse" [(ngModel)]="newClient.motdepasse" name="motdepasse" required minlength="6" class="form-input" placeholder="Votre mot de passe">
       </div>
   
       <div class="form-group">
         <label for="confirmationMotdepasse">Confirmer le mot de passe</label>
-        <input type="password" id="confirmationMotdepasse" [(ngModel)]="newClient.confirmationMotdepasse" name="confirmationMotdepasse" required class="form-input" placeholder="••••••••">
+        <input type="password" id="confirmationMotdepasse" [(ngModel)]="newClient.confirmationMotdepasse" name="confirmationMotdepasse" required class="form-input" placeholder="Confirmer votre mot de passe">
       </div>
   
       <div class="form-group">

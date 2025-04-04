@@ -1,0 +1,222 @@
+<div class="service-client-container">
+  <!-- <header class="header">
+    <div class="header-left">
+      <div class="nom-garage"><strong>GARAGE MADA</strong></div>
+    </div>
+    
+    <div class="user-profile" (click)="toggleDropdown()">
+      <img [src]="client.image" alt="Photo de profil" class="user-avatar">
+      <span class="user-name">{{client.nom}}</span>
+      <i class="dropdown-icon">▼</i>
+      
+      <div class="dropdown-menu" *ngIf="showDropdown">
+        <button class="dropdown-item" (click)="changeProfile()">
+          <i class="icon">🔄</i> Changer le profil
+        </button>
+        <button class="dropdown-item logout" (click)="logout()">
+          <i class="icon">🚪</i> Déconnexion
+        </button>
+      </div>
+    </div>
+  </header>
+  
+    <nav class="menu">
+      <button class="menu-item" (click)="rendezvous()">Vos rendez-vous</button>
+      <button class="menu-item" (click)="accueil()">Offres</button>
+      <button class="menu-item" (click)="vehicules()">Vehicules</button>
+      <button class="menu-item" (click)="entretien()">Conseil techniques</button>
+    </nav> -->
+    <!-- Section Recherche -->
+    <section class="search-section">
+      <h2>Rechercher un service</h2>
+      <div class="search-box">
+        <input type="text" 
+               placeholder="Rechercher par nom, description ou catégorie..." 
+               [ngModel]="searchQuery"
+               >
+        <button class="search-button" (click)="applyFilters()">🔍</button>
+      </div>
+    </section>
+  
+    <!-- Section Services -->
+    <section class="services-section">
+      <h2>TOUS LES SERVICES DISPONIBLES</h2>
+      
+      <div class="services-grid">
+        <div class="service-card" *ngFor="let item of pagedServices">
+          <div class="service-image">
+            <img [src]="item.image || 'assets/images/default-service.jpg'" 
+                 alt="item.nom"
+                 (error)="item.image = 'assets/images/default-service.jpg'">
+          </div>
+          <h3 class="service-title" [title]="item.nom">{{item.nom}}</h3>
+          <p class="service-price">
+            <strong>{{item.prix }} Ariary</strong>
+            <span *ngIf="item.ancienPrix" class="old-price">
+              {{item.ancienPrix }} Ariary
+            </span>
+          </p>
+          <p class="service-description" [title]="item.descriptioncourte">
+            {{item.descriptioncourte}}
+          </p>
+          <p class="service-duration">Durée: {{item.duree}}</p>
+          <button class="action-button" (click)="takeAppointment(item)">
+            Prendre rendez-vous
+          </button>
+        </div>
+      </div>
+  
+      <!-- Pagination Services -->
+      <div class="pagination-container" *ngIf="services.length > itemsPerPage">
+        <div class="pagination">
+          <button (click)="changeServicePage(1)" 
+                  [disabled]="currentServicePage === 1">
+            &laquo;
+          </button>
+          <button (click)="changeServicePage(currentServicePage - 1)" 
+                  [disabled]="currentServicePage === 1">
+            &lsaquo;
+          </button>
+          
+          <button *ngFor="let page of getServicePageNumbers()"
+                  (click)="changeServicePage(page)"
+                  [class.active]="page === currentServicePage">
+            {{page}}
+          </button>
+          
+          <button (click)="changeServicePage(currentServicePage + 1)" 
+                  [disabled]="currentServicePage === totalServicePages">
+            &rsaquo;
+          </button>
+          <button (click)="changeServicePage(totalServicePages)" 
+                  [disabled]="currentServicePage === totalServicePages">
+            &raquo;
+          </button>
+        </div>
+        <div class="pagination-info">
+          Page {{currentServicePage}} sur {{totalServicePages}} - 
+          {{filteredServices.length}} services au total
+        </div>
+      </div>
+    </section>
+  
+    <!-- Section Conseils -->
+    <section class="advices-section">
+      <h2>TOUS LES CONSEILS TECHNIQUES</h2>
+      
+      <div class="advices-grid">
+        <div class="advice-card" *ngFor="let item of pagedAdvices">
+          <div class="advice-header">
+            <div class="advice-meta">
+              <span class="advice-category">{{item.categorie}}</span>
+              <span class="advice-difficulty" 
+                    [class]="'difficulty-' + item.difficulte.toLowerCase()">
+                {{item.difficulte}}
+              </span>
+            </div>
+            <h3 class="advice-title">{{item.titre}}</h3>
+          </div>
+          
+          <div class="advice-content">
+            <div class="advice-description">
+              <p *ngIf="item.description">{{item.description}}</p>
+              <p *ngIf="!item.description">Conseil pratique pour votre véhicule</p>
+            </div>
+            
+            <div class="advice-steps" *ngIf="item.etapes && item.etapes.length > 0">
+              <h4 class="steps-title">Étapes clés :</h4>
+              <ul class="steps-list">
+                <li *ngFor="let step of item.etapes.slice(0, 3)" class="step-item">
+                  <span class="step-icon">›</span>
+                  <span class="step-text">{{step}}</span>
+                </li>
+                <li *ngIf="item.etapes.length > 3" class="more-steps">
+                  +{{item.etapes.length - 3}} étapes supplémentaires...
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <button class="action-button" (click)="viewAdviceDetails(item)">
+            <i class="icon">📖</i> Voir le guide complet
+          </button>
+        </div>
+      </div>
+    
+      <!-- Pagination Conseils -->
+      <div class="pagination-container" *ngIf="advices.length > adviceItemsPerPage">
+        <div class="pagination">
+          <button (click)="changeAdvicePage(1)" 
+                  [disabled]="currentAdvicePage === 1">
+            &laquo;
+          </button>
+          <button (click)="changeAdvicePage(currentAdvicePage - 1)" 
+                  [disabled]="currentAdvicePage === 1">
+            &lsaquo;
+          </button>
+          
+          <button *ngFor="let page of getAdvicePageNumbers()"
+                  (click)="changeAdvicePage(page)"
+                  [class.active]="page === currentAdvicePage">
+            {{page}}
+          </button>
+          
+          <button (click)="changeAdvicePage(currentAdvicePage + 1)" 
+                  [disabled]="currentAdvicePage === totalAdvicePages">
+            &rsaquo;
+          </button>
+          <button (click)="changeAdvicePage(totalAdvicePages)" 
+                  [disabled]="currentAdvicePage === totalAdvicePages">
+            &raquo;
+          </button>
+        </div>
+        <div class="pagination-info">
+          Page {{currentAdvicePage}} sur {{totalAdvicePages}} - 
+          {{advices.length}} conseils au total
+        </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal-overlay" *ngIf="selectedAdvice" (click)="closeModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+          <!-- <button class="modal-close" (click)="closeModal()">&times;</button> -->
+          
+          <div class="modal-header">
+            <span class="advice-category">{{selectedAdvice.categorie}}</span>
+            <span class="advice-difficulty" 
+                  [class]="'difficulty-' + selectedAdvice.difficulte.toLowerCase()">
+              {{selectedAdvice.difficulte}}
+            </span>
+            <h3 class="modal-title">{{selectedAdvice.titre}}</h3>
+          </div>
+          
+          <div class="modal-body">
+            <div class="advice-description" *ngIf="selectedAdvice.description">
+              <p>{{selectedAdvice.description}}</p>
+            </div>
+            
+            <div class="steps-container" *ngIf="selectedAdvice.etapes && selectedAdvice.etapes.length > 0">
+              <h4>Étapes complètes :</h4>
+              <ol class="steps-list">
+                <li *ngFor="let step of selectedAdvice.etapes" class="step-item">
+                  <div class="step-content">{{step}}</div>
+                </li>
+              </ol>
+            </div>
+            
+            <div class="tools-section" *ngIf="selectedAdvice.outilrequis && selectedAdvice.outilrequis.length > 0">
+              <h4>Outils nécessaires :</h4>
+              <ul class="tools-list">
+                <li *ngFor="let tool of selectedAdvice.outilrequis">{{tool}}</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="modal-footer">
+            <button class="action-button" (click)="closeModal()">
+              <i class="icon">←</i> Retour aux conseils
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>

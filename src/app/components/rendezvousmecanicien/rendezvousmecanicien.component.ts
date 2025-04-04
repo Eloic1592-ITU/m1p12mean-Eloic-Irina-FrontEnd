@@ -112,7 +112,7 @@ export class RendezvousmecanicienComponent implements OnInit {
   }
   
   voirservices(rendezvousId: string,clientId: string): void{
-    this.router.navigate(['/servicevehicule', rendezvousId,clientId]);
+    this.router.navigate(['/servicevehiculeclient', rendezvousId,clientId]);
   }
   paginatedRendezvous() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;

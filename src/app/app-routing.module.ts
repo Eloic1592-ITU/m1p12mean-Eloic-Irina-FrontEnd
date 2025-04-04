@@ -5,6 +5,10 @@ import { ValidationrendezvousComponent } from './components/validationrendezvous
 import { ServiceComponent } from './components/service/service.component';
 import { ValidationdemandeComponent } from './components/validationdemande/validationdemande.component';
 import { EvenementComponent } from './components/evenement/evenement.component';
+import { AuthenticatedLayoutComponent } from './components/shared/authenticated-layout/authenticated-layout.component';
+import { AccueilComponent } from './components/accueil/accueil.component';
+import { VehiculeComponent } from './components/vehicule/vehicule.component';
+import { ServiceClientComponent } from './components/service-client/service-client.component';
 
 
 
@@ -15,7 +19,15 @@ const routes: Routes = [
 { path: 'service', component: ServiceComponent },
 { path: 'validationdemande', component: ValidationdemandeComponent },
 { path: 'evenement', component: EvenementComponent },
-// { path: 'dashboard', component: EvenementComponent },
+  { 
+    path: '',
+    component: AuthenticatedLayoutComponent,
+    children: [
+      { path: 'accueil', component: AccueilComponent },
+      { path: 'vehicule', component: VehiculeComponent },
+      { path: 'serviceclient', component: ServiceClientComponent },
+    ]
+  },
 
 
 ];

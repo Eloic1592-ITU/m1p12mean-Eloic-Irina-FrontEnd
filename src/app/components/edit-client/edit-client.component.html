@@ -31,7 +31,7 @@
 
     <div class="form-group">
       <label for="image">Image (Laisser vide pour conserver l'actuelle)</label>
-      <input type="file" id="image" name="image" class="form-file">
+      <input type="file" id="image" (change)="onFileSelected($event)" name="image" class="form-input-file">
       <div *ngIf="client.imageUrl" class="current-image">
         <span>Image actuelle : </span>
         <img [src]="client.imageUrl" alt="Image actuelle" class="current-image-preview">

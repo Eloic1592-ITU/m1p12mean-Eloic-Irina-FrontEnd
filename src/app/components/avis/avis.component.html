@@ -48,7 +48,7 @@
   <!-- Modal d'ajout/édition -->
   <div class="modal" [ngClass]="{'open': isModalOpen}">
     <div class="modal-content">
-      <h2>{{ isEditMode ? 'Modifier un véhicule' : 'Ajouter un véhicule' }}</h2>
+      <h2>{{ isEditMode ? 'Modifier votre avis' : 'Ajouter un avis' }}</h2>
       <form (ngSubmit)="isEditMode ? updateAvis() : addAvis()" enctype="multipart/form-data">
         <div class="form-row">
             <input type="hidden" id="clientId" [(ngModel)]="newAvis.clientId" name="clientId" required>

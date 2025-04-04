@@ -1,0 +1,28 @@
+<header class="header">
+  <div class="header-left">
+    <div class="nom-garage"><strong>GARAGE MADA</strong></div>
+  </div>
+  
+  <div class="user-profile" (click)="toggleDropdown()">
+    <img [src]="client.image" alt="Photo de profil" class="user-avatar">
+    <span class="user-name">{{client.nom}}</span>
+    <i class="dropdown-icon">▼</i>
+    
+    <div class="dropdown-menu" *ngIf="showDropdown">
+      <button class="dropdown-item" (click)="changeProfile()">
+        <i class="icon">🔄</i> Changer le profil
+      </button>
+      <button class="dropdown-item logout" (click)="logout()">
+        <i class="icon">🚪</i> Déconnexion
+      </button>
+    </div>
+  </div>
+</header>
+  <nav class="menu">
+    <button class="menu-item" (click)="rendezvous()">Vos rendez-vous</button>
+    <button class="menu-item" (click)="accueil()">Offres</button>
+    <button class="menu-item" (click)="vehicules()">Vehicules</button>
+    <button class="menu-item" (click)="entretien()">Conseil techniques</button>
+    <button class="menu-item"(click)="services()">Prestations</button>
+  </nav>
+  <router-outlet></router-outlet>

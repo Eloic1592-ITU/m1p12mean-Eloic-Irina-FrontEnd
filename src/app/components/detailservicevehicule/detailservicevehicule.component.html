@@ -41,7 +41,7 @@
             <td>{{ sv.vehiculeId?.Immatriculation || 'N/A' }}</td>
             <td>{{ sv.serviceId?.nom || 'N/A' }}</td>
             <td>{{ sv.serviceId?.descriptioncourte || 'N/A' }}</td>
-            <td>{{ sv.serviceId?.prix | currency }}</td>
+            <td>{{ sv.serviceId?.prix | number }} MGA</td>
             <td>{{ sv.datedebut | date:'short' }}</td>
             <td>{{ sv.datefin | date:'short' }}</td>
             <td [ngClass]="'statut-' + sv.statut.toLowerCase().replace(' ', '-')">
@@ -54,8 +54,11 @@
           </tr>
         </tbody>
       </table>
+      <div *ngIf="paginatedServicehicule().length === 0" class="no-services">
+        <i class="fas fa-car"></i> Aucun service véhicule trouvé
+      </div>
       <p><span>Total des services: {{totalservice}}</span></p>
-      <p><span>Somme: {{sommeprix |currency}} Ariary</span></p>
+      <p><span>Somme: {{sommeprix |number}} Ariary</span></p>
       <!-- Pagination -->
       <div class="pagination">
         <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>

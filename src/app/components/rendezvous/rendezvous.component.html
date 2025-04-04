@@ -18,11 +18,27 @@
       <i class="fas fa-plus"></i> Ajouter un rendez-vous
     </button>
 
+    <!-- Affichage des dates alternatives -->
+  <div *ngIf="alternativedates?.length" class="alternative-dates">
+    <h2 class="section-title">Dates alternatives disponibles</h2>
+    <p class="info-message">
+      ⚠️ Les rendez-vous sont limités par jour. Veuillez sélectionner une autre date parmi nos suggestions,ou inserer la date par vous-meme.
+    </p>
+    <div class="alternative-list">
+      <div *ngFor="let date of alternativedates" class="alternative-item">
+        <span class="date">Date: {{ date | date:'fullDate' }}</span>
+        <span class="time"> Heure: {{ date | date:'HH:mm' }}</span>
+        <!-- <button class="select-button" (click)="selectAlternativeDate(date)">Choisir</button> -->
+      </div>
+    </div>
+  </div>
+
     <!-- Liste des rendez-vous d'aujourd'hui -->
     <h2 class="section-title">Rendez-vous pour aujourd'hui</h2>
     <div class="rdv-list">
       <div *ngFor="let rdv of todayRendezvous(); let i = index" class="rdv-item today">
         <div class="rdv-time">
+          <span class="date">{{ rdv.dateheure | date:'dd MMM' }}</span>
           <span class="time">{{ rdv.dateheure | date:'HH:mm' }}</span>
         </div>
         <div class="rdv-info">

@@ -24,6 +24,7 @@ export class RendezvousComponent implements OnInit {
   };
   isModalOpen = false;
   isEditMode = false;
+  alternativedates: any[] = [];
 
   // Pagination
   currentPage: number = 1;
@@ -164,7 +165,7 @@ export class RendezvousComponent implements OnInit {
 
   openEditModal(rendezvous: any) {
     this.isEditMode = true;
-    this.newRendezvous = { ...rendezvous,     statut: 'En cours' };
+    this.newRendezvous = { ...rendezvous,statut: 'En cours' };
     // Convertir le timestamp en format datetime-local
     if (this.newRendezvous.dateheure) {
       const date = new Date(this.newRendezvous.dateheure);
@@ -183,13 +184,19 @@ export class RendezvousComponent implements OnInit {
       this.newRendezvous.dateheure = new Date(this.newRendezvous.dateheure).getTime();
     }
     this.rendezvousService.addRendezvous(this.newRendezvous).subscribe({
-      next: () => {
-        this.loadRendezvous();
-        this.closeModal();
+      next: (data) => {
+        if (data.available) {
+          this.loadRendezvous();
+          this.closeModal();
+        } else {
+          this.alternativedates = data.alternatives;
+          this.closeModal();
+        }
       },
       error: (err) => console.error('Erreur:', err)
     });
   }
+  
 
   updateRendezvous() {
     // Convertir la date en timestamp

@@ -23,7 +23,7 @@
             <td>{{ sv.vehiculeId?.modele || 'N/A' }}</td>
             <td>{{ sv.vehiculeId?.Immatriculation || 'N/A' }}</td>
             <td>{{ sv.serviceId?.nom || 'N/A' }}</td>
-            <td>{{ sv.serviceId?.prix | currency }}</td>
+            <td>{{ sv.serviceId?.prix | number }}</td>
             <td>{{ sv.serviceId?.reductionAppliquee | number }}</td>
             <td>
               {{ sv.statut }}
@@ -38,9 +38,9 @@
         <i class="fas fa-car"></i> Aucun service  trouvé
       </div>
       <p><span>Total des services: {{totalservice}}</span></p>
-      <p><span>Somme Initial: {{sommeinitial |currency}} Ariary</span></p>
-      <p><span>Reduction: {{reduction |currency}} Ariary</span></p>
-      <p><span>Somme Final: {{sommefinal |currency}} Ariary</span></p>
+      <p><span>Somme Initial: {{sommeinitial |number}} Ariary</span></p>
+      <p><span>Reduction: {{reduction |number}} Ariary</span></p>
+      <p><span>Somme Final: {{sommefinal |number}} Ariary</span></p>
       <!-- Pagination -->
       <div class="pagination">
         <button (click)="previousPage()" [disabled]="currentPage === 1">Précédent</button>

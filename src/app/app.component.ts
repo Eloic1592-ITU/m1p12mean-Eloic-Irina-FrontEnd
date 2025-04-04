@@ -4,15 +4,16 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { filter } from 'rxjs/operators';
 import { NgIf } from '@angular/common';
+import { AuthenticatedLayoutComponent } from "./components/shared/authenticated-layout/authenticated-layout.component";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  imports: [RouterOutlet, SidebarComponent, FooterComponent,NgIf],
+  imports: [RouterOutlet, SidebarComponent, FooterComponent, NgIf],
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Garage';
+  title = 'Garage Mada';
   showSidebar = true;
 
   constructor(private router: Router) {
@@ -34,7 +35,15 @@ export class AppComponent {
       '/loginclient', 
       '/loginmecanicien',
       '/register',
-      '/connexion'
+      '/connexion',
+      '/rendezvous',
+      '/vehicule',
+      '/servicevehicule',
+      '/avis',
+      '/detailservicevehicule',
+      '/accueil',
+      '/edit-client',
+      '/serviceclient'
     ];
 
     // Cas spécial pour la racine
@@ -50,4 +59,15 @@ export class AppComponent {
       url.startsWith(route + '?')
     );
   }
+
+
+
+  // Liste des routes qui doivent afficher le layout
+  private routesWithLayout = [
+    '/accueil',
+    '/vehicule',
+    '/serviceclient',
+    // Ajoutez d'autres routes nécessitant le layout ici
+  ];
+
 }
